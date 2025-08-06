@@ -1,13 +1,11 @@
 import React from 'react'
-import Hero from '../components/hero/hero'
 import Nav from '../components/nav/nav'
-import About from '../components/about/about'
-import styled from "styled-components"
 import Footer from '../components/footer/footer'
-import EventCard from '../components/home_eventCard/home_eventCard'
+import styled from "styled-components"
+
 
 const StyledHomePage = styled.div`
-  width: 100vw;
+  width: 100vw;        
   min-height: 100vh;    
   position: relative;
   background: linear-gradient(180deg, white 15%, #DBF1FD 100%);
@@ -15,19 +13,15 @@ const StyledHomePage = styled.div`
 `;
 
 
-const Home: React.FC = () => {
+const Event: React.FC = () => {
 
   return (
     <StyledHomePage>
         <Nav/>
-        <Hero/>
-        <About/>
-        <EventCard/>
         <Footer/>
-
     
     </StyledHomePage>
   )
 }
 
-export default Home
+export default Event

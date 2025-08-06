@@ -10,6 +10,7 @@ export const StyledABOUTUS = styled.span`
 export const Container = styled.div`
   margin: 0 auto;
   padding: 50px 60px;
+  flex-wrap: wrap;
 `;
 
 export const FixedSection = styled.div`

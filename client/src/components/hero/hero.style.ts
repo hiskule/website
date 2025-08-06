@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const StyledBanner = styled.div`
-  width: 100vw;
+  width: 100%;
   min-height: 80vh; 
   position: relative;
   background: linear-gradient(180deg, #000063 0%, #D9D9D9 100%);
   overflow: hidden; 
+  flex-wrap: wrap;
 `;
 
 export const StyledRectangle1 = styled.div`
