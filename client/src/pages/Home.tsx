@@ -11,7 +11,7 @@ const StyledHomePage = styled.div`
   min-height: 100vh;    
   position: relative;
   background: linear-gradient(180deg, white 15%, #DBF1FD 100%);
-  padding-top: 80px;  
+  padding-top: 60px;  
 `;
 
 

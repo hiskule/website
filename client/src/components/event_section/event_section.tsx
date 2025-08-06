@@ -1,15 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import Slider from "react-slick";
+import Carousel from "../carousel";
 
 interface Props {
   title: string;
   time: string;
   description: string;
-  images?: string[]; 
-  showRegister?: boolean;
+  images: string[]; 
+  showRegister: boolean;
 }
-
 
 const Container = styled.div`
   width: 100%;
@@ -18,8 +17,7 @@ const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: space-evenly;
   box-sizing: border-box;
 `;
 
@@ -29,7 +27,7 @@ const Title = styled.h1`
   font-weight: 700;
   color: black;
   text-align: center;
-  margin: 5px;
+  margin: 0px;
   align-self: flex-start;
   text-align: left;
 
@@ -69,9 +67,9 @@ const Description = styled.p`
   }
 `;
 
-const RegisterButton = styled.button`
+const RegisterButton = styled.button<{ $showRegister: boolean }>`
   background: #000063;
-  color: #FFD712;
+  color: ${({ $showRegister }) => ($showRegister ? '#FFD712' : 'white')};
   font-size: 24px;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
@@ -84,61 +82,29 @@ const RegisterButton = styled.button`
 
 
   &:hover {
-    background: #000045;
+    background: ${({ $showRegister }) => ($showRegister ? '#000045' : '#000063')};
   }
 `;
 
-const CarouselWrapper = styled.div`
-  flex: 1 1;
-  max-width: 350px;
-  margin: 10px;
-  padding: 0px 10px;
 
-
-  .slick-slide img {
-    width: 100%;
-    border-radius: 16px;
-  }
-
-  .slick-prev, .slick-next {
-  z-index: 1;
-}
-
-`;
-
-
-const EventsSection: React.FC<Props> = ({ title, time, description, images, showRegister = true }) => {
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    autoplay: true,         
-    autoplaySpeed: 3000,   //3 secons
-    pauseOnHover: true,   
-  };
+const EventsSection: React.FC<Props> = ({ title, time, description, images, showRegister }) => {
 
   return (
     <Container>
-      <div style={{display: 'flex', flexDirection: 'column', }}>
+      <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '50%' }}>
         <Title>{title}</Title>
         <Time>{time}</Time>
         <Description>{description}</Description>
 
-        {showRegister && <RegisterButton>REGISTER</RegisterButton>}
+        <div style={{ alignSelf: 'center' }}>
+            <RegisterButton  disabled={!showRegister} $showRegister={showRegister}>{showRegister ? 'REGISTER' : 'COMING UP'}</RegisterButton>
+        </div>
+
       </div>
+
+
       {images && images.length > 0 && (
-        <CarouselWrapper>
-          <Slider {...sliderSettings}>
-            {images.map((src, index) => (
-              <div key={index}>
-                <img src={src} alt={`Event image ${index + 1}`} />
-              </div>
-            ))}
-          </Slider>
-        </CarouselWrapper>
+        <Carousel images={images}/>
       )}
     </Container>
   );

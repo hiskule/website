@@ -5,46 +5,39 @@ export const StyledNavbar = styled.nav`
   top: 0;
   left: 0;
   width: 100%;
-  height: 80px;
+  height: 60px; 
   background: #000063;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 16px;
   box-sizing: border-box;
-  z-index: 1000; /* stay on top */
+  z-index: 1000;
 `;
-
 
 export const StyledLogo = styled.div`
   flex-shrink: 0;
 `;
 
 export const StyledHiSkuleLogoStandardYNR = styled.img`
-  width: 130px;   /* scaled logo */
+  width: 100px; 
   height: auto;
 `;
 
 export const NavMenu = styled.div`
   display: flex;
-  gap: 2rem;  
-  padding: 0 20px;
+  gap: 1.2rem; 
+  padding: 0 12px; 
 `;
 
-
-
-
-
 export const NavItem = styled.p<{ highlight?: boolean }>`
-  color: white;
-  font-weight: ${({ highlight }) => (highlight ? 400 : 700)};
-  font-size: 1.5rem;
+  color: ${({ highlight }) => (highlight ? "#FFD712" : "white")};
+  font-size: 1.1rem; /* ⬅️ smaller font size */
   cursor: pointer;
-  white-space: nowrap; 
+  white-space: nowrap;
   user-select: none;
   font-family: 'Inter', sans-serif;
-  color: ${({ highlight }) => (highlight ? "#FFD712" : "white")};
 
   &:hover {
-    opacity: 0.8;
+    font-weight: 700;
   }
 `;
