@@ -30,13 +30,19 @@ export const NavMenu = styled.div`
   padding: 0 20px;
 `;
 
-export const NavItem = styled.div`
+
+
+
+
+export const NavItem = styled.p<{ highlight?: boolean }>`
   color: white;
-  font-weight: 700;
+  font-weight: ${({ highlight }) => (highlight ? 400 : 700)};
   font-size: 1.5rem;
   cursor: pointer;
   white-space: nowrap; 
   user-select: none;
+  font-family: 'Inter', sans-serif;
+  color: ${({ highlight }) => (highlight ? "#FFD712" : "white")};
 
   &:hover {
     opacity: 0.8;

@@ -8,20 +8,17 @@ const Footer: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const handleNavigate = (path: string) => {
-    navigate(path);
-  };
 
   return (
     <FooterContainer>
       <Directory>
         <DirectoryColumn>
           <DirectoryHeader>PAGE DIRECTORY</DirectoryHeader>
-          <DirectoryItem highlight={currentPath === "/"} onClick={() => handleNavigate("/")}>Home</DirectoryItem>
-          <DirectoryItem highlight={currentPath === "/event"} onClick={() => handleNavigate("/event")}>Events</DirectoryItem>
-          <DirectoryItem onClick={() => handleNavigate("/")}>Meet the Team</DirectoryItem>
-          <DirectoryItem onClick={() => handleNavigate("/")}>Mentor Hub</DirectoryItem>
-          <DirectoryItem onClick={() => handleNavigate("/")}>Contact Us</DirectoryItem>
+          <DirectoryItem highlight={currentPath === "/"} onClick={() =>  navigate("/")}>Home</DirectoryItem>
+          <DirectoryItem highlight={currentPath === "/event"} onClick={() => navigate("/event")}>Events</DirectoryItem>
+          <DirectoryItem onClick={() => navigate("/")}>Meet the Team</DirectoryItem>
+          <DirectoryItem onClick={() => navigate("/")}>Mentor Hub</DirectoryItem>
+          <DirectoryItem onClick={() => navigate("/")}>Contact Us</DirectoryItem>
         </DirectoryColumn>
       </Directory>
 
