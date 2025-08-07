@@ -22,7 +22,7 @@ const StyledCard = styled.div`
   flex-direction: column;
   gap: 1rem;
 
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 
   &:hover {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);

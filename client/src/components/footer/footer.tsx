@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
           <DirectoryItem highlight={currentPath === "/"} onClick={() =>  navigate("/")}>Home</DirectoryItem>
           <DirectoryItem highlight={currentPath === "/event"} onClick={() => navigate("/event")}>Events</DirectoryItem>
           <DirectoryItem highlight={currentPath === "/team"} onClick={() => navigate("/team")}>Meet the Team</DirectoryItem>
-          <DirectoryItem onClick={() => navigate("/")}>Mentor Hub</DirectoryItem>
+          <DirectoryItem highlight={currentPath === "/mentor"} onClick={() => navigate("/mentor")}>Mentor Hub</DirectoryItem>
           <DirectoryItem onClick={() => navigate("/")}>Contact Us</DirectoryItem>
         </DirectoryColumn>
       </Directory>

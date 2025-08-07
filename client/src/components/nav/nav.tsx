@@ -17,7 +17,7 @@ const Nav: React.FC = () => {
       <NavMenu>
         <NavItem highlight={currentPath === "/event"} onClick={() =>  navigate("/event")}>EVENTS</NavItem>
         <NavItem highlight={currentPath === "/team"} onClick={() =>  navigate("/team")}>TEAM</NavItem>
-        <NavItem>GET INVOLVED</NavItem>
+        <NavItem highlight={currentPath === "/mentor"} onClick={() =>  navigate("/mentor")}>GET INVOLVED</NavItem>
         <NavItem>CONTACT US</NavItem>
       </NavMenu>
     </StyledNavbar>

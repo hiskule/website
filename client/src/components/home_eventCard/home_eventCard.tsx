@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 export const StyledSectionEvents = styled.div`
   margin: 0 auto;
@@ -74,6 +75,7 @@ const NotificationDot = styled.div`
 
 
 const EventsSection: React.FC = () => {
+    const navigate = useNavigate();
   return (
     <StyledSectionEvents>
       <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -88,7 +90,7 @@ const EventsSection: React.FC = () => {
         <RegisterButton>REGISTER</RegisterButton>
       </BackgroundCard>
 
-      <MoreEventsButton>MORE EVENTS</MoreEventsButton>
+      <MoreEventsButton onClick={() => navigate("/event")}>MORE EVENTS</MoreEventsButton>
     </StyledSectionEvents>
   );
 };
