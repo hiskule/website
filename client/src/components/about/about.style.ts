@@ -1,48 +1,43 @@
 import styled from "styled-components";
-export const StyledABOUTUS = styled.span`
+
+export const Title = styled.div`
   color: #000063;
-  font-size: 50px;
+  font-size: 3rem;
   font-weight: 700;
-  word-wrap: break-word;
   font-family: "Inter", sans-serif;
 `;
 
 export const Container = styled.div`
-  margin: 0 auto;
   padding: 50px 60px;
-  flex-wrap: wrap;
 `;
 
 export const FixedSection = styled.div`
   position: sticky;
   top: 100px;
   z-index: 10;
-  padding: 40px 0;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export const Text = styled.div`
-  flex: 1;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-family: "Inter", sans-serif;
 `;
 
-export const ImagePlaceholder = styled.div`
-  flex: 1;
-  height: 200px;
-  background: #bbb;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #333;
-  font-size: 1.5rem;
-  font-family: "Inter", sans-serif;
-  user-select: none;
-`;
+
 
 export const Trigger = styled.div`
   height: 100vh;
+`;
+
+export const Image = styled.img`
+  width: 40%;
+  border: 1px solid red;
 `;

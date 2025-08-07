@@ -1,18 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import {Container, FixedSection, StyledABOUTUS, Text, ImagePlaceholder, Trigger} from './about.style'
+import {Container, FixedSection, Title, Text, Trigger, Image, Content} from './about.style'
+import { aboutUsSection } from "../../data/home";
 
-const sections = [
-  {
-    id: "about",
-    content: "This is some example content about the hiskule.",
-    imagePlaceholderText: "Representative Images",
-  },
-  {
-    id: "team",
-    content: "Meet our amazing team that makes everything possible.",
-    imagePlaceholderText: "Team Images",
-  },
-];
 
 
 const About: React.FC = () => {
@@ -42,28 +31,26 @@ const About: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  const { content, imagePlaceholderText } = sections[activeIndex];
+  const { content, imageSrc } = aboutUsSection[activeIndex];
 
   return (
     <Container>
         
       <FixedSection>
-        <StyledABOUTUS>ABOUT US</StyledABOUTUS>
-        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Title>ABOUT US</Title>
+        <Content>
           <Text>{content}</Text>
-          <ImagePlaceholder>{imagePlaceholderText}</ImagePlaceholder>
-        </div>
-        
+          <Image src={imageSrc} />
+        </Content> 
       </FixedSection>
 
-      {sections.map((_, i) => (
+      {aboutUsSection.map((_, i) => (
         <Trigger
           key={i}
           data-index={i}
           ref={(el) => {
             triggerRefs.current[i] = el;
             }}
-
         />
       ))}
     </Container>
