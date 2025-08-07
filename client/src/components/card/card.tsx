@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-const CardsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  padding: 2rem;
-`;
+interface CardProps {
+  data: {
+    name: string;
+    role: string;
+  };
+  onClick?: () => void;
+}
 
 const StyledCard = styled.div`
   background: white;
@@ -15,12 +15,23 @@ const StyledCard = styled.div`
   width: 25%;
   min-width: 280px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   position: relative;
 
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transform: scale(1.005);
+  }
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 const RectangleTop = styled.div`
@@ -52,23 +63,18 @@ const Position = styled.div`
   font-weight: 600;
 `;
 
-const Card: React.FC = () => {
+const Card: React.FC<CardProps> = ({ data, onClick }) => {
   return (
-    <CardsContainer>
-      
-        <StyledCard>
-          <RectangleTop />
-          <Name>Your Name</Name>
-          <Position>Position</Position>
-          <RectangleBottom>
-            <SmallRect />
-            <SmallRect />
-          </RectangleBottom>
-        </StyledCard>
-      
-    </CardsContainer>
+    <StyledCard onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
+      <RectangleTop />
+      <Name>{data.name}</Name>
+      <Position>{data.role}</Position>
+      <RectangleBottom>
+        <SmallRect />
+        <SmallRect />
+      </RectangleBottom>
+    </StyledCard>
   );
 };
 
-
-export default Card
+export default Card;
