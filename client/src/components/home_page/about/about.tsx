@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {Container, FixedSection, Title, Text, Trigger, Image, Content} from './about.style'
-import { aboutUsSection } from "../../data/home";
+import { aboutUsSection } from "../../../data/home";
 
 
 

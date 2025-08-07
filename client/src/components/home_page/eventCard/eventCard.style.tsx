@@ -1,6 +1,4 @@
-import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 export const StyledSectionEvents = styled.div`
   margin: 0 auto;
@@ -10,7 +8,14 @@ export const StyledSectionEvents = styled.div`
   align-items: center;
 `;
 
-const Heading = styled.h2`
+export const HeadingWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const Heading = styled.h2`
   color: #000063;
   font-size: 2.5rem;
   font-family: "Inter", sans-serif;
@@ -19,7 +24,14 @@ const Heading = styled.h2`
   text-align: center;
 `;
 
-const BackgroundCard = styled.div`
+export const NotificationDot = styled.div`
+  width: 12px;
+  height: 12px;
+  background: #e50e32;
+  border-radius: 50%;
+`;
+
+export const BackgroundCard = styled.div`
   width: 100%;
   padding: 24px;
   background: #d9d9d9;
@@ -27,7 +39,7 @@ const BackgroundCard = styled.div`
   box-sizing: border-box;
 `;
 
-const Card = styled.div`
+export const Card = styled.div`
   font-size: 1.25rem;
   font-family: "Inter", sans-serif;
   font-weight: 400;
@@ -35,7 +47,7 @@ const Card = styled.div`
   margin-bottom: 24px;
 `;
 
-const RegisterButton = styled.button`
+export const RegisterButton = styled.button`
   background: #000063;
   border: none;
   border-radius: 48px;
@@ -50,7 +62,7 @@ const RegisterButton = styled.button`
   }
 `;
 
-const MoreEventsButton = styled.button`
+export const MoreEventsButton = styled.button`
   background: #000063;
   color: #ffd712;
   border: none;
@@ -64,35 +76,3 @@ const MoreEventsButton = styled.button`
   margin-left: auto;
   margin-right: auto;
 `;
-
-const NotificationDot = styled.div`
-  width: 12px;
-  height: 12px;
-  background: #e50e32;
-  border-radius: 50%;
-
-`;
-
-
-const EventsSection: React.FC = () => {
-    const navigate = useNavigate();
-  return (
-    <StyledSectionEvents>
-      <div style={{display: 'flex', flexDirection: 'row'}}>
-        <Heading>UPCOMING EVENTS</Heading>
-        <NotificationDot />
-      </div>
-
-      
-
-      <BackgroundCard>
-        <Card>This is a sample event card or content block.</Card>
-        <RegisterButton>REGISTER</RegisterButton>
-      </BackgroundCard>
-
-      <MoreEventsButton onClick={() => navigate("/event")}>MORE EVENTS</MoreEventsButton>
-    </StyledSectionEvents>
-  );
-};
-
-export default EventsSection;

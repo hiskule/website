@@ -1,10 +1,10 @@
 import React from 'react'
-import Hero from '../components/hero/hero'
+import Hero from '../components/home_page/hero/hero'
 import Nav from '../components/nav/nav'
-import About from '../components/about/about'
+import About from '../components/home_page/about/about'
 import styled from "styled-components"
 import Footer from '../components/footer/footer'
-import EventCard from '../components/home_eventCard/home_eventCard'
+import EventCard from '../components/home_page/eventCard/eventCard'
 
 const StyledHomePage = styled.div`
   width: 100vw;
@@ -24,8 +24,6 @@ const Home: React.FC = () => {
         <About/>
         <EventCard/>
         <Footer/>
-
-    
     </StyledHomePage>
   )
 }
