@@ -1,81 +1,55 @@
 import React from "react";
-import styled from "styled-components";
+import {
+  StyledCard,
+  RectangleTop,
+  Text,
+  Name,
+  Position,
+  LinkSection,
+} from "./card.style";
+import { FaLinkedin } from "react-icons/fa";
 
 interface CardProps {
   data: {
     name: string;
     role: string;
+    link: string;
   };
   onClick?: () => void;
 }
 
-const StyledCard = styled.div`
-  background: white;
-  border-radius: 2rem;
-  width: 25%;
-  min-width: 280px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    transform: scale(1.005);
-  }
-
-  @media (max-width: 768px) {
-    width: 80%;
-  }
-`;
-
-const RectangleTop = styled.div`
-  background: #d9d9d9;
-  height: 300px;
-  border-radius: 1rem;
-`;
-
-const LinkSection = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-`;
-
-const SmallRect = styled.div`
-  width: 60px;
-  height: 60px;
-  background: #d9d9d9;
-  border-radius: 0.5rem;
-`;
-
-const Name = styled.div`
-  font-size: 1.5rem;
-  font-weight: 700;
-`;
-
-const Position = styled.div`
-  font-size: 1.2rem;
-  font-weight: 600;
-`;
-
 const Card: React.FC<CardProps> = ({ data, onClick }) => {
+  const handleIconClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
-    <StyledCard onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
+    <StyledCard
+      onClick={onClick}
+      style={{ cursor: onClick ? "pointer" : "default" }}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" && onClick) {
+          onClick();
+        }
+      }}
+    >
       <RectangleTop />
 
-      <div style={{display: 'flex', flexDirection: 'column'}}>
+      <Text>
         <Name>{data.name}</Name>
         <Position>{data.role}</Position>
-      </div>
+      </Text>
 
       <LinkSection>
-        <SmallRect />
-        <SmallRect />
+        <a
+          href={data.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={handleIconClick}
+        >
+          <FaLinkedin size={48} color="#000063" />
+        </a>
       </LinkSection>
     </StyledCard>
   );

@@ -5,7 +5,7 @@ import Footer from '../components/footer/footer';
 import TeamCard from '../components/team_page/team_card/team_card';
 import Card from '../components/team_page/card/card';
 import PopUp from '../components/team_page/card_pop/card_pop';
-import { cardData } from '../data/team';
+import { teamData, cardData } from '../data/team';
 
 const StyledTeamPage = styled.div`
   width: 100vw;
@@ -44,7 +44,10 @@ const Team: React.FC = () => {
   return (
     <StyledTeamPage>
       <Nav />
-      <TeamCard />
+      <TeamCard
+        imageSrc={teamData.imageSrc}
+        description={teamData.description}
+        />
       <MeetTheTeam>Meet the Team</MeetTheTeam>
 
       {/* First card alone */}
