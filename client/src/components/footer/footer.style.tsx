@@ -5,8 +5,7 @@ export const FooterContainer = styled.footer`
   margin: 0 auto;
   background: #000038;
   color: white;
-  padding: 24px;
-  padding-right: 30px;
+  padding: 20px 40px;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -15,31 +14,47 @@ export const FooterContainer = styled.footer`
 
 `;
 
-export const Directory = styled.div`
+export const LeftContainer = styled.div`
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
   margin-bottom: 24px;
 `;
 
+export const SocialLinks = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+`;
+
+export const IconLink = styled.a`
+  color: white;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #FFD712;
+  }
+`;
+
+      
+export const RightContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+`; 
+
 export const DirectoryColumn = styled.div`
   flex: 1 1 120px;
   min-width: 120px;
 `;
 
-export const DirectoryHeader = styled.h3`
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  margin-bottom: 12px;
-  color: white;
-`;
 
-export const DirectoryItem = styled.p<{ highlight?: boolean }>`
+export const DirectoryItem = styled.p<{ $highlight?: boolean }>`
   font-family: 'Inter', sans-serif;
-  font-weight: ${({ highlight }) => (highlight ? 400 : 700)};
+  font-weight: ${({ $highlight }) => ($highlight ? 400 : 700)};
   font-size: 14px;
-  color: ${({ highlight }) => (highlight ? "#FFD712" : "white")};
+  color: ${({ $highlight }) => ($highlight ? "#FFD712" : "white")};
   margin: 6px 0;
   cursor: pointer;
   user-select: none;
@@ -49,13 +64,6 @@ export const DirectoryItem = styled.p<{ highlight?: boolean }>`
   }
 `;
 
-export const SocialLinks = styled.div`
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  color: white;
-  margin-bottom: 24px;
-`;
 
 export const ContactInfo = styled.p`
   font-family: 'Inter', sans-serif;
@@ -63,4 +71,14 @@ export const ContactInfo = styled.p`
   font-size: 12px;
   color: white;
   user-select: text;
+`;
+
+
+export const MailLink = styled.a`
+  color: #FFD712;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;

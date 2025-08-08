@@ -40,7 +40,7 @@ const RectangleTop = styled.div`
   border-radius: 1rem;
 `;
 
-const RectangleBottom = styled.div`
+const LinkSection = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 15px;
@@ -67,12 +67,16 @@ const Card: React.FC<CardProps> = ({ data, onClick }) => {
   return (
     <StyledCard onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
       <RectangleTop />
-      <Name>{data.name}</Name>
-      <Position>{data.role}</Position>
-      <RectangleBottom>
+
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <Name>{data.name}</Name>
+        <Position>{data.role}</Position>
+      </div>
+
+      <LinkSection>
         <SmallRect />
         <SmallRect />
-      </RectangleBottom>
+      </LinkSection>
     </StyledCard>
   );
 };

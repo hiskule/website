@@ -1,6 +1,7 @@
 import React from "react";
-import { FooterContainer, Directory, DirectoryColumn, DirectoryHeader, DirectoryItem, SocialLinks, ContactInfo } from "./footer.style";
+import { FooterContainer, LeftContainer, DirectoryColumn, IconLink, MailLink, RightContainer, DirectoryItem, SocialLinks, ContactInfo } from "./footer.style";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FaInstagram, FaDiscord, FaFacebook, FaYoutube } from "react-icons/fa";
 
 
 const Footer: React.FC = () => {
@@ -11,30 +12,58 @@ const Footer: React.FC = () => {
 
   return (
     <FooterContainer>
-      <Directory>
+      <LeftContainer>
         <DirectoryColumn>
-          <DirectoryHeader>PAGE DIRECTORY</DirectoryHeader>
-          <DirectoryItem highlight={currentPath === "/"} onClick={() =>  navigate("/")}>Home</DirectoryItem>
-          <DirectoryItem highlight={currentPath === "/event"} onClick={() => navigate("/event")}>Events</DirectoryItem>
-          <DirectoryItem highlight={currentPath === "/team"} onClick={() => navigate("/team")}>Meet the Team</DirectoryItem>
-          <DirectoryItem highlight={currentPath === "/mentor"} onClick={() => navigate("/mentor")}>Mentor Hub</DirectoryItem>
+          <DirectoryItem $highlight={currentPath === "/"} onClick={() =>  navigate("/")}>Home</DirectoryItem>
+          <DirectoryItem $highlight={currentPath === "/event"} onClick={() => navigate("/event")}>Events</DirectoryItem>
+          <DirectoryItem $highlight={currentPath === "/team"} onClick={() => navigate("/team")}>Meet the Team</DirectoryItem>
+          <DirectoryItem $highlight={currentPath === "/mentor"} onClick={() => navigate("/mentor")}>Mentor Hub</DirectoryItem>
           <DirectoryItem onClick={() => navigate("/")}>Contact Us</DirectoryItem>
         </DirectoryColumn>
-      </Directory>
+      </LeftContainer>
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-  <SocialLinks>LINKS TO SOCIALS</SocialLinks>
+      <RightContainer>
+        <SocialLinks>
+          <IconLink
+            href="https://www.instagram.com/hiskule/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaInstagram size={48} />
+          </IconLink>
 
-  <ContactInfo>
-    Inquiries of the website can be sent to{" "}
-    <a
-      href="mailto:webmaster@hiskule.skule.ca"
-      style={{ color: '#FFD712', textDecoration: 'none' }}
-    >
-      webmaster@hiskule.skule.ca
-    </a>
-  </ContactInfo>
-</div>
+          <IconLink
+            href=""
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaDiscord size={48} />
+          </IconLink>
+
+          <IconLink
+            href="https://www.facebook.com/hiskule/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaFacebook size={48}/>
+          </IconLink>
+
+          <IconLink
+            href="https://youtu.be/sQfct_peGRs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaYoutube size={48} />
+          </IconLink>
+        </SocialLinks>
+
+        <ContactInfo>
+          Inquiries of the website can be sent to{" "}
+          <MailLink href="mailto:webmaster@hiskule.skule.ca">
+            webmaster@hiskule.skule.ca
+          </MailLink>
+        </ContactInfo>
+      </RightContainer>
 
 
       

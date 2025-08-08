@@ -29,8 +29,8 @@ export const NavMenu = styled.div`
   padding: 0 12px; 
 `;
 
-export const NavItem = styled.p<{ highlight?: boolean }>`
-  color: ${({ highlight }) => (highlight ? "#FFD712" : "white")};
+export const NavItem = styled.p<{ $highlight?: boolean }>`
+  color: ${({ $highlight }) => ($highlight ? "#FFD712" : "white")};
   font-size: 1.1rem; /* ⬅️ smaller font size */
   cursor: pointer;
   white-space: nowrap;
