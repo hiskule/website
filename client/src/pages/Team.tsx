@@ -27,6 +27,7 @@ const MeetTheTeam = styled.h2`
 const CardRow = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
   margin-bottom: 2rem;
@@ -47,7 +48,7 @@ const Team: React.FC = () => {
       <TeamCard
         imageSrc={teamData.imageSrc}
         description={teamData.description}
-        />
+      />
       <MeetTheTeam>Meet the Team</MeetTheTeam>
 
       {/* First card alone */}

@@ -7,6 +7,10 @@ export const OurMissionContainer = styled.div`
   width: 70%;
   margin-top: 40px ;
 
+  @media (max-width: 760px) {
+   width: 90%;
+  }
+
 `;
 
 export const Section = styled.div`
