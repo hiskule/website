@@ -41,7 +41,7 @@ const Nav: React.FC = () => {
         <NavItem $highlight={currentPath === "/event"} onClick={() => handleNavClick("/event")}>EVENTS</NavItem>
         <NavItem $highlight={currentPath === "/team"} onClick={() => handleNavClick("/team")}>TEAM</NavItem>
         <NavItem $highlight={currentPath === "/mentor"} onClick={() => handleNavClick("/mentor")}>GET INVOLVED</NavItem>
-        <NavItem>CONTACT US</NavItem>
+        <NavItem $highlight={currentPath === "/contact"} onClick={() => handleNavClick("/contact")}>CONTACT US</NavItem>
       </NavMenu>
 
       {/* Hamburger for mobile */}
@@ -58,7 +58,7 @@ const Nav: React.FC = () => {
         <NavItem $highlight={currentPath === "/event"} onClick={() => handleNavClick("/event")}>EVENTS</NavItem>
         <NavItem $highlight={currentPath === "/team"} onClick={() => handleNavClick("/team")}>TEAM</NavItem>
         <NavItem $highlight={currentPath === "/mentor"} onClick={() => handleNavClick("/mentor")}>GET INVOLVED</NavItem>
-        <NavItem>CONTACT US</NavItem>
+        <NavItem $highlight={currentPath === "/contact"} onClick={() => handleNavClick("/contact")}>CONTACT US</NavItem>
       </MobileDrawer>
     </StyledNavbar>
   );

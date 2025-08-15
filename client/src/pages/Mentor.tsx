@@ -70,7 +70,30 @@ const TextSection = styled.div`
   width: 40%;
   text-align: left;
 `
+const TopSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  padding: 20px;
+  margin: 25px 0;
+`
 
+const SectionImageVertical = styled.img`
+
+  width: 30%;
+  height: auto;
+  border-radius: 25px;
+
+`
+
+const SectionImageHorizontal = styled.img`
+
+  width: 40%;
+  height: auto;
+  border-radius: 25px;
+
+`
     
 
 const Mentor: React.FC = () => {
@@ -79,13 +102,13 @@ const Mentor: React.FC = () => {
     <StyledHomePage>
         <Nav/>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '90%', padding: '20px' }}>
+        <TopSection>
             <Header>MENTORS ARE OUR BACKBONE</Header>
             <SubHeader>
             Volunteer mentors are the lifeblood of our events. Without them, <strong>Hi-Skule™</strong> would be unable to run events at the scale we do.
             </SubHeader>
             <img src={team} alt="Hiskule Logo" style={{ width: '60%', height: 'auto', borderRadius: '30px'}} />
-        </div>
+        </TopSection>
 
 
         <Section>
@@ -97,13 +120,12 @@ const Mentor: React.FC = () => {
                 <Button >SIGN UP</Button>
             </TextSection>
 
-            <img src={mentor} alt="Hiskule Logo" style={{ width: '40%', height: 'auto', borderRadius: '25px'}} />
+            <SectionImageHorizontal src={mentor} />
 
         </Section >
 
         <Section>
-            <img src={mentorPic.eighth} alt="Hiskule Logo" style={{ width: '30%', height: 'auto', borderRadius: '25px'}} />
-
+            <SectionImageVertical src={mentorPic.eighth} />
 
             <TextSection>
                 <Header>First Year Executive</Header>
@@ -112,8 +134,6 @@ const Mentor: React.FC = () => {
                 </Paragraph>
                 <Button >SIGN UP</Button>
             </TextSection>
-
-            
         </Section >
 
         <Section>
@@ -126,7 +146,7 @@ const Mentor: React.FC = () => {
                 <Button>JOIN DISCORD</Button>
             </TextSection>
 
-            <img src={mentorPic.tenth} alt="Hiskule Logo" style={{  width: '30%', height: 'auto',  borderRadius: '25px'}} />
+            <SectionImageVertical src={mentorPic.tenth} />
 
         </Section >
        
