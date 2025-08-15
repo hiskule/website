@@ -1,26 +1,51 @@
-import React from 'react'
-import Nav from '../components/nav/nav'
-import styled from "styled-components"
-import Footer from '../components/footer/footer'
+import React from "react";
+import Nav from "../components/nav/nav";
+import Footer from "../components/footer/footer";
+import FloatingImages from "../components/floating_image/floating_image";
+import SocialBubbles from "../components/socialbubble/socialbubble";
+import styled from "styled-components";
 
-const StyledContactPage = styled.div`
+export const StyledContactPage = styled.div`
   width: 100vw;
-  min-height: 100vh;    
+  height: 100vh;
   position: relative;
-  background: linear-gradient(180deg, white 15%, #DBF1FD 100%);
-  padding-top: 60px;  
+  background: linear-gradient(180deg, white 15%, #c5e5f7ff 100%);
+  padding-top: 60px;
+  overflow: hidden;
 `;
 
 
-const Contact: React.FC = () => {
+export const Title = styled.h1`
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  color: #000063;
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 2.5rem;
+  position: relative;
+  z-index: 10;
+`;
 
+const Contact: React.FC = () => {
   return (
     <StyledContactPage>
-        <Nav/>
-        <>ayayay</>
-        <Footer/>
-    </StyledContactPage>
-  )
-}
+      {/* Background floating images */}
 
-export default Contact
+      <div style={{position: "relative", zIndex: '1'}}>
+        <FloatingImages />
+      </div>
+      
+
+      {/* Foreground content */}
+      <Nav />
+      <Title>Get In Touch!</Title>
+      <SocialBubbles />
+      <div style={{position: "relative", zIndex: '20'}}>
+        <Footer />
+      </div>
+      
+    </StyledContactPage>
+  );
+};
+
+export default Contact;
