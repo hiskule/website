@@ -1,11 +1,15 @@
-import React from 'react'
-import Nav from '../components/nav/nav'
-import Footer from '../components/footer/footer'
-import styled from "styled-components"
-import EventsSection from '../components/event_section/event_section'
-import BigLogo from '../assets/hiskule_full.png'
-import SmallLogo from '../assets/hiskule_small.png'
-import Carousel from '../components/carousel'
+import React from 'react';
+import Nav from '../components/nav/nav';
+import Footer from '../components/footer/footer';
+import styled from "styled-components";
+import EventsSection from '../components/event_section/event_section';
+import BigLogo from '../assets/hiskule_full.png';
+import SmallLogo from '../assets/hiskule_small.png';
+import Carousel from '../components/carousel';
+import { eventsData } from '../data/events';
+
+import * as MentorPics from '../assets/random_mentor_pic';
+
 
 const StyledEventPage = styled.div`
   width: 100vw;
@@ -22,7 +26,7 @@ const EventRow = styled.div`
   align-items: center;
   padding: 20px;
   padding-bottom: 100px;
-
+  width: 100%;
   position: relative; 
   z-index: 1;
 `;
@@ -46,55 +50,38 @@ const Dot = styled.div`
   border-radius: 50%;
   position: relative; 
   z-index: 3; 
+  flex: 0 0 auto; 
 `;
+
+
 
 const Event: React.FC = () => {
   return (
     <StyledEventPage>
       <Nav />
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <EventRow>
-            <Dot />
-            <VerticalLine/>
-          
-          <EventsSection
-            title="MENTORSHIP COFFEEHOUSE"
-            time="EARLY FALL"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan magna et auctor tristique..."
-            images={[BigLogo, SmallLogo, BigLogo]}
-            showRegister={true}
-          />
-        </EventRow>
-       
-
-        <EventRow>
-            <Dot />
-          <EventsSection
-            title="UNIVERSITY OF TORONTO HIGH SCHOOL DESIGN COMPETITION (UTHSDC)"
-            time="LATE FALL"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan magna et auctor tristique..."
-            images={[BigLogo, SmallLogo, BigLogo]}
-            showRegister={false}
-          />
-        </EventRow>
-
-        <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: '150px'}}>
-           
-           <h1>Stay tuned for more</h1>
-            <div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
-                <Carousel images={[BigLogo, SmallLogo, BigLogo]}/>
-                <Carousel images={[BigLogo, SmallLogo, BigLogo]}/>
-            
-            </div >
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: '10%' }}>
         
-        </div>
+        {eventsData.map((event, index) => (
+          <EventRow key={index}>
+            <Dot />
+            <VerticalLine />
+            <EventsSection {...event} />
+          </EventRow>
+        ))}
 
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: '150px' }}>
+          <h1>Stay tuned for more</h1>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
+            <Carousel images={[MentorPics.first, MentorPics.second, MentorPics.third, MentorPics.forth, MentorPics.fifth]} />
+            <Carousel images={[BigLogo, SmallLogo, BigLogo]} />
+          </div>
+        </div>
       </div>
 
       <Footer />
     </StyledEventPage>
-  )
-}
+  );
+};
 
-export default Event
+export default Event;

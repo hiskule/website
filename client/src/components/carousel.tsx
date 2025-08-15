@@ -8,8 +8,9 @@ interface Props {
 
 
 const CarouselWrapper = styled.div`
-  flex: 1 1;
-  max-width: 350px;
+
+
+  width: 40%;
   margin: 10px;
   padding: 0px 10px;
 

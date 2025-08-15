@@ -9,18 +9,19 @@ export const Container = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   box-sizing: border-box;
+  align-items: center;
+
 `;
 
 export const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 50%;
+  max-width: 35%;
+  flex: 0 0 35%;
 `
 
-
-
 export const Title = styled.h1`
-  font-size: 40px;
+  font-size: 30px;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   color: black;
@@ -29,9 +30,6 @@ export const Title = styled.h1`
   align-self: flex-start;
   text-align: left;
 
-  @media (max-width: 768px) {
-    font-size: 40px;
-  }
 `;
 
 export const Time = styled.p`
