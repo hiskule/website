@@ -26,7 +26,6 @@ const Card: React.FC<CardProps> = ({ data, onClick }) => {
   return (
     <StyledCard
       onClick={onClick}
-      style={{ cursor: onClick ? "pointer" : "default" }}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={(e) => {
         if (e.key === "Enter" && onClick) {

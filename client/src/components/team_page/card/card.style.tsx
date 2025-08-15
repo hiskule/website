@@ -9,7 +9,8 @@ export const StyledCard = styled.div`
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   position: relative;
-
+  max-width: 350px;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -18,11 +19,12 @@ export const StyledCard = styled.div`
 
   &:hover {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    transform: scale(1.005);
+    transform: scale(1.05);
   }
 
   @media (max-width: 768px) {
     width: 80%;
+    min-width: 300px;
   }
 `;
 

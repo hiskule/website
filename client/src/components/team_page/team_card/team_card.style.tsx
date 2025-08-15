@@ -13,6 +13,7 @@ export const OurMissionContainer = styled.div`
 
 `;
 
+
 export const Section = styled.div`
   padding: 2rem;
   border-radius: 1rem;

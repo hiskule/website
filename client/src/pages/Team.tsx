@@ -50,20 +50,16 @@ const Team: React.FC = () => {
         description={teamData.description}
       />
       <MeetTheTeam>Meet the Team</MeetTheTeam>
-
-      {/* First card alone */}
-      <CardRow>
-        <Card data={cardData[0]} onClick={() => setPopupData(cardData[0])} />
+      
+      <CardRow style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+        {cardData.map(card => (
+          <Card
+            key={card.name}
+            data={card}
+            onClick={() => setPopupData(card)}
+          />
+        ))}
       </CardRow>
-
-      {/* Remaining cards in rows of 3 */}
-      {Array.from({ length: 4 }, (_, i) => (
-        <CardRow key={i}>
-          {cardData.slice(1 + i * 3, 1 + (i + 1) * 3).map(card => (
-            <Card key={card.name} data={card} onClick={() => setPopupData(card)} />
-          ))}
-        </CardRow>
-      ))}
 
       {popupData && <PopUp data={popupData} onClose={() => setPopupData(null)} />}
 

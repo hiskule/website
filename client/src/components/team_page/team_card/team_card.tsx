@@ -10,7 +10,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ imageSrc, description }) => {
   return (
     <OurMissionContainer>
       <Section>
-        <img src={imageSrc} alt="Team Logo" style={{ border: '1px solid red' }} />
+        <img src={imageSrc} alt="Team Logo"  />
         <Title>OUR MISSION</Title>
         <Description>{description}</Description>
       </Section>
