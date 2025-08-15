@@ -5,5 +5,6 @@ import fourth from './4.jpg';
 import fifth from './5.jpg'; 
 import sixth from './6.jpg';
 import seventh from './7.jpg';
+import team from './team.jpg';
 
-export { first, second, third, fourth, fifth, sixth, seventh };
+export { first, second, third, fourth, fifth, sixth, seventh, team };

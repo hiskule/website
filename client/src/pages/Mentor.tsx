@@ -3,6 +3,7 @@ import Nav from '../components/nav/nav'
 import styled from "styled-components"
 import Footer from '../components/footer/footer'
 import Logo from '../assets/hiskule_full.png'
+import * as mentorPic from '../assets/random_mentor_pic'
 
 
 const StyledHomePage = styled.div`
@@ -53,7 +54,25 @@ const Button = styled.button`
   margin-top: 1.5rem;
 `;
 
+const Section = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+`;
 
+const TextSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 40%;
+  text-align: left;
+`
+
+    
 
 const Mentor: React.FC = () => {
 
@@ -70,46 +89,46 @@ const Mentor: React.FC = () => {
         </div>
 
 
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: '40px', marginBottom: '40px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '40%', textAlign: 'left' }}>
+        <Section>
+            <TextSection>
                 <Header>MENTOR MAILING LIST SIGN UP</Header>
                 <Paragraph>
                 Become a mentor today and have the opportunity to guide young students who are curious about pursuing a career in STEM. By signing up to be a Hi-Skule mentor you’ll be notified when volunteer signup is available for all Hi-Skule Mentorship Events.
                 </Paragraph>
-                <Button style={{alignSelf: 'center'}}>SIGN UP</Button>
-            </div>
+                <Button >SIGN UP</Button>
+            </TextSection>
 
+            <img src={mentorPic.eighth} alt="Hiskule Logo" style={{ width: '30%', height: 'auto', borderRadius: '25px'}} />
+
+        </Section >
+
+        <Section>
             <img src={Logo} alt="Hiskule Logo" style={{ width: '40%', height: 'auto', border: '1px solid red'}} />
 
-        </div >
-
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: '40px' }}>
-            <img src={Logo} alt="Hiskule Logo" style={{ width: '40%', height: 'auto', border: '1px solid red'}} />
-
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '40%', textAlign: 'left' }}>
+            <TextSection>
                 <Header>First Year Executive</Header>
                 <Paragraph>
                 Ready to make an impact as a first year? Join the 2T5-2T6 Hi-Skule exec team today! Help recruit mentors and inspire the next generation of engineers
                 </Paragraph>
-                <Button style={{alignSelf: 'center'}}>SIGN UP</Button>
-            </div>
+                <Button >SIGN UP</Button>
+            </TextSection>
 
             
-        </div >
+        </Section >
 
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%', margin: '50px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '40%', textAlign: 'left' }}>
+        <Section>
+            <TextSection>
                 <Header>STAY INVOLED</Header>
                 <Paragraph>
                 Want to help out? Out next event is ..., Join us for our planning meeting on ... at ...! Can’t make it? Join our Discord to stay in the loop with all things Hi-Skule!
                 </Paragraph>
                 <Button>RSVP FOR MEETING</Button>
                 <Button>JOIN DISCORD</Button>
-            </div>
+            </TextSection>
 
-            <img src={Logo} alt="Hiskule Logo" style={{ width: '40%', height: 'auto', border: '1px solid red'}} />
+            <img src={mentorPic.tenth} alt="Hiskule Logo" style={{  width: '30%', height: 'auto',  borderRadius: '25px'}} />
 
-        </div >
+        </Section >
        
             
         

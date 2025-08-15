@@ -1,7 +1,7 @@
 import * as coffee from '../assets/coffeehouse';
 import * as DC from '../assets/UTHSDC';
-import BigLogo from '../assets/hiskule_full.png';
-import SmallLogo from '../assets/hiskule_small.png';
+import * as design from '../assets/designapalooza';
+import * as prefrosh from '../assets/prefrosh';
 
 export const eventsData = [
   {
@@ -25,7 +25,7 @@ export const eventsData = [
     time: "WINTER",
     description:
       "Designapalooza gives high school students the chance to spend a day at U of T’s Faculty of Applied Science & Engineering, taking part in hands-on workshops across different engineering fields—like building wind turbines in Mechanical Engineering or programming Arduino circuits in Electrical & Computer Engineering. Led by U of T design teams, students can learn new skills, tackle real-world challenges, and see how engineering can make an impact.",
-    images: [BigLogo, SmallLogo, BigLogo],
+    images: [design.first, design.second, design.third, design.forth, design.fifth, design.sixth],
     showRegister: false,
   },
   {
@@ -33,7 +33,7 @@ export const eventsData = [
     time: "Summer", //??
     description:
       "HEY FUTURE ENGINEERS! 🎉💜 GET READY FOR PRE FROSH! An afternoon packed with games, activities, and nonstop Skule spirit is waiting for you. Meet new friends, dive into the hype, and experience all the excitement that Hi-Skule has to offer. You won’t want to miss the energy, the fun, and the chance to kick off your engineering journey with a bang! 💜🚀",
-    images: [BigLogo, SmallLogo, BigLogo],
+    images: [prefrosh.first, prefrosh.second, prefrosh.third, prefrosh.forth, prefrosh.fifth, prefrosh.sixth, prefrosh.seventh, prefrosh.eighth],
     showRegister: false,
   },
 ];

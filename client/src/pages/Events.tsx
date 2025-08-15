@@ -3,8 +3,6 @@ import Nav from '../components/nav/nav';
 import Footer from '../components/footer/footer';
 import styled from "styled-components";
 import EventsSection from '../components/event_section/event_section';
-import BigLogo from '../assets/hiskule_full.png';
-import SmallLogo from '../assets/hiskule_small.png';
 import Carousel from '../components/carousel';
 import { eventsData } from '../data/events';
 
@@ -73,8 +71,8 @@ const Event: React.FC = () => {
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: '150px' }}>
           <h1>Stay tuned for more</h1>
           <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
-            <Carousel images={[MentorPics.first, MentorPics.second, MentorPics.third, MentorPics.forth, MentorPics.fifth]} />
-            <Carousel images={[BigLogo, SmallLogo, BigLogo]} />
+            <Carousel images={[MentorPics.fifth,  MentorPics.third, MentorPics.seventh, MentorPics.ninth ]} />
+            <Carousel images={[MentorPics.forth, MentorPics.second,  MentorPics.sixth, MentorPics.first,]} />
           </div>
         </div>
       </div>
