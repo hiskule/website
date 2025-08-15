@@ -4,7 +4,7 @@ import {team} from '../assets/UTHSDC';
 // team data (image and our mission)
 export const teamData = {
     imageSrc: team,
-    description: "The Hi-Skule™ directorship serves as the Engineering Society\’s bridge between secondary and primary school students and the SKULE community. Our outreach efforts are designed to be engaging, enlightening, empowering, and invigorating for both students and executives alike."
+    description: "The <strong>Hi-Skule™</strong> directorship serves as the Engineering Society\’s bridge between secondary and primary school students and the SKULE community. Our outreach efforts are designed to be engaging, enlightening, empowering, and invigorating for both students and executives alike."
 }
 
 // individual team member data

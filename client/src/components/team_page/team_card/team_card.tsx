@@ -12,7 +12,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ imageSrc, description }) => {
       <Section>
         <img src={imageSrc} alt="Team Logo"  />
         <Title>OUR MISSION</Title>
-        <Description>{description}</Description>
+        <Description dangerouslySetInnerHTML={{ __html: description }}/>
       </Section>
     </OurMissionContainer>
   );

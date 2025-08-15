@@ -6,5 +6,6 @@ import fifth from './5.jpg';
 import sixth from './6.jpg';
 import seventh from './7.jpg';
 import eighth from './8.jpg';
+import ninth from './9.jpg'
 
-export {first, second, third, forth, fifth, sixth, seventh, eighth};
+export {first, second, third, forth, fifth, sixth, seventh, eighth, ninth};

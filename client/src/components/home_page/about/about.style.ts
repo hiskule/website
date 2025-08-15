@@ -16,15 +16,12 @@ export const FixedSection = styled.div`
   top: 100px;
   z-index: 10;
   display: flex;
-  flex-direction: column;
-`;
-
-export const Content = styled.div`
-  display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: 100%;
 `;
+
+
 
 export const Text = styled.div`
   font-size: 1.5rem;
@@ -39,5 +36,6 @@ export const Trigger = styled.div`
 
 export const Image = styled.img`
   width: 40%;
-  border: 1px solid red;
+  border-radius: 20px;
+
 `;

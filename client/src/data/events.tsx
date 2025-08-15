@@ -32,8 +32,8 @@ export const eventsData = [
     title: "PRE-FROSH",
     time: "Summer", //??
     description:
-      "HEY FUTURE ENGINEERS! 🎉💜 GET READY FOR PRE FROSH! An afternoon packed with games, activities, and nonstop Skule spirit is waiting for you. Meet new friends, dive into the hype, and experience all the excitement that Hi-Skule has to offer. You won’t want to miss the energy, the fun, and the chance to kick off your engineering journey with a bang! 💜🚀",
-    images: [prefrosh.first, prefrosh.second, prefrosh.third, prefrosh.forth, prefrosh.fifth, prefrosh.sixth, prefrosh.seventh, prefrosh.eighth],
+      "HEY FUTURE ENGINEERS! 🎉💜 GET READY FOR PRE FROSH! An afternoon packed with games, activities, and nonstop Skule spirit is waiting for you. Meet new friends, dive into the hype, and experience all the excitement that <strong>Hi-Skule™</strong> has to offer. You won’t want to miss the energy, the fun, and the chance to kick off your engineering journey with a bang! 💜🚀",
+    images: [prefrosh.first, prefrosh.second, prefrosh.third, prefrosh.forth, prefrosh.fifth, prefrosh.sixth, prefrosh.seventh, prefrosh.eighth, prefrosh.ninth],
     showRegister: false,
   },
 ];

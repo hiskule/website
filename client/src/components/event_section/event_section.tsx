@@ -19,7 +19,7 @@ const EventsSection: React.FC<Props> = ({ title, time, description, images, show
       <LeftContainer>
         <Title>{title}</Title>
         <Time>{time}</Time>
-        <Description>{description}</Description>
+        <Description dangerouslySetInnerHTML={{ __html: description }}/>
 
         <RegisterButton  disabled={!showRegister} $showRegister={showRegister}>
           {showRegister ? 'REGISTER' : 'COMING UP'}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {Container, FixedSection, Title, Text, Trigger, Image, Content} from './about.style'
+import {Container, FixedSection, Title, Text, Trigger, Image} from './about.style'
 import { aboutUsSection } from "../../../data/home";
 
 
@@ -37,11 +37,15 @@ const About: React.FC = () => {
     <Container>
         
       <FixedSection>
-        <Title>ABOUT US</Title>
-        <Content>
-          <Text>{content}</Text>
+        
+
+          <div style={{display: 'flex', flexDirection:'column', width: '40%'}}>
+            <Title>ABOUT US</Title>
+            <Text dangerouslySetInnerHTML={{ __html: content }} />
+          </div >
+          
           <Image src={imageSrc} />
-        </Content> 
+
       </FixedSection>
 
       {aboutUsSection.map((_, i) => (
