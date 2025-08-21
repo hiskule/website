@@ -38,13 +38,12 @@ const About: React.FC = () => {
         
       <FixedSection>
         
-
           <div style={{display: 'flex', flexDirection:'column', width: '40%'}}>
             <Title>ABOUT US</Title>
             <Text dangerouslySetInnerHTML={{ __html: content }} />
           </div >
           
-          <Image src={imageSrc} />
+          <Image src={imageSrc}/>
 
       </FixedSection>
 

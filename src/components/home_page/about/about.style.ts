@@ -36,6 +36,8 @@ export const Trigger = styled.div`
 
 export const Image = styled.img`
   width: 40%;
-  border-radius: 20px;
+  height: auto;
+  object-fit: contain;
+
 
 `;

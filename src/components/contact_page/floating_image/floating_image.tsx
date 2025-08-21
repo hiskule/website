@@ -1,17 +1,7 @@
 import React from "react";
-import Logo from "../../assets/hiskule_full.png";
-import SmallLogo from "../../assets/hiskule_small.png";
-import styled from "styled-components";
-import { motion } from "framer-motion";
-
-export const FloatingImageStyled = styled(motion.img)`
-  position: absolute;
-  width: 50px;
-  pointer-events: none;
-  z-index: 0;
-  top: 0;
-  left: 0;
-`;
+import Logo from "../../../assets/hiskule_full.png";
+import SmallLogo from "../../../assets/hiskule_small.png";
+import {FloatingImageStyled} from './floating_image.style'
 
 const floatingImages = [
   Logo, Logo, Logo, Logo, Logo, Logo,

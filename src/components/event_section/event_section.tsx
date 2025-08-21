@@ -1,5 +1,5 @@
 import React from "react";
-import Carousel from "../carousel";
+import Carousel from "../carousel/carousel";
 import { Container,LeftContainer,  Title, Time, Description, RegisterButton } from "./event_section.style";
 
 interface Props {

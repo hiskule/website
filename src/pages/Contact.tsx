@@ -1,8 +1,8 @@
 import React from "react";
 import Nav from "../components/nav/nav";
 import Footer from "../components/footer/footer";
-import FloatingImages from "../components/floating_image/floating_image";
-import SocialBubbles from "../components/socialbubble/socialbubble";
+import FloatingImages from "../components/contact_page/floating_image/floating_image";
+import SocialBubbles from "../components/contact_page/socialbubble/socialbubble";
 import styled from "styled-components";
 
 export const StyledContactPage = styled.div`

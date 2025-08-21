@@ -3,7 +3,7 @@ import Nav from '../components/nav/nav';
 import Footer from '../components/footer/footer';
 import styled from "styled-components";
 import EventsSection from '../components/event_section/event_section';
-import Carousel from '../components/carousel';
+import Carousel from '../components/carousel/carousel';
 import { eventsData } from '../data/events';
 
 import * as MentorPics from '../assets/random_mentor_pic';
@@ -33,7 +33,7 @@ const VerticalLine = styled.div`
   position: absolute;
   top: 100px;
   min-height: 100vh;
-  height: 830px;
+  height: 1000px;
   left: 27px;
   width: 4px;
   background-color: #59A1C6;

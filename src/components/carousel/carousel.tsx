@@ -1,31 +1,10 @@
 import React from "react";
-import styled from "styled-components";
+import { CarouselWrapper } from './carousel.style';
 import Slider from "react-slick";
 
 interface Props {
   images: string[]; 
 }
-
-
-const CarouselWrapper = styled.div`
-
-
-  width: 40%;
-  margin: 10px;
-  padding: 0px 10px;
-
-
-  .slick-slide img {
-    width: 100%;
-    border-radius: 16px;
-  }
-
-  .slick-prev, .slick-next {
-  z-index: 1;
-}
-
-`;
-
 
 const Carousel: React.FC<Props> = ({ images }) => {
   const sliderSettings = {
