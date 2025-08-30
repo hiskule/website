@@ -18,13 +18,15 @@ export const StyledNavbar = styled.nav`
   }
 `;
 
-export const StyledLogo = styled.div`
-  flex-shrink: 0;
-`;
 
 export const StyledHiSkuleLogoStandardYNR = styled.img`
-  width: 100px; 
+  width: 5%; 
   height: auto;
+
+  @media (max-width: 760px) {
+    width: 20%;
+    height: auto;
+  }
 `;
 
 export const NavMenu = styled.div`
@@ -33,7 +35,7 @@ export const NavMenu = styled.div`
   padding: 0 12px; 
 
   @media (max-width: 760px) {
-    display: none; /* hide on mobile */
+    display: none; 
   }
 `;
 
@@ -66,7 +68,6 @@ export const HamburgerButton = styled.div`
   }
 `;
 
-/* Overlay for drawer */
 export const DrawerOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -77,7 +78,6 @@ export const DrawerOverlay = styled.div`
   z-index: 99;
 `;
 
-/* Sliding drawer from the right */
 export const MobileDrawer = styled.div<{ $open: boolean }>`
   position: fixed;
   top: 0;

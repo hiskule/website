@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   StyledNavbar,
-  StyledLogo,
   StyledHiSkuleLogoStandardYNR,
   NavMenu,
   NavItem,
@@ -28,13 +27,13 @@ const Nav: React.FC = () => {
 
   return (
     <StyledNavbar>
-      <StyledLogo>
-        <StyledHiSkuleLogoStandardYNR
-          src={Logo}
-          alt="HiSkule Logo"
-          onClick={() => navigate("/")}
-        />
-      </StyledLogo>
+
+      <StyledHiSkuleLogoStandardYNR
+        src={Logo}
+        alt="HiSkule Logo"
+        onClick={() => navigate("/")}
+      />
+
 
       {/* Desktop Menu */}
       <NavMenu>

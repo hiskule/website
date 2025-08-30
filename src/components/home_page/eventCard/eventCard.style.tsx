@@ -22,6 +22,10 @@ export const Heading = styled.h2`
   font-weight: 700;
   margin-bottom: 32px;
   text-align: center;
+
+  @media (max-width: 760px) {
+    font-size: 2rem;
+  }
 `;
 
 export const NotificationDot = styled.div`
@@ -29,6 +33,10 @@ export const NotificationDot = styled.div`
   height: 12px;
   background: #e50e32;
   border-radius: 50%;
+
+  @media (max-width: 760px) {
+    display: none;
+  }
 `;
 
 export const BackgroundCard = styled.div`

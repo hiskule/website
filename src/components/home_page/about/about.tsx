@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {Container, FixedSection, Title, Text, Trigger, Image} from './about.style'
+import {Container, FixedSection, Title,Text,  Content, Trigger, Image, Mobile} from './about.style'
 import { aboutUsSection } from "../../../data/home";
 
 
@@ -35,13 +35,15 @@ const About: React.FC = () => {
 
   return (
     <Container>
+
+      {/* desktop */}
         
       <FixedSection>
         
-          <div style={{display: 'flex', flexDirection:'column', width: '40%'}}>
+          <Text>
             <Title>ABOUT US</Title>
-            <Text dangerouslySetInnerHTML={{ __html: content }} />
-          </div >
+            <Content dangerouslySetInnerHTML={{ __html: content }} />
+          </Text >
           
           <Image src={imageSrc}/>
 
@@ -54,8 +56,25 @@ const About: React.FC = () => {
           ref={(el) => {
             triggerRefs.current[i] = el;
             }}
+
         />
       ))}
+
+      <Mobile>
+        <Title>ABOUT US</Title>
+        {aboutUsSection.map((section, i) => (
+          <div key={i}>
+            <Text>
+
+              <Content dangerouslySetInnerHTML={{ __html: section.content }} />
+            </Text>
+            <Image src={section.imageSrc} />
+          </div>
+        ))}
+      </Mobile>
+
+
+
     </Container>
   );
 };
