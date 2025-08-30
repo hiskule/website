@@ -9,9 +9,6 @@ import { eventsData } from '../../data/events';
 import * as MentorPics from '../../assets/random_mentor_pic';
 
 
-
-
-
 const Event: React.FC = () => {
   return (
     <StyledEventPage>
@@ -30,13 +27,8 @@ const Event: React.FC = () => {
         <ExtraSection>
           <h1>Stay tuned for more</h1>
           <ExtraPhoto>
-            <Carou>
-              <Carousel images={[MentorPics.fifth,  MentorPics.third, MentorPics.seventh, MentorPics.ninth ]} />
-            </Carou>
-
-            <Carou>
-              <Carousel images={[MentorPics.forth, MentorPics.second,  MentorPics.sixth, MentorPics.first,]} />
-            </Carou>
+            <Carou><Carousel images={[MentorPics.fifth,  MentorPics.third, MentorPics.seventh, MentorPics.ninth ]} /></Carou>
+            <Carou><Carousel images={[MentorPics.forth, MentorPics.second,  MentorPics.sixth, MentorPics.first,]} /></Carou>
          </ExtraPhoto>
         </ExtraSection>
       </Content>

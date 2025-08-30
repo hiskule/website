@@ -1,5 +1,5 @@
 import React from "react";
-import { PopupWrapper,Logo,  ContentCard, Name, Position, Description } from "./card_pop.style";
+import { PopupWrapper,Logo,  ContentCard, Name, Position, Description, CardWrapper} from "./card_pop.style";
 
 interface PopupProps {
   data: { name: string; role: string; bio?: string };
@@ -11,14 +11,14 @@ const PopUp: React.FC<PopupProps> = ({ data, onClose }) => {
 
   return (
     <PopupWrapper onClick={onClose}>
-      <div onClick={e => e.stopPropagation()}>
+      <CardWrapper onClick={e => e.stopPropagation()}>
         <Logo src="https://placehold.co/10x10" alt="Logo" />
         <ContentCard>
           <Name>{data.name}</Name>
           <Position>{data.role}</Position>
           <Description>{data.bio || 'No bio available.'}</Description>
         </ContentCard>
-      </div>
+      </CardWrapper>
     </PopupWrapper>
   );
 };

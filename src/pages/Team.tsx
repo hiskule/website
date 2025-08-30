@@ -15,6 +15,13 @@ const StyledTeamPage = styled.div`
   padding-top: 60px;  
 `;
 
+const Content = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 const MeetTheTeam = styled.h2`
   font-size: 3.5rem;
   color: #000063;
@@ -22,6 +29,12 @@ const MeetTheTeam = styled.h2`
   margin-top: 4rem;
   margin-bottom: 2rem;
   text-align: center;
+  width: 90%;
+
+  @media (max-width: 760px) {
+    font-size: 2.5rem;
+  }
+  
 `;
 
 const CardRow = styled.div`
@@ -37,32 +50,36 @@ interface CardData {
   name: string;
   role: string;
   bio: string;
+
 }
 
 
 const Team: React.FC = () => {
-    const [popupData, setPopupData] = React.useState<CardData | null>(null);
+  const [popupData, setPopupData] = React.useState<CardData | null>(null);
+
   return (
     <StyledTeamPage>
       <Nav />
-      <TeamCard
-        imageSrc={teamData.imageSrc}
-        description={teamData.description}
-      />
-      <MeetTheTeam>Meet the Team</MeetTheTeam>
-      
-      <CardRow style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-        {cardData.map(card => (
-          <Card
-            key={card.name}
-            data={card}
-            onClick={() => setPopupData(card)}
-          />
-        ))}
-      </CardRow>
+      <Content>
+        <TeamCard
+          imageSrc={teamData.imageSrc}
+          description={teamData.description}
+        />
 
-      {popupData && <PopUp data={popupData} onClose={() => setPopupData(null)} />}
+        <MeetTheTeam>Meet the Team</MeetTheTeam>
+        
+        <CardRow style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+          {cardData.map(card => (
+            <Card
+              key={card.name}
+              data={card}
+              onClick={() => setPopupData(card)}
+            />
+          ))}
+        </CardRow>
 
+        {popupData && <PopUp data={popupData} onClose={() => setPopupData(null)} />}
+      </Content>
       <Footer />
     </StyledTeamPage>
   );

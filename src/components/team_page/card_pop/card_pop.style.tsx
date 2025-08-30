@@ -10,22 +10,27 @@ export const PopupWrapper = styled.div`
   z-index: 10000;
 
   > div {
-    width: 70%;
-    height: 500px;
+    width: 80%;
+    min-height: 600px;
     background: linear-gradient(198deg, #000063 0%, white 70%);
     border-radius: 2rem;
     padding: 1rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
   }
 `;
 
+export const CardWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
 
+  @media (max-width: 760px) {
+    flex-direction: column;
+  }
+`
 
 export const ContentCard = styled.div`
-  width: 90%;
+  width: 95%;
   max-width: 600px;
   border-radius: 1.5rem;
   padding: 1rem;
@@ -33,13 +38,22 @@ export const ContentCard = styled.div`
   gap: 20px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 760px) {
+    gap: 10px;
+  }
 `;
+
 
 export const Name = styled.h1`
   font-size: 2.5rem;
   font-weight: 700;
   color: black;
   margin: 0;
+
+  @media (max-width: 760px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const Description = styled.p`
@@ -47,8 +61,12 @@ export const Description = styled.p`
   font-weight: 400;
   color: black;
   line-height: 1.6;
-  text-align: justify;
+  text-align: flex-start;
   margin: 0;
+
+  @media (max-width: 760px) {
+    font-size: 1rem;
+  }
 `;
 
 export const Position = styled.h2`
@@ -56,6 +74,9 @@ export const Position = styled.h2`
   font-weight: 700;
   color: black;
   margin: 0;
+  @media (max-width: 760px) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const Logo = styled.img`

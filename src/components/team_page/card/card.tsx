@@ -7,12 +7,13 @@ import {
   Position,
   LinkSection,
 } from "./card.style";
-import { FaLinkedin } from "react-icons/fa";
+import { FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 interface CardProps {
   data: {
     name: string;
     role: string;
+    emaillink: string;
     link: string;
   };
   onClick?: () => void;
@@ -41,6 +42,15 @@ const Card: React.FC<CardProps> = ({ data, onClick }) => {
       </Text>
 
       <LinkSection>
+        <a
+          href={data.emaillink}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={handleIconClick}
+        >
+          <FaEnvelope size={48} color="#000063" />
+        </a>
+
         <a
           href={data.link}
           target="_blank"
