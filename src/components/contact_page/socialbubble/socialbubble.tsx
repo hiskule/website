@@ -13,6 +13,10 @@ export const SocialLinks = styled.div`
   justify-content: center;
   position: relative;
   z-index: 10;
+
+  @media (max-width: 760px) {
+    flex-direction: column;
+  }
 `;
 
 export const MotionLink = styled(motion.a)`

@@ -9,10 +9,10 @@ export const FooterContainer = styled.footer`
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  justify-content: space-between
-  
+  justify-content: space-between;
 
 `;
+
 
 export const LeftContainer = styled.div`
   display: flex;

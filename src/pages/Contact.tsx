@@ -1,26 +1,48 @@
 import React from "react";
 import Nav from "../components/nav/nav";
-import Footer from "../components/footer/footer";
 import FloatingImages from "../components/contact_page/floating_image/floating_image";
 import SocialBubbles from "../components/contact_page/socialbubble/socialbubble";
 import styled from "styled-components";
 
 export const StyledContactPage = styled.div`
   width: 100vw;
-  height: 100vh;
-  position: relative;
+  min-height: 70vh;
   background: linear-gradient(180deg, white 15%, #c5e5f7ff 100%);
   padding-top: 60px;
   overflow: hidden;
+  border: 2px solid red;
+  position: relative;
+
+  @media (max-width: 760px) {
+    min-height: 85vh;
+  }
+
+  
 `;
 
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  width: 90%;
+  box-sizing: border-box;
+
+  @media (max-width: 760px) {
+    top: 53%;
+  }
+`
 
 export const Title = styled.h1`
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   color: #000063;
   text-align: center;
-  margin-bottom: 0;
+  margin-bottom: 30px;
   font-size: 2.5rem;
   position: relative;
   z-index: 10;
@@ -30,6 +52,7 @@ const Contact: React.FC = () => {
   return (
     <StyledContactPage>
       {/* Background floating images */}
+      <Nav />
 
       <div style={{position: "relative", zIndex: '1'}}>
         <FloatingImages />
@@ -37,12 +60,10 @@ const Contact: React.FC = () => {
       
 
       {/* Foreground content */}
-      <Nav />
-      <Title>Get In Touch!</Title>
-      <SocialBubbles />
-      <div style={{position: "relative", zIndex: '20'}}>
-        <Footer />
-      </div>
+      <Content>
+        <Title>Get In Touch!</Title>
+       <SocialBubbles />
+      </Content>
       
     </StyledContactPage>
   );
