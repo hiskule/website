@@ -1,9 +1,7 @@
 import React from 'react'
 import Hero from '../components/home_page/hero/hero'
-import Nav from '../components/nav/nav'
 import About from '../components/home_page/about/about'
 import styled from "styled-components"
-import Footer from '../components/footer/footer'
 import EventCard from '../components/home_page/eventCard/eventCard'
 
 const StyledHomePage = styled.div`
@@ -19,11 +17,9 @@ const Home: React.FC = () => {
 
   return (
     <StyledHomePage>
-        <Nav/>
-        <Hero/>
-        <About/>
-        <EventCard/>
-        <Footer/>
+      <Hero/>
+      <About/>
+      <EventCard/>
     </StyledHomePage>
   )
 }

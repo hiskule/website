@@ -5,20 +5,16 @@ export const StyledEventPage = styled.div`
   min-height: 100vh;
   background: linear-gradient(180deg, white 15%, #DBF1FD 100%);
   padding-top: 80px;
-`;
-
-export const Content = styled.div`
   dispaly: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 10%;
-  border-1px solid red;
 
   @media (max-width: 760px) {
     margin-left: 0;
   }
      
-`
+`;
+
 
 export const EventRow = styled.div`
   display: flex;
@@ -39,7 +35,7 @@ export const VerticalLine = styled.div`
   top: 100px;
   min-height: 10px;
   height: 1000px;
-  left: 27px;
+  left: 70px;
   width: 4px;
   background-color: #59A1C6;
   z-index: 2;
@@ -59,7 +55,7 @@ export const Dot = styled.div`
   border-radius: 50%;
   position: absolute; 
   z-index: 3; 
-  left: 20px;
+  left: 63px;
 
 
   @media (max-width: 760px) {

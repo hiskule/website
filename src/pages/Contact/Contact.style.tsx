@@ -1,7 +1,3 @@
-import React from "react";
-import Nav from "../components/nav/nav";
-import FloatingImages from "../components/contact_page/floating_image/floating_image";
-import SocialBubbles from "../components/contact_page/socialbubble/socialbubble";
 import styled from "styled-components";
 
 export const StyledContactPage = styled.div`
@@ -10,7 +6,6 @@ export const StyledContactPage = styled.div`
   background: linear-gradient(180deg, white 15%, #c5e5f7ff 100%);
   padding-top: 60px;
   overflow: hidden;
-  border: 2px solid red;
   position: relative;
 
   @media (max-width: 760px) {
@@ -48,25 +43,7 @@ export const Title = styled.h1`
   z-index: 10;
 `;
 
-const Contact: React.FC = () => {
-  return (
-    <StyledContactPage>
-      {/* Background floating images */}
-      <Nav />
-
-      <div style={{position: "relative", zIndex: '1'}}>
-        <FloatingImages />
-      </div>
-      
-
-      {/* Foreground content */}
-      <Content>
-        <Title>Get In Touch!</Title>
-       <SocialBubbles />
-      </Content>
-      
-    </StyledContactPage>
-  );
-};
-
-export default Contact;
+export const FloatingWrap = styled.div`
+  position: relative;
+  z-index: 1;
+`

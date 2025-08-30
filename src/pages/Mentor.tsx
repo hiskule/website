@@ -1,7 +1,5 @@
 import React from 'react'
-import Nav from '../components/nav/nav'
 import styled from "styled-components"
-import Footer from '../components/footer/footer'
 import * as mentorPic from '../assets/random_mentor_pic'
 import {team, mentor} from '../assets/coffeehouse'
 
@@ -100,8 +98,6 @@ const Mentor: React.FC = () => {
 
   return (
     <StyledHomePage>
-        <Nav/>
-
         <TopSection>
             <Header>MENTORS ARE OUR BACKBONE</Header>
             <SubHeader>
@@ -147,15 +143,7 @@ const Mentor: React.FC = () => {
             </TextSection>
 
             <SectionImageVertical src={mentorPic.tenth} />
-
         </Section >
-       
-            
-        
-
-        <Footer/>
-
-    
     </StyledHomePage>
   )
 }
