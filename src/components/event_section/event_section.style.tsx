@@ -11,13 +11,39 @@ export const Container = styled.div`
   box-sizing: border-box;
   align-items: center;
 
+  @media (max-width: 760px) {
+    flex-direction: column;
+    gap:20px;
+    align-items: center;
+    width: 100%;
+
+    padding: 20px 20px;
+  }
+
 `;
 
 export const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 35%;
+  width: 35%;
   flex: 0 0 35%;
+
+  @media (max-width: 760px) {
+    width: 100%;
+  }
+`
+
+export const RightContainer = styled.div`
+  width: 40%;
+  object-fit: contain;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 760px) {
+    width: 90%;
+    align-items: center;
+  }
+
 `
 
 export const Title = styled.h1`
@@ -29,6 +55,7 @@ export const Title = styled.h1`
   margin: 0px;
   align-self: flex-start;
   text-align: left;
+
 
 `;
 
@@ -43,7 +70,7 @@ export const Time = styled.p`
   text-align: left;
 
   @media (max-width: 768px) {
-    font-size: 40px;
+    font-size: 20px;
   }
 `;
 

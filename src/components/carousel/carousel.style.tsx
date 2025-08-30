@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CarouselWrapper = styled.div`
-  width: 40%;
+  width: 100%;
   margin: 10px;
   padding: 0px 10px;
 
@@ -12,6 +12,7 @@ export const CarouselWrapper = styled.div`
 
   .slick-prev, .slick-next {
   z-index: 1;
+
 }
 
 `;

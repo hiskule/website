@@ -1,6 +1,6 @@
 import React from "react";
 import Carousel from "../carousel/carousel";
-import { Container,LeftContainer,  Title, Time, Description, RegisterButton } from "./event_section.style";
+import { Container,LeftContainer,  Title, Time, Description, RegisterButton, RightContainer } from "./event_section.style";
 
 interface Props {
   title: string;
@@ -27,9 +27,14 @@ const EventsSection: React.FC<Props> = ({ title, time, description, images, show
 
       </LeftContainer>
 
+
       {images && images.length > 0 && (
-        <Carousel images={images}/>
+        <RightContainer>
+          <Carousel images={images}/>
+        </RightContainer>
       )}
+
+      
     </Container>
   );
 };

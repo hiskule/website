@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import Event from './pages/Events'
+import Event from './pages/Events/Events'
 import Team from './pages/Team'
 import Mentor from './pages/Mentor'
 import Contact from './pages/Contact'
