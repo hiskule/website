@@ -5,6 +5,10 @@ const SectionImageVertical = styled.img`
   height: auto;
   border-radius: 25px;
 
+  @media (max-width: 760px) {
+    width: 80%;
+  }
+
 `
 
 const SectionImageHorizontal = styled.img`
@@ -12,6 +16,10 @@ const SectionImageHorizontal = styled.img`
   width: 40%;
   height: auto;
   border-radius: 25px;
+
+  @media (max-width: 760px) {
+    width: 80%;
+  }
 
 `
 
@@ -21,6 +29,10 @@ const TextSection = styled.div`
   align-items: flex-start;
   width: 40%;
   text-align: left;
+
+  @media (max-width: 760px) {
+    width: 80%;
+  }
 `
 
 const Section = styled.div`
@@ -31,6 +43,14 @@ const Section = styled.div`
   width: 100%;
   margin-top: 40px;
   margin-bottom: 40px;
+
+
+  @media (max-width: 760px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+
 `;
 
 const Paragraph = styled.p`
@@ -39,6 +59,10 @@ const Paragraph = styled.p`
   font-weight: 400;
   max-width: 800px;
   margin: 0 auto;
+
+    @media (max-width: 760px) {
+   font-size: 1rem;
+  }
 `;
 
 const Header = styled.h1`
@@ -46,22 +70,26 @@ const Header = styled.h1`
   font-size: 2.5rem;
   font-weight: 700;
   margin-top:0;
+
+  @media (max-width: 760px) {
+   font-size: 2rem;
+  }
 `;
 
-export const Button = styled.button<{ hasLink?: boolean }>`
-  background: ${({ hasLink }) => (hasLink ? "#000063" : "#fff")};
-  color: ${({ hasLink }) => (hasLink ? "#ffd712" : "#000")};
+export const Button = styled.button<{ $hasLink?: boolean }>`
+  background: ${({ $hasLink }) => ($hasLink ? "#000063" : "#fff")};
+  color: ${({ $hasLink }) => ($hasLink ? "#ffd712" : "#000")};
   font-size: 1.2rem;
   font-weight: 700;
   padding: 0.6rem 2rem;
   border-radius: 2rem;
   border: none;
-  cursor: ${({ hasLink }) => (hasLink ? "pointer" : "default")};
+  cursor: ${({ $hasLink }) => ($hasLink ? "pointer" : "default")};
   margin-top: 1.5rem;
   transition: all 0.2s ease;
 
   &:hover {
-    opacity: ${({ hasLink }) => (hasLink ? 0.8 : 1)};
+    opacity: ${({ $hasLink }) => ($hasLink ? 0.8 : 1)};
   }
 `;
 
@@ -88,37 +116,38 @@ type SectionsProps = { data: MentorSection };
 
 
 const SectionComponent: React.FC <SectionsProps> = ( {data} ) => {
-      return (
+  return (
+    <Section>
 
-        <Section>
-            {data.image?.position === "left" && (
-                data.image.type === "horizontal"
-                ? <SectionImageHorizontal src={data.image.src} />
-                : <SectionImageVertical src={data.image.src} />
-            )}
+      {data.image?.position === "left" && (
+          data.image.type === "horizontal"
+          ? <SectionImageHorizontal src={data.image.src} />
+          : <SectionImageVertical src={data.image.src} />
+      )}
 
-            <TextSection>
-            <Header>{data.header}</Header>
-            <Paragraph dangerouslySetInnerHTML={{ __html: data.text }} />
-            {data.buttons.map((btn, bIdx) => (
-                <Button 
-                key={bIdx} 
-                hasLink={!!btn.link}  
-                onClick={() => {
-                    if (btn.link) window.open(btn.link, "_blank");
-                }}>
-                    {btn.label}
-                </Button>
-            ))}
-            </TextSection>
+      <TextSection>
+        <Header>{data.header}</Header>
+        <Paragraph dangerouslySetInnerHTML={{ __html: data.text }} />
 
-            {data.image?.position === "right" && (
-            data.image.type === "horizontal"
-                ? <SectionImageHorizontal src={data.image.src} />
-                : <SectionImageVertical src={data.image.src} />
-            )}
-        </Section>
-    );
+        {data.buttons.map((btn, bIdx) => (
+            <Button 
+            key={bIdx} 
+            $hasLink={!!btn.link}  
+            onClick={() => {
+                if (btn.link) window.open(btn.link, "_blank");
+            }}>
+                {btn.label}
+            </Button>
+        ))}
+      </TextSection>
+
+      {data.image?.position === "right" && (
+      data.image.type === "horizontal"
+          ? <SectionImageHorizontal src={data.image.src} />
+          : <SectionImageVertical src={data.image.src} />
+      )}
+    </Section>
+  );
     
         
   

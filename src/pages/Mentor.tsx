@@ -17,12 +17,15 @@ const StyledHomePage = styled.div`
 `;
 
 
-
 const Header = styled.h1`
   color: #000063;
   font-size: 2.5rem;
   font-weight: 700;
-  margin-top:0;
+  margin: 0;
+  text-align: center;
+  @media (max-width: 760px) {
+    font-size: 2rem;
+  }
 `;
 
 const SubHeader = styled.h2`
@@ -30,10 +33,10 @@ const SubHeader = styled.h2`
   font-size: 1.5rem;
   font-weight: 400;
   text-align: center;
+  @media (max-width: 760px) {
+    font-size: 1.2rem;
+  }
 `;
-
-
-
 
 
 const TopSection = styled.div`
@@ -45,6 +48,15 @@ const TopSection = styled.div`
   margin: 25px 0;
 `
 
+const Image = styled.img`
+  width: 60%;
+  height: auto;
+  border-radius: 30px;
+
+  @media (max-width: 760px) {
+    width: 90%;
+  }
+`
 
 
 const Mentor: React.FC = () => {
@@ -52,11 +64,11 @@ const Mentor: React.FC = () => {
   return (
     <StyledHomePage>
         <TopSection>
-            <Header>MENTORS ARE OUR BACKBONE</Header>
-            <SubHeader>
-            Volunteer mentors are the lifeblood of our events. Without them, <strong>Hi-Skule™</strong> would be unable to run events at the scale we do.
-            </SubHeader>
-            <img src={team} style={{ width: '60%', height: 'auto', borderRadius: '30px'}} />
+          <Header>MENTORS ARE OUR BACKBONE</Header>
+          <SubHeader>
+          Volunteer mentors are the lifeblood of our events. Without them, <strong>Hi-Skule™</strong> would be unable to run events at the scale we do.
+          </SubHeader>
+          <Image src={team}/>
         </TopSection>
 
 
