@@ -48,10 +48,6 @@ const Footer: React.FC = () => {
           >
             <SiLinktree size={42} />
           </IconLink>
-
-         {/* add linktree */}
-
-          
         </SocialLinks>
 
         <ContactInfo>

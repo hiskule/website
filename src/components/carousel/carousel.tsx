@@ -20,19 +20,16 @@ const Carousel: React.FC<Props> = ({ images }) => {
   };
 
   return (
-
-      <CarouselWrapper>
-          <Slider {...sliderSettings}>
-          {images.map((src, index) => (
-              <div key={index}>
-              <img src={src} alt={`Event image ${index + 1}`} />
-              </div>
-          ))}
-          </Slider>
-      </CarouselWrapper>
-
-
-    );
+    <CarouselWrapper>
+        <Slider {...sliderSettings}>
+        {images.map((src, index) => (
+            <div key={index}>
+            <img src={src} alt={`Event image ${index + 1}`} />
+            </div>
+        ))}
+        </Slider>
+    </CarouselWrapper>
+  );
 };
 
 export default Carousel

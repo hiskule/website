@@ -27,14 +27,12 @@ const EventsSection: React.FC<Props> = ({ title, time, description, images, show
 
       </LeftContainer>
 
-
       {images && images.length > 0 && (
         <RightContainer>
           <Carousel images={images}/>
         </RightContainer>
       )}
 
-      
     </Container>
   );
 };

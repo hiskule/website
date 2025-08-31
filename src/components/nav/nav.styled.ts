@@ -19,7 +19,7 @@ export const StyledNavbar = styled.nav`
 `;
 
 
-export const StyledHiSkuleLogoStandardYNR = styled.img`
+export const StyledHiSkuleLogo = styled.img`
   width: 5%; 
   height: auto;
 

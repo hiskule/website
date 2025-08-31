@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {Container, FixedSection, Title,Text,  Content, Trigger, Image, Mobile} from './about.style'
 import { aboutUsSection } from "../../../data/home";
 
-
-
 const About: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const triggerRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -35,18 +33,13 @@ const About: React.FC = () => {
 
   return (
     <Container>
-
       {/* desktop */}
-        
       <FixedSection>
-        
-          <Text>
-            <Title>ABOUT US</Title>
-            <Content dangerouslySetInnerHTML={{ __html: content }} />
-          </Text >
-          
-          <Image src={imageSrc}/>
-
+        <Text>
+          <Title>ABOUT US</Title>
+          <Content dangerouslySetInnerHTML={{ __html: content }} />
+        </Text >
+        <Image src={imageSrc}/>
       </FixedSection>
 
       {aboutUsSection.map((_, i) => (
@@ -56,25 +49,21 @@ const About: React.FC = () => {
           ref={(el) => {
             triggerRefs.current[i] = el;
             }}
-
         />
       ))}
 
+      {/* Mobile */}
       <Mobile>
         <Title>ABOUT US</Title>
         {aboutUsSection.map((section, i) => (
           <div key={i}>
             <Text>
-
               <Content dangerouslySetInnerHTML={{ __html: section.content }} />
             </Text>
             <Image src={section.imageSrc} />
           </div>
         ))}
       </Mobile>
-
-
-
     </Container>
   );
 };

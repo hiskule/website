@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   StyledNavbar,
-  StyledHiSkuleLogoStandardYNR,
+  StyledHiSkuleLogo,
   NavMenu,
   NavItem,
   HamburgerButton,
@@ -23,17 +23,9 @@ const Nav: React.FC = () => {
     setIsOpen(false); // close drawer after navigating
   };
 
-
-
   return (
     <StyledNavbar>
-
-      <StyledHiSkuleLogoStandardYNR
-        src={Logo}
-        alt="HiSkule Logo"
-        onClick={() => navigate("/")}
-      />
-
+      <StyledHiSkuleLogo src={Logo} onClick={() => navigate("/")}/>
 
       {/* Desktop Menu */}
       <NavMenu>

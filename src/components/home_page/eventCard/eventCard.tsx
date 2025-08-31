@@ -1,16 +1,6 @@
-// EventsSection.tsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  StyledSectionEvents,
-  HeadingWrapper,
-  Heading,
-  NotificationDot,
-  BackgroundCard,
-  Card,
-  RegisterButton,
-  MoreEventsButton,
-} from "./eventCard.style";
+import {StyledSectionEvents, HeadingWrapper, Heading, NotificationDot, BackgroundCard, Card, RegisterButton, MoreEventsButton} from "./eventCard.style";
 
 const EventsSection: React.FC = () => {
   const navigate = useNavigate();
