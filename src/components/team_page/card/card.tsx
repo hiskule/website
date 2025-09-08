@@ -1,7 +1,6 @@
 import React from "react";
 import {
   StyledCard,
-  RectangleTop,
   Text,
   Name,
   Position,
@@ -15,6 +14,7 @@ interface CardProps {
     role: string;
     emaillink: string;
     link: string;
+    img: string;
   };
   onClick?: () => void;
 }
@@ -34,7 +34,7 @@ const Card: React.FC<CardProps> = ({ data, onClick }) => {
         }
       }}
     >
-      <RectangleTop />
+      <img src={data.img} />
 
       <Text>
         <Name>{data.name}</Name>

@@ -11,10 +11,14 @@ export const PopupWrapper = styled.div`
 
   > div {
     width: 80%;
-    min-height: 600px;
+    height: 60%;
     background: linear-gradient(198deg, #000063 0%, white 70%);
     border-radius: 2rem;
     padding: 1rem;
+
+    @media (max-width: 760px) {
+      height: 80%;
+    }
   }
 `;
 
@@ -23,6 +27,8 @@ export const CardWrapper = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  gap: 10px;
+  
 
   @media (max-width: 760px) {
     flex-direction: column;
