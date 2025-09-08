@@ -34,15 +34,15 @@ export const cardData = [
     link:'' },
 
   { name: 'Melanie Ye', 
-    role: 'Logistics', 
-    bio:'', 
-    emaillink:'mailto:hiskule@skule.ca', 
-    link:'https://www.linkedin.com/in/melanie-ye-881325274/' },
+    role: 'Logistics Coordinator', 
+    bio:'This is Melanie’s second year with Hi-Skule, so she is eager to continue planning exciting events for younger students. She had an amazing time attending Hi-Skule events in Grade 12, so this is a very fulfilling position for her to be in. ', 
+    emaillink:'mailto:logistics@hiskule.skule.ca', 
+    link:'https://www.linkedin.com/in/melanie-ye' },
 
   { name: 'Ryan Goodfellow', 
-    role: 'Logistics', 
+    role: 'Logistics Coordinator', 
     bio:'', 
-    emaillink:'mailto:hiskule@skule.ca', 
+    emaillink:'mailto:logistics@hiskule.skule.ca', 
     link:'https://www.linkedin.com/in/ryan-goodfellow-999152248/' },
 
   { name: 'Ivan Zhuo', 
@@ -63,11 +63,11 @@ export const cardData = [
     emaillink:'mailto:content@hiskule.skule.ca',  
     link:'https://www.linkedin.com/in/saniya-veliyil-373379366' },
 
-  { name: 'Tej Patek', 
-    role: 'Finance',
-    bio:'', 
-    emaillink:'mailto:hiskule@skule.ca', 
-    link:'' },
+  { name: 'Tej Patel', 
+    role: 'Finance Director ',
+    bio:'Tej is thrilled to be working as the Finance Director for Hi-Skule, managing the budget as well as obtaining sponsorships. As a Mentor last year, he\'s excited to engage with students and promote learning in STEM, showing students what UofT Engineering has to offer.', 
+    emaillink:'mailto:finance@hiskule.skule.ca ', 
+    link:'https://www.linkedin.com/in/tejrpatel' },
 
   { name: 'Abby Lui', 
     role: 'Webmaster', 
