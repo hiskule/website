@@ -84,9 +84,3 @@ export const Position = styled.h2`
     font-size: 1.2rem;
   }
 `;
-
-export const Logo = styled.img`
-  width: 200px;
-  height: auto;
-  margin-top: 2rem;
-`;

@@ -50,7 +50,7 @@ export const cardData = [
     bio:'', 
     emaillink:'mailto:logistics@hiskule.skule.ca', 
     link:'https://www.linkedin.com/in/ryan-goodfellow-999152248/',
-    img: pic.RyanX },
+    img: pic.RyanG },
 
   { name: 'Ivan Zhuo', 
     role: 'Marketing', 

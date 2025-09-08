@@ -34,7 +34,7 @@ const Card: React.FC<CardProps> = ({ data, onClick }) => {
         }
       }}
     >
-      <img src={data.img} />
+      <img src={data.img} style={{borderRadius: "10px"}}/>
 
       <Text>
         <Name>{data.name}</Name>

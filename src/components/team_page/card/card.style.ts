@@ -28,11 +28,6 @@ export const StyledCard = styled.div`
   }
 `;
 
-export const RectangleTop = styled.div`
-  background: #d9d9d9;
-  height: 300px;
-  border-radius: 1rem;
-`;
 
 export const LinkSection = styled.div`
   display: flex;
@@ -40,12 +35,6 @@ export const LinkSection = styled.div`
   gap: 15px;
 `;
 
-export const SmallRect = styled.div`
-  width: 60px;
-  height: 60px;
-  background: #d9d9d9;
-  border-radius: 0.5rem;
-`;
 
 export const Name = styled.div`
   font-size: 1.5rem;
@@ -61,3 +50,4 @@ export const Text = styled.div`
   display: flex;
   flex-direction: column;
 `
+

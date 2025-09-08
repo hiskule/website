@@ -1,5 +1,5 @@
 import React from "react";
-import { PopupWrapper,Logo,  ContentCard, Name, Position, Description, CardWrapper} from "./card_pop.style";
+import { PopupWrapper,  ContentCard, Name, Position, Description, CardWrapper} from "./card_pop.style";
 
 interface PopupProps {
   data: { name: string; role: string; bio?: string; img: string; };
@@ -12,7 +12,7 @@ const PopUp: React.FC<PopupProps> = ({ data, onClose }) => {
   return (
     <PopupWrapper onClick={onClose}>
       <CardWrapper onClick={e => e.stopPropagation()}>
-        <img src={data.img} style={{height: '70%'}}/>
+        <img src={data.img} style={{height: '70%', borderRadius: '10px'}}/>
         <ContentCard>
           <Name>{data.name}</Name>
           <Position>{data.role}</Position>
