@@ -22,6 +22,7 @@ export const StyledNavbar = styled.nav`
 export const StyledHiSkuleLogo = styled.img`
   width: 5%; 
   height: auto;
+  cursor: pointer;
 
   @media (max-width: 760px) {
     width: 20%;

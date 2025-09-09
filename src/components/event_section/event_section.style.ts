@@ -92,20 +92,21 @@ export const Description = styled.p`
 `;
 
 export const RegisterButton = styled.button<{ $showRegister: boolean }>`
-  background: #000063;
-  color: ${({ $showRegister }) => ($showRegister ? '#FFD712' : 'white')};
+  background: ${({ $showRegister }) => ($showRegister ? "#000063" : "#fff")};
+  color: ${({ $showRegister }) => ($showRegister ? "#ffd712" : "#000")};
   font-size: 24px;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  border: none;
+  border: 1px #000063 solid;
   border-radius: 40px;
   padding: 16px 32px;
-  cursor: pointer;
+  cursor: ${({ $showRegister }) => ($showRegister ? "pointer" : "default")};
   transition: background 0.3s;
   width: fit-content;
   align-self: center;
 
   &:hover {
-    background: ${({ $showRegister }) => ($showRegister ? '#000045' : '#000063')};
+    background: ${({ $showRegister })=> ($showRegister ? 0.8 : 1)};
   }
 `;
+

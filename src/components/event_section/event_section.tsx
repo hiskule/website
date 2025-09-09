@@ -8,11 +8,12 @@ interface Props {
   description: string;
   images: string[]; 
   showRegister: boolean;
+  link?: string; 
 }
 
 
 
-const EventsSection: React.FC<Props> = ({ title, time, description, images, showRegister }) => {
+const EventsSection: React.FC<Props> = ({ title, time, description, images, link }) => {
 
   return (
     <Container>
@@ -21,8 +22,8 @@ const EventsSection: React.FC<Props> = ({ title, time, description, images, show
         <Time>{time}</Time>
         <Description dangerouslySetInnerHTML={{ __html: description }}/>
 
-        <RegisterButton  disabled={!showRegister} $showRegister={showRegister}>
-          {showRegister ? 'REGISTER' : 'COMING UP'}
+        <RegisterButton  $showRegister={!!link} onClick={() => { if (link) window.open(link, "_blank")}}>
+          {!!link ? 'REGISTER' : 'COMING UP'}
         </RegisterButton>
 
       </LeftContainer>

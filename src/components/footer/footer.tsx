@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
           </IconLink>
 
           <IconLink
-            href=""
+            href="https://discord.gg/YsKmdBKRwD"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -84,3 +84,11 @@ export const Position = styled.h2`
     font-size: 1.2rem;
   }
 `;
+
+export const Image = styled.img`
+  height: 70%;
+  border-radius: 10px;
+  @media (max-width: 760px) {
+    height: 60%;
+  }
+`

@@ -78,7 +78,7 @@ export const Button = styled.button<{ $hasLink?: boolean }>`
   font-weight: 700;
   padding: 0.6rem 2rem;
   border-radius: 2rem;
-  border: none;
+  border: 1px #000063 solid;
   cursor: ${({ $hasLink }) => ($hasLink ? "pointer" : "default")};
   margin-top: 1.5rem;
   transition: all 0.2s ease;
