@@ -68,7 +68,7 @@ export const cardData = [
 
   { name: 'Saniya Veliyil', 
     role: 'Content Coordinator', 
-    bio:'This is Saniya\'s first year on  <strong>Hi-Skule™</strong> as one of the content-coordinators and she is excited to plan fun and interactive events throughout the year. She looks forward to inspiring high school students to explore engineering and help create engaging experiences for students.', 
+    bio:'This is Saniya\'s first year on <strong>Hi-Skule™</strong> as one of the content-coordinators and she is excited to plan fun and interactive events throughout the year. She looks forward to inspiring high school students to explore engineering and help create engaging experiences for students.', 
     emaillink:'mailto:content@hiskule.skule.ca',  
     link:'https://www.linkedin.com/in/saniya-veliyil-373379366',
     img: pic.Saniya },
