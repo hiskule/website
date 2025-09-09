@@ -7,7 +7,6 @@ interface Props {
   time: string;
   description: string;
   images: string[]; 
-  showRegister: boolean;
   link?: string; 
 }
 
