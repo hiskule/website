@@ -25,7 +25,7 @@ const mentorSections: MentorSection[] = [
   {
     header: "MENTORSHIP COFFEEHOUSE MENTOR SIGN UP",
     text: `Want to be a mentor for <strong>Hi-Skule™</strong>’s first event of the year? Sign up as a Coffeehouse Mentor and share your journey with high school students at our Mentorship Coffeehouse on Sept 20!`,
-    buttons: [{ label: "SIGN UP"}],
+    buttons: [{ label: "SIGN UP", link:'https://forms.gle/cfz3Bn6nDxNxV82n9'}],
     image: { src: first, type: "horizontal", position: "left" }
   },
   {
