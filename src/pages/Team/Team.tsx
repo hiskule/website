@@ -9,6 +9,7 @@ interface CardData {
   name: string;
   role: string;
   bio: string;
+  img: string;
 
 }
 
