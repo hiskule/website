@@ -67,6 +67,12 @@ button:focus-visible {
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  body, p, span, h1, h2, h3, h4, h5, h6, a {
+    color: #213547 !important; /* override white text */
+  }
+}
+
 html {
   overflow-y: scroll;
 }
