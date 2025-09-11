@@ -13,7 +13,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (
-    <Router basename="/home">
+    <Router >
       <ScrollToTop/>
       <Nav/>
       <Routes>
