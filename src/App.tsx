@@ -15,7 +15,7 @@ function App() {
   return (
 
 
-      <Router>
+      <Router basename="/home">
         <ScrollToTop/>
         <Nav/>
         <Routes>
