@@ -8,7 +8,7 @@ import {
   MobileDrawer,
   DrawerOverlay
 } from "./nav.styled";
-import Logo from "../../assets/hiskule_small.png";
+import Logo from "../../assets/hiskule_small.webp";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Nav: React.FC = () => {

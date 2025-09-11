@@ -1,6 +1,6 @@
 import React from "react";
-import Logo from "../../../assets/hiskule_full.png";
-import SmallLogo from "../../../assets/hiskule_small.png";
+import Logo from "../../../assets/hiskule_full.webp";
+import SmallLogo from "../../../assets/hiskule_small.webp";
 import {FloatingImageStyled} from './floating_image.style'
 
 const floatingImages = [

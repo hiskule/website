@@ -1,6 +1,6 @@
 import React from "react";
 import {StyledHiSkuleLogoStandardYNR , StyledBanner} from "./hero.style";
-import Logo from '../../../assets/hiskule_full.png'
+import Logo from '../../../assets/hiskule_full.webp'
 
 
 
