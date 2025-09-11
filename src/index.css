@@ -68,8 +68,15 @@ button:focus-visible {
 }
 
 @media (prefers-color-scheme: dark) {
-  body, p, span, h1, h2, h3, h4, h5, h6, a {
-    color: #213547 !important; /* override white text */
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
   }
 }
 

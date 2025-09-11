@@ -71,7 +71,7 @@ export const Description = styled.p`
   margin: 0;
 
   @media (max-width: 760px) {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 `;
 

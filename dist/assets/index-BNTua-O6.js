@@ -559,7 +559,7 @@ Please change the parent <Route path="${k}"> to <Route path="${k==="/"?"*":`${k}
   margin: 0;
 
   @media (max-width: 760px) {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 `,OA=ct.h2`
   font-size: 2rem;
