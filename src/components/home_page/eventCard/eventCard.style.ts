@@ -6,6 +6,10 @@ export const StyledSectionEvents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 760px) {
+    padding: 50px 40px;
+  }
 `;
 
 export const HeadingWrapper = styled.div`
@@ -49,11 +53,20 @@ export const BackgroundCard = styled.div`
   flex-direction: column;
   align-items: center;
 
+  @media (max-width: 760px) {
+    width: 100%;
+  }
+
 `;
 
 export const Card = styled.div`
   width: 80%;
-  padding-right: 8%
+  padding-right: 8%;
+
+  @media (max-width: 760px) {
+    width: 100%;
+    padding-right: 15%;
+  }
 
 `;
 

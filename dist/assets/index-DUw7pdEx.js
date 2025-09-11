@@ -157,6 +157,10 @@ Please change the parent <Route path="${k}"> to <Route path="${k==="/"?"*":`${k}
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 760px) {
+    padding: 50px 40px;
+  }
 `,bO=ct.div`
   display: flex;
   flex-direction: row;
@@ -192,9 +196,18 @@ Please change the parent <Route path="${k}"> to <Route path="${k==="/"?"*":`${k}
   flex-direction: column;
   align-items: center;
 
+  @media (max-width: 760px) {
+    width: 100%;
+  }
+
 `,TO=ct.div`
   width: 80%;
-  padding-right: 8%
+  padding-right: 8%;
+
+  @media (max-width: 760px) {
+    width: 100%;
+    padding-right: 15%;
+  }
 
 `,EO=ct.button`
   background: #000063;
