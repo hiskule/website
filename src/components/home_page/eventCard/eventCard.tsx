@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {StyledSectionEvents, HeadingWrapper, Heading, NotificationDot, BackgroundCard, Card, RegisterButton, MoreEventsButton} from "./eventCard.style";
+import Carousel from "../../carousel/carousel";
+import {eventPromo} from "../../../data/home"
 
 const EventsSection: React.FC = () => {
   const navigate = useNavigate();
@@ -13,8 +15,12 @@ const EventsSection: React.FC = () => {
       </HeadingWrapper>
 
       <BackgroundCard>
-        <Card>This is a sample event card or content block.</Card>
-        <RegisterButton>REGISTER</RegisterButton>
+        <Card>
+         <Carousel images={eventPromo.images}/>
+        
+        </Card>
+       
+        <RegisterButton onClick={() => { if (eventPromo.link) window.open(eventPromo.link, "_blank")}}>REGISTER</RegisterButton>
       </BackgroundCard>
 
       <MoreEventsButton onClick={() => navigate("/event")}>

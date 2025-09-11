@@ -4,8 +4,8 @@ import * as pic from '../assets/team_individual'
 
 // team data (image and our mission)
 export const teamData = {
-    imageSrc: team,
-    description: "The <strong>Hi-Skule™</strong> directorship serves as the Engineering Society\’s bridge between secondary and primary school students and the SKULE community. Our outreach efforts are designed to be engaging, enlightening, empowering, and invigorating for both students and executives alike."
+  imageSrc: team,
+  description: "The <strong>Hi-Skule™</strong> directorship serves as the Engineering Society\’s bridge between secondary and primary school students and the SKULE community. Our outreach efforts are designed to be engaging, enlightening, empowering, and invigorating for both students and executives alike."
 }
 
 // individual team member data
@@ -26,44 +26,44 @@ export const cardData = [
 
   { name: 'Tristan Seto', 
     role: 'Vice Director - Events', 
-    bio: 'Coming soon', 
-    emaillink:'mailto:hiskule@skule.ca', 
+    bio: 'Previously in marketing then logistics, Tristan\'s third year on the <strong>Hi-Skule™</strong> team is as the Vice-Director Events. From not knowing how to code in high school to specializing in electrical and computer engineering, Tristan is passionate about helping students create memorable experiences, discover the field of engineering, and help them align the discipline with their interests. Feel free to connect with him! ', 
+    emaillink:'mailto:events@hiskule.skule.ca', 
     link:'https://www.linkedin.com/in/tristan-seto/',
     img: pic.Tristan },
 
   { name: 'Ryan Xu', 
-    role: 'Outreach', 
-    bio: 'Coming soon', 
-    emaillink:'mailto:hiskule@skule.ca', 
-    link:'',
+    role: 'Outreach Coordinator', 
+    bio: 'Enjoys meeting new people and socializing, which is basically networking. Seems to be very similar to doing outreach, which makes outreach fun.', 
+    emaillink:'mailto:outreach@hiskule.skule.ca', 
+    link:'https://www.linkedin.com/in/ryan-xu-3b9809335/',
     img: pic.RyanX },
 
   { name: 'Melanie Ye', 
     role: 'Logistics Coordinator', 
-    bio:'This is Melanie’s second year with  <strong>Hi-Skule™</strong>, so she is eager to continue planning exciting events for younger students. She had an amazing time attending  <strong>Hi-Skule™</strong> events in Grade 12, so this is a very fulfilling position for her to be in. ', 
+    bio:'This is Melanie’s second year with <strong>Hi-Skule™</strong>, so she is eager to continue planning exciting events for younger students. She had an amazing time attending  <strong>Hi-Skule™</strong> events in Grade 12, so this is a very fulfilling position for her to be in. ', 
     emaillink:'mailto:logistics@hiskule.skule.ca', 
     link:'https://www.linkedin.com/in/melanie-ye',
     img: pic.Melanie },
 
   { name: 'Ryan Goodfellow', 
     role: 'Logistics Coordinator', 
-    bio: 'Coming soon', 
+    bio: 'Ryan is looking forward to being back as the logistics coordinator for <strong>Hi-Skule™</strong> and using last years experience to improve his work for the club. He was inspired by the passion of the team and students from all the events last year and am excited to be back!!!', 
     emaillink:'mailto:logistics@hiskule.skule.ca', 
-    link:'https://www.linkedin.com/in/ryan-goodfellow-999152248/',
+    link:'www.linkedin.com/in/ryan-goodfellow44',
     img: pic.RyanG },
 
   { name: 'Ivan Zhuo', 
-    role: 'Marketing', 
-    bio: 'Coming soon', 
-    emaillink:'mailto:hiskule@skule.ca', 
-    link:'',
+    role: 'Marketing Director', 
+    bio: 'Ivan is beyond excited to be the Social Media Coordinator this year. Back in high school, he struggled a lot with choosing which university to attend, and wishes he knew about <strong>Hi-Skule™</strong> before making his decision. Now, as the Social Media Coordinator, he looks forward to finding new ways to engage high school students about upcoming events that <strong>Hi-Skule™</strong> and UofT Engineering have to offer!', 
+    emaillink:'mailto:socialmedia@hiskule.skule.ca', 
+    link:'https://www.linkedin.com/in/zhuoivan/',
     img: pic.Ivan },
 
   { name: 'Ashlee Stone', 
     role: 'Content Coordinator', 
-    bio: 'Coming soon', 
+    bio: 'Ashlee is thrilled to be one of the Content Directors for <strong>Hi-Skule™</strong>! She is extremely excited to share her passion for engineering with the next generation through <strong>Hi-Skule™</strong>\'s awesome events.', 
     emaillink:'mailto:content@hiskule.skule.ca', 
-    link:'',
+    link:'https://www.linkedin.com/in/ashlee-stone/',
     img: pic.Ashlee },
 
   { name: 'Saniya Veliyil', 
@@ -81,9 +81,9 @@ export const cardData = [
     img: pic.Tej },
 
   { name: 'Abby Lui', 
-    role: 'Webmaster', 
-    bio:'Abby is excited to be the Webmaster for  <strong>Hi-Skule™</strong> this year. She hopes by creating the website you are currently on (and hiding easter eggs in it), she can help engage high school students and promote engineering in a fun way.', 
-    emaillink:'mailto:webmaster@hiskule.skule.ca',  
+    role: 'Mentorship Director & Webmaster', 
+    bio:'Abby is excited to be the Webmaster for  <strong>Hi-Skule™</strong> this year. She hopes by creating the website you are currently on (and hiding easter eggs in it), she can help engage high school students and promote engineering in a fun way. She also looks forward to working with all our wonderful mentors to ensure events run smoothly!', 
+    emaillink:'mailto:webmaster@hiskule.skule.ca, mentorship@hiskule.skule.ca',  
     link:'https://www.linkedin.com/in/abbylui123',
     img: pic.Abby },
 ];

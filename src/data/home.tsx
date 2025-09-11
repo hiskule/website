@@ -1,6 +1,7 @@
 
 import {mentor} from '../assets/designapalooza'
-import {team} from '../assets/coffeehouse'
+import {team, promo1, promo2} from '../assets/coffeehouse'
+
 
 export const aboutUsSection = [
   {
@@ -18,3 +19,8 @@ export const aboutUsSection = [
     imageSrc: mentor,
   },
 ];
+
+export const eventPromo = {
+  images: [promo1, promo2],
+  link: 'https://www.zeffy.com/en-CA/ticketing/mentorship-coffeehouse-2t5',
+}

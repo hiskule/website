@@ -40,19 +40,21 @@ export const NotificationDot = styled.div`
 `;
 
 export const BackgroundCard = styled.div`
-  width: 100%;
+  width: 60%;
   padding: 24px;
   background: #d9d9d9;
   border-radius: 24px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 `;
 
 export const Card = styled.div`
-  font-size: 1.25rem;
-  font-family: "Inter", sans-serif;
-  font-weight: 400;
-  color: black;
-  margin-bottom: 24px;
+  width: 80%;
+  padding-right: 8%
+
 `;
 
 export const RegisterButton = styled.button`
