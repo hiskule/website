@@ -13,11 +13,11 @@ import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/home">
       <ScrollToTop/>
       <Nav/>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/event" element={<Event />} />
         <Route path="/team" element={<Team />} />
         <Route path="/mentor" element={<Mentor />} />
