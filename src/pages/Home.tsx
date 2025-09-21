@@ -19,7 +19,7 @@ const Home: React.FC = () => {
     <StyledHomePage>
       <Hero/>
       <About/>
-      <EventCard/>
+      {/* <EventCard/> */}
     </StyledHomePage>
   )
 }

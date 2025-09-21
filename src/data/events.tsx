@@ -10,7 +10,7 @@ export const eventsData = [
     description:
       "The Mentorship Coffeehouse is an amazing opportunity for high-school students to learn more about UofT Engineering design teams, Skule spirit, hear from professors and current students, participate in some fun engineering activities, and all around, learn more about engineering!",
     images: [coffee.first, coffee.second, coffee.third, coffee.fourth, coffee.fifth],
-    link: 'https://www.zeffy.com/en-CA/ticketing/mentorship-coffeehouse-2t5',
+    
   },
   {
     title: "UNIVERSITY OF TORONTO HIGH SCHOOL DESIGN COMPETITION (UTHSDC)",
