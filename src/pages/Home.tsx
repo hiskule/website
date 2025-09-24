@@ -2,7 +2,7 @@ import React from 'react'
 import Hero from '../components/home_page/hero/hero'
 import About from '../components/home_page/about/about'
 import styled from "styled-components"
-// import EventCard from '../components/home_page/eventCard/eventCard'
+import EventCard from '../components/home_page/eventCard/eventCard'
 
 const StyledHomePage = styled.div`
   width: 100vw;
@@ -19,7 +19,7 @@ const Home: React.FC = () => {
     <StyledHomePage>
       <Hero/>
       <About/>
-      {/* <EventCard/> */}
+      <EventCard/>
     </StyledHomePage>
   )
 }

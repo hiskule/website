@@ -1,6 +1,7 @@
 
 import {mentor} from '../assets/designapalooza'
-import {team, event1, event2} from '../assets/coffeehouse'
+import {team} from '../assets/coffeehouse'
+import {event1, event2, event3} from '../assets/UTHSDC'
 
 
 export const aboutUsSection = [
@@ -21,6 +22,6 @@ export const aboutUsSection = [
 ];
 
 export const eventData = {
-  images: [event1, event2],
-  link: 'https://www.zeffy.com/en-CA/ticketing/mentorship-coffeehouse-2t5',
+  images: [event1, event2, event3],
+  link: ' https://www.zeffy.com/en-CA/ticketing/university-of-toronto-high-school-design-competition-2t5',
 }
