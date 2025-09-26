@@ -82,8 +82,22 @@ export const cardData = [
 
   { name: 'Abby Lui', 
     role: 'Mentorship Director & Webmaster', 
-    bio:'Abby is excited to be the Webmaster for  <strong>Hi-Skule™</strong> this year. She hopes by creating the website you are currently on (and hiding easter eggs in it), she can help engage high school students and promote engineering in a fun way. She also looks forward to working with all our wonderful mentors to ensure events run smoothly!', 
+    bio:'Abby is excited to be the Webmaster for <strong>Hi-Skule™</strong> this year. She hopes by creating the website you are currently on, she can help engage high school students and promote engineering in a fun way. She also looks forward to working with all our wonderful mentors to ensure events run smoothly!', 
     emaillink:'mailto:webmaster@hiskule.skule.ca, mentorship@hiskule.skule.ca',  
     link:'https://www.linkedin.com/in/abbylui123',
     img: pic.Abby },
+
+  { name: 'Roderick Liao', 
+    role: 'First-Year Executive', 
+    bio:'Roderick is thrilled to be one of the First-Year Executives for  this year. Having participated in Hi-Skule events for 3 years as a high school student, he now hopes to give back by inspiring the next generation of engineers. Don’t hesitate to reach out to him!', 
+    emaillink:'mailto:roderickliao25@gmail.com',  
+    link:'https://www.linkedin.com/in/roderick-liao-628957283/',
+    img: pic.Roderick },
+
+  { name: 'Anna Wang', 
+    role: 'First-Year Executive', 
+    bio:'Anna is thrilled to be one of this year’s First Year Executives at <strong>Hi-Skule™</strong>! She’s excited to bring new ideas, explore different departments, and learn along the way. She aims to make every event fun and memorable for students, mentors, and the team.', 
+    emaillink:'mailto:annaa.wangg1@gmail.com',  
+    link:'https://www.linkedin.com/in/anna-wang-9970a4367/',
+    img: pic.Anna },
 ];

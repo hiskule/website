@@ -9,5 +9,7 @@ import RyanX from './RyanX.webp'
 import Saniya from './Saniya.webp'
 import Tej from './Tej.webp'
 import Tristan from './Tristan.webp'
+import Anna from './Anna.webp'
+import Roderick from './Roderick.webp'
 
-export {Abby, Ashlee, Chris, Ivan, Justin, Melanie, RyanX, RyanG, Saniya, Tej, Tristan}
+export {Abby, Ashlee, Chris, Ivan, Justin, Melanie, RyanX, RyanG, Saniya, Tej, Tristan, Anna, Roderick}
