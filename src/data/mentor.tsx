@@ -1,6 +1,7 @@
 // mentorSections.ts (or inside same file)
 import * as mentorPic from '../assets/random_mentor_pic'
-import {mentor, first} from '../assets/coffeehouse'
+import {mentor} from '../assets/coffeehouse'
+import {first} from '../assets/UTHSDC'
 
 
 type ButtonType = {
@@ -23,9 +24,9 @@ type MentorSection = {
 // Define your section data
 const mentorSections: MentorSection[] = [
   {
-    header: "MENTORSHIP COFFEEHOUSE MENTOR SIGN UP",
-    text: `Want to be a mentor for <strong>Hi-Skule™</strong>’s first event of the year? Sign up as a Coffeehouse Mentor and share your journey with high school students at our Mentorship Coffeehouse on Sept 20!`,
-    buttons: [{ label: "SIGN UP", link:'https://forms.gle/cfz3Bn6nDxNxV82n9'}],
+    header: "UNIVERSITY OF TORONTO HIGH SCHOOL DESIGN COMPETITION MENTOR SIGN UP",
+    text: `Want to be a mentor for <strong>Hi-Skule™</strong>’s biggest event of the year? Sign up as a UTHSDC Mentor and help us run this event smoothly on November 8!`,
+    buttons: [{ label: "SIGN UP", link:'https://forms.gle/Y8A6SRoL5CftWEuK6'}],
     image: { src: first, type: "horizontal", position: "left" }
   },
   {
