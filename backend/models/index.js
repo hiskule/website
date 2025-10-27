@@ -1,31 +1,30 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 import dotenv from "dotenv";
-import config from "../config/config.js";
 dotenv.config();
 
-const env = process.env.NODE_ENV || "development";
-const dbConfig = config[env];
-
 const sequelize = new Sequelize(
-  dbConfig.database,
-  dbConfig.username,
-  dbConfig.password,
-  dbConfig
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql",
+  }
 );
 
-const Judge = JudgeModel(sequelize);
-const Team = TeamModel(sequelize);
-const Category = CategoryModel(sequelize);
-const Score = ScoreModel(sequelize);
+import JudgeModel from "./Judge.js";
+import TeamModel from "./Team.js";
+import ScoreModel from "./Score.js";
 
-// Relationships
+// Initialize models
+const Judge = JudgeModel(sequelize, DataTypes);
+const Team = TeamModel(sequelize, DataTypes);
+const Score = ScoreModel(sequelize, DataTypes);
+
 Judge.hasMany(Score, { foreignKey: "judgeId" });
 Score.belongsTo(Judge, { foreignKey: "judgeId" });
 
 Team.hasMany(Score, { foreignKey: "teamId" });
 Score.belongsTo(Team, { foreignKey: "teamId" });
 
-Category.hasMany(Score, { foreignKey: "categoryId" });
-Score.belongsTo(Category, { foreignKey: "categoryId" });
-
-export { sequelize, Judge, Team, Category, Score };
+export { sequelize, Judge, Team, Score };
