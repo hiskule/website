@@ -7,7 +7,7 @@ export default (sequelize, DataTypes) => {
       unique: true,
     },
     room: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   });

@@ -1,12 +1,16 @@
 [
-  { "team_number": 1, "room": 1 },
-  { "team_number": 2, "room": 1 },
-  { "team_number": 3, "room": 2 },
-  { "team_number": 4, "room": 2 },
-  { "team_number": 5, "room": 3 },
-  { "team_number": 6, "room": 3 },
-  { "team_number": 7, "room": 4 },
-  { "team_number": 8, "room": 4 },
-  { "team_number": 9, "room": 5 },
-  { "team_number": 10, "room": 5 }
+  { "team_number": 1, "room": "2170" },
+  { "team_number": 2, "room": "2172" },
+  { "team_number": 3, "room": "2173" },
+  { "team_number": 4, "room": "2290" },
+  { "team_number": 5, "room": "2394" },
+  { "team_number": 6, "room": "3154" },
+  { "team_number": 7, "room": "3278" },
+  { "team_number": 8, "room": "3290" },
+  { "team_number": 9, "room": "4171" },
+  { "team_number": 10, "room": "4279" },
+  { "team_number": 11, "room": "Lobby group 1" },
+  { "team_number": 12, "room": "Lobby group 2" },
+  { "team_number": 13, "room": "Group 3" }
+
 ]
