@@ -4,6 +4,7 @@ import Event from './pages/Events/Events'
 import Team from './pages/Team/Team'
 import Mentor from './pages/Mentor/Mentor'
 import Contact from './pages/Contact/Contact'
+import JudgeScoring from './pages/Judging/JudgeScoring'
 import ScrollToTop from './components/ScrollTop'
 import Nav from './components/nav/nav'
 import Footer from './components/footer/footer'
@@ -22,6 +23,7 @@ function App() {
         <Route path="/team" element={<Team />} />
         <Route path="/mentor" element={<Mentor />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/judge" element={<JudgeScoring />} />
       </Routes>
       <Footer/>
     </Router>

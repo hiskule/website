@@ -102,6 +102,25 @@ app.post("/judge", async (req, res) => {
   res.json({ message: "New scores submitted", score });
 });
 
+// GET previous score for a judge and team
+app.get("/scores/:judgeName/:teamNumber/", async (req, res) => {
+  const { judgeName, teamNumber } = req.params;
+
+  const judge = await Judge.findOne({ where: { name: judgeName } });
+  const team = await Team.findOne({ where: { team_number: teamNumber } });
+
+  if (!judge || !team) {
+    return res.status(404).json({ error: "Judge or Team not found" });
+  }
+
+  const score = await Score.findOne({ where: { judgeId: judge.id, teamId: team.id } });
+
+  if (!score) return res.json({ previousScores: null });
+
+  res.json({ previousScores: score });
+});
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
