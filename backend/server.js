@@ -24,8 +24,46 @@ app.get("/", (req, res) => {
   res.send("Backend is running ✅");
 });
 
-// POST /judge
-// Body: { judgeName, room, teamNumber, category1, ..., category5 }
+app.get("/judgeDropdown", async (req, res) => {
+  try {
+    const judges = await Judge.findAll();
+    res.status(200).json(judges);
+  } catch (error) {
+    console.error("Error fetching judges:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/rooms", async (req, res) => {
+  try {
+    const teams = await Team.findAll({ attributes: ["room"] });
+    const rooms = [...new Set(teams.map((t) => t.room))];
+    res.status(200).json(rooms);
+  } catch (error) {
+    console.error("Error fetching rooms:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/rooms/:roomName/teams", async (req, res) => {
+  try {
+    const { roomName } = req.params;
+
+    const teams = await Team.findAll({
+      where: { room: roomName },
+    });
+
+    if (teams.length === 0) {
+      return res.status(404).json({ message: `No teams found for room: ${roomName}` });
+    }
+
+    res.status(200).json(teams);
+  } catch (error) {
+    console.error("Error fetching teams by room:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 
 app.post("/judge", async (req, res) => {
   const { judgeName, room, teamNumber, category1, category2, category3, category4, category5 } = req.body;
