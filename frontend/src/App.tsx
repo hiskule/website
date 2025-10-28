@@ -23,7 +23,7 @@ function App() {
         <Route path="/team" element={<Team />} />
         <Route path="/mentor" element={<Mentor />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/judge" element={<JudgeScoring />} />
+        <Route path="/UTHSDC" element={<JudgeScoring />} />
       </Routes>
       <Footer/>
     </Router>
