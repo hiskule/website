@@ -40,12 +40,12 @@ const JudgeScoring: React.FC = () => {
 
   // Fetch judges and rooms
   useEffect(() => {
-    fetch("http://localhost:3000/judgeDropdown")
+    fetch("api.hiskule.skule.ca/judgeDropdown")
       .then((res) => res.json())
       .then((data: Judge[]) => setJudges(data))
       .catch(console.error);
 
-    fetch("http://localhost:3000/rooms")
+    fetch("api.hiskule.skule.ca/rooms")
       .then((res) => res.json())
       .then((data: string[]) => setRooms(data))
       .catch(console.error);
@@ -54,7 +54,7 @@ const JudgeScoring: React.FC = () => {
   // Fetch teams when room is selected
   useEffect(() => {
     if (!selectedRoom) return;
-    fetch(`http://localhost:3000/rooms/${encodeURIComponent(selectedRoom)}/teams`)
+    fetch(`api.hiskule.skule.ca/rooms/${encodeURIComponent(selectedRoom)}/teams`)
       .then((res) => res.json())
       .then((data: Team[]) => setTeams(data))
       .catch(console.error);
@@ -62,7 +62,7 @@ const JudgeScoring: React.FC = () => {
 
    useEffect(() => {
     if (!selectedJudge || !selectedTeam) return;
-    fetch(`http://localhost:3000/scores/${encodeURIComponent(selectedJudge)}/${selectedTeam}`)
+    fetch(`api.hiskule.skule.ca/scores/${encodeURIComponent(selectedJudge)}/${selectedTeam}`)
         .then(res => res.json())
         .then(data => {
             if (data.previousScores) {
@@ -99,7 +99,7 @@ const JudgeScoring: React.FC = () => {
     e.preventDefault();
     if (!selectedJudge || !selectedTeam || !selectedRoom) return;
 
-    const res = await fetch("http://localhost:3000/judge", {
+    const res = await fetch("api.hiskule.skule.ca/judge", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
