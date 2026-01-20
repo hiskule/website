@@ -24,9 +24,9 @@ type MentorSection = {
 // Define your section data
 const mentorSections: MentorSection[] = [
   {
-    header: "UNIVERSITY OF TORONTO HIGH SCHOOL DESIGN COMPETITION MENTOR SIGN UP",
-    text: `Want to be a mentor for <strong>Hi-Skule™</strong>’s biggest event of the year? Sign up as a UTHSDC Mentor and help us run this event smoothly on November 8!`,
-    buttons: [{ label: "SIGN UP", link:'https://forms.gle/Y8A6SRoL5CftWEuK6'}],
+    header: "Designapalooza 2T6 MENTOR SIGN UP",
+    text: `Want to be a mentor for <strong>Hi-Skule™</strong>’s most technical event of the year? Sign up as a Designapalooza Mentor and help us run this event smoothly on February 28!`,
+    buttons: [{ label: "SIGN UP", link:'https://forms.gle/ZUyph4WVZPsAHSBG6'}],
     image: { src: first, type: "horizontal", position: "left" }
   },
   {
@@ -38,7 +38,7 @@ const mentorSections: MentorSection[] = [
   {
     header: "First Year Executive",
     text: `Ready to make an impact as a first year? Join the 2T5-2T6 <strong>Hi-Skule™</strong> exec team today! Help recruit mentors and inspire the next generation of engineers`,
-    buttons: [{ label: "SIGN UP", link:'https://docs.google.com/forms/d/e/1FAIpQLSe9KaU4Bv3zBqRBYL7WFtXirvXfn6Nji-3TCqeOP6nsB-3UjA/viewform'}],
+    buttons: [{ label: "SIGN UP", link:''}],
     image: { src: mentorPic.eighth, type: "vertical", position: "left" }
   },
   {
