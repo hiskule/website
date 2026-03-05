@@ -24,7 +24,6 @@ export const eventsData = [
     description:
       "Designapalooza gives high school students the chance to spend a day at U of T’s Faculty of Applied Science & Engineering, taking part in hands-on workshops across different engineering fields—like building wind turbines in Mechanical Engineering or programming Arduino circuits in Electrical & Computer Engineering. Led by U of T design teams, students can learn new skills, tackle real-world challenges, and see how engineering can make an impact.",
     images: [design.first, design.second, design.third, design.forth, design.fifth, design.sixth],
-    link: 'https://www.zeffy.com/en-CA/ticketing/designapalooza-2t6',
   },
   {
     title: "PRE-FROSH",

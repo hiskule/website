@@ -26,7 +26,7 @@ const mentorSections: MentorSection[] = [
   {
     header: "Designapalooza 2T6 MENTOR SIGN UP",
     text: `Want to be a mentor for <strong>Hi-Skule™</strong>’s most technical event of the year? Sign up as a Designapalooza Mentor and help us run this event smoothly on February 28!`,
-    buttons: [{ label: "SIGN UP", link:'https://forms.gle/ZUyph4WVZPsAHSBG6'}],
+    buttons: [{ label: "SIGN UP", link:''}],
     image: { src: first, type: "horizontal", position: "left" }
   },
   {
