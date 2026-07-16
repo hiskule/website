@@ -22,7 +22,7 @@ const EventsSection: React.FC<Props> = ({ title, time, description, images, link
         <Description dangerouslySetInnerHTML={{ __html: description }}/>
 
         <RegisterButton  $showRegister={!!link} onClick={() => { if (link) window.open(link, "_blank")}}>
-          {!!link ? 'REGISTER' : 'COMING UP'}
+          {link ? 'REGISTER' : 'COMING UP'}
         </RegisterButton>
 
       </LeftContainer>

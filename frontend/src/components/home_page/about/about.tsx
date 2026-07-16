@@ -9,7 +9,7 @@ const About: React.FC = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        for (let entry of entries) {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             const index = Number(entry.target.getAttribute("data-index"));
             setActiveIndex(index);

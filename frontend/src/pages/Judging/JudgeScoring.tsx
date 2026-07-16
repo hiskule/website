@@ -1,288 +1,77 @@
-import React, { useEffect, useState } from "react";
-import type { ChangeEvent, FormEvent} from "react";
-import styled from "styled-components";
-import Select from "react-select";
+import { useEffect, useState } from 'react'
+import type { FormEvent } from 'react'
+import Select from 'react-select'
+import { judgingApi } from '../../features/judging/api/judgingApi'
+import { EMPTY_SCORES } from '../../features/judging/model/types'
+import type { Judge, Scores } from '../../features/judging/model/types'
+import { Button, Container, Field, Form, Grid, Input, Label, Message, Page, Title } from './JudgeScoring.style'
 
-const StyledJudgingPage = styled.div`
-  width: 100vw;
-  min-height: 100vh;
-  position: relative;
-  background: linear-gradient(180deg, white 15%, #c9ecffff 100%);
-  padding-top: 60px;
-`;
+type Option<T> = { value: T; label: string }
 
-const Container = styled.div`
-  max-width: 32rem;
-  margin: 2.5rem auto;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 1.5rem;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-  overflow: visible;
-`;
+export default function JudgeScoringPage() {
+  const [judges, setJudges] = useState<Judge[]>([])
+  const [rooms, setRooms] = useState<string[]>([])
+  const [teams, setTeams] = useState<Option<number>[]>([])
+  const [judge, setJudge] = useState<Option<string> | null>(null)
+  const [room, setRoom] = useState<Option<string> | null>(null)
+  const [team, setTeam] = useState<Option<number> | null>(null)
+  const [scores, setScores] = useState<Scores>(EMPTY_SCORES)
+  const [message, setMessage] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
-const Title = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  text-align: center;
-`;
+  useEffect(() => {
+    Promise.all([judgingApi.getJudges(), judgingApi.getRooms()])
+      .then(([judgeData, roomData]) => { setJudges(judgeData); setRooms(roomData) })
+      .catch(() => setMessage('Unable to load judging data. Please try again.'))
+  }, [])
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
+  useEffect(() => {
+    setTeam(null)
+    setTeams([])
+    if (!room) return
+    judgingApi.getTeams(room.value)
+      .then((data) => setTeams(data.map(({ team_number }) => ({ value: team_number, label: `Team ${team_number}` }))))
+      .catch(() => setMessage('Unable to load teams for this room.'))
+  }, [room])
 
-const Label = styled.label`
-  display: block;
-  margin-bottom: 0.25rem;
-  font-weight: 500;
-`;
+  useEffect(() => {
+    setScores(EMPTY_SCORES)
+    if (!judge || !team) return
+    judgingApi.getScores(judge.value, team.value)
+      .then(({ previousScores }) => {
+        setScores({ ...EMPTY_SCORES, ...previousScores })
+        setMessage(previousScores ? 'Loaded previous scores.' : 'No previous scores found.')
+      })
+      .catch(() => setMessage('Unable to load previous scores.'))
+  }, [judge, team])
 
-const Input = styled.input`
-  width: 95%;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  padding: 0.5rem;
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  margin-top: 1rem;
-  background-color: #2563eb;
-  color: white;
-  padding: 0.5rem 0;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #1d4ed8;
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!judge || !room || !team) return
+    setSubmitting(true)
+    try {
+      const result = await judgingApi.submitScores({ judgeName: judge.value, room: room.value, teamNumber: team.value, ...scores })
+      setMessage(result.message ?? 'Scores submitted.')
+    } catch {
+      setMessage('Unable to submit scores. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
-`;
-
-const Message = styled.p`
-  margin-top: 1rem;
-  text-align: center;
-  color: #374151;
-  font-weight: 500;
-`;
-
-interface Judge {
-  id: number;
-  name: string;
-}
-
-interface Team {
-  id: number;
-  team_number: number;
-  room: string;
-}
-
-interface Score {
-  category1: number | null;
-  category2: number | null;
-  category3: number | null;
-  category4: number | null;
-  category5: number | null;
-}
-
-const JudgeScoring: React.FC = () => {
-  const [judges, setJudges] = useState<Judge[]>([]);
-  const [rooms, setRooms] = useState<string[]>([]);
-  const [teams, setTeams] = useState<{ value: number; label: string }[]>([]);
-
-  const [selectedJudge, setSelectedJudge] = useState<Judge | null>(null);
-  const [selectedRoom, setSelectedRoom] = useState<{ value: string; label: string } | null>(
-    null
-  );
-  const [selectedTeam, setSelectedTeam] = useState<{ value: number; label: string } | null>(
-    null
-  );
-
-  const [categories, setCategories] = useState<Score>({
-    category1: null,
-    category2: null,
-    category3: null,
-    category4: null,
-    category5: null,
-  });
-
-  const [message, setMessage] = useState<string>("");
-
-    
-
-
-  // Fetch judges and rooms
-  useEffect(() => {
-    fetch("api.hiskule.skule.ca/judgeDropdown")
-      .then((res) => res.json())
-      .then((data: Judge[]) => setJudges(data))
-      .catch(console.error);
-
-    fetch("api.hiskule.skule.ca/rooms")
-      .then((res) => res.json())
-      .then((data: string[]) => setRooms(data))
-      .catch(console.error);
-  }, []);
-
-  // Fetch teams when room is selected
-  useEffect(() => {
-    if (!selectedRoom) return;
-    fetch(`api.hiskule.skule.ca/rooms/${encodeURIComponent(selectedRoom.value)}/teams`)
-      .then((res) => res.json())
-      .then((data: Team[]) =>
-        setTeams(
-          data.map((t) => ({ value: t.team_number, label: `Team ${t.team_number}` }))
-        )
-      )
-      .catch(console.error);
-  }, [selectedRoom]);
-
-  // Fetch previous score
-  useEffect(() => {
-    if (!selectedJudge || !selectedTeam) return;
-    fetch(
-      `api.hiskule.skule.ca/scores/${encodeURIComponent(
-        selectedJudge.name
-      )}/${selectedTeam.value}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.previousScores) {
-          setCategories({
-            category1: data.previousScores.category1 ?? null,
-            category2: data.previousScores.category2 ?? null,
-            category3: data.previousScores.category3 ?? null,
-            category4: data.previousScores.category4 ?? null,
-            category5: data.previousScores.category5 ?? null,
-          });
-          setMessage("Loaded previous scores.");
-        } else {
-          setCategories({
-            category1: null,
-            category2: null,
-            category3: null,
-            category4: null,
-            category5: null,
-          });
-          setMessage("No previous scores found.");
-        }
-      });
-  }, [selectedJudge, selectedTeam]);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCategories((prev) => ({
-      ...prev,
-      [name]: value === "" ? null : parseFloat(value),
-    }));
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!selectedJudge || !selectedTeam || !selectedRoom) return;
-
-    const res = await fetch("api.hiskule.skule.ca/judge", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        judgeName: selectedJudge.name,
-        room: selectedRoom.value,
-        teamNumber: selectedTeam.value,
-        ...categories,
-      }),
-    });
-
-    const data = await res.json();
-    setMessage(data.message || "Submitted!");
-  };
 
   return (
-    <StyledJudgingPage>
+    <Page>
       <Container>
         <Title>🏆 Judge Scoring</Title>
         <Form onSubmit={handleSubmit}>
-          <div>
-            <Label>Judge</Label>
-            <Select
-              options={judges.map((j) => ({ value: j.name, label: j.name }))}
-              value={selectedJudge ? { value: selectedJudge.name, label: selectedJudge.name } : null}
-              onChange={(option) =>
-                setSelectedJudge(option ? { id: 0, name: option.value } : null)
-              }
-              placeholder="Select Judge"
-            />
-          </div>
-
-
-           
-        {selectedJudge && (
-        <div>
-            <Label>Room</Label>
-            <Select
-            options={rooms.map((r) => ({ value: r, label: r }))}
-            value={selectedRoom}
-            onChange={(option) => setSelectedRoom(option)}
-            placeholder="Select Room"/>
-        </div>
-        )}
-
-
-          {selectedRoom && (
-            <div>
-                <Label>Team</Label>
-                <Select
-  options={teams.map((t) => ({
-    value: t.value,
-    label: `Team ${t.value}`,
-  }))}
-  value={selectedTeam} // the currently selected team
-  onChange={(option) => setSelectedTeam(option)} // <-- set selectedTeam here
-  placeholder="Select Team"
-/>
-
-            </div>
-            )}
-
-
-          {selectedTeam && (
-            <Grid>
-              {Object.keys(categories).map((cat, idx) => (
-                <div key={idx}>
-                  <Label>Category {idx + 1}</Label>
-                  <Input
-                    type="number"
-                    name={cat}
-                    value={categories[cat as keyof Score] ?? ""}
-                    placeholder={
-                      categories[cat as keyof Score] !== null
-                        ? String(categories[cat as keyof Score])
-                        : ""
-                    }
-                    onChange={handleChange}
-                    min={0}
-                    max={10}
-                  />
-                </div>
-              ))}
-            </Grid>
-          )}
-
-          {selectedTeam && <Button type="submit" onClick={handleSubmit}>Submit Scores</Button>}
+          <Field><Label>Judge</Label><Select options={judges.map(({ name }) => ({ value: name, label: name }))} value={judge} onChange={setJudge} placeholder="Select judge" /></Field>
+          {judge && <Field><Label>Room</Label><Select options={rooms.map((value) => ({ value, label: value }))} value={room} onChange={setRoom} placeholder="Select room" /></Field>}
+          {room && <Field><Label>Team</Label><Select options={teams} value={team} onChange={setTeam} placeholder="Select team" /></Field>}
+          {team && <Grid>{(Object.keys(scores) as (keyof Scores)[]).map((category, index) => <Field key={category}><Label htmlFor={category}>Category {index + 1}</Label><Input id={category} type="number" min={0} max={10} value={scores[category] ?? ''} onChange={(event) => setScores((current) => ({ ...current, [category]: event.target.value === '' ? null : Number(event.target.value) }))} /></Field>)}</Grid>}
+          {team && <Button type="submit" disabled={submitting}>{submitting ? 'Submitting…' : 'Submit scores'}</Button>}
         </Form>
-
-        {message && <Message>{message}</Message>}
+        {message && <Message role="status">{message}</Message>}
       </Container>
-    </StyledJudgingPage>
-  );
-};
-
-export default JudgeScoring;
+    </Page>
+  )
+}

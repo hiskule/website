@@ -3,6 +3,7 @@ import { FooterContainer, LeftContainer, DirectoryColumn, IconLink, MailLink, Ri
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaInstagram, FaDiscord, } from "react-icons/fa";
 import { SiLinktree } from 'react-icons/si';
+import { PRIMARY_NAVIGATION, ROUTES } from '../../shared/config/routes';
 
 
 const Footer: React.FC = () => {
@@ -15,11 +16,12 @@ const Footer: React.FC = () => {
     <FooterContainer>
       <LeftContainer>
         <DirectoryColumn>
-          <DirectoryItem $highlight={currentPath === "/"} onClick={() =>  navigate("/")}>Home</DirectoryItem>
-          <DirectoryItem $highlight={currentPath === "/event"} onClick={() => navigate("/event")}>Events</DirectoryItem>
-          <DirectoryItem $highlight={currentPath === "/team"} onClick={() => navigate("/team")}>Meet the Team</DirectoryItem>
-          <DirectoryItem $highlight={currentPath === "/mentor"} onClick={() => navigate("/mentor")}>Mentor Hub</DirectoryItem>
-          <DirectoryItem $highlight={currentPath === "/contact"} onClick={() => navigate("/contact")}>Contact us</DirectoryItem>
+          <DirectoryItem $highlight={currentPath === ROUTES.home} onClick={() => navigate(ROUTES.home)}>Home</DirectoryItem>
+          {PRIMARY_NAVIGATION.map((item) => (
+            <DirectoryItem key={item.path} $highlight={currentPath === item.path} onClick={() => navigate(item.path)}>
+              {item.label}
+            </DirectoryItem>
+          ))}
         </DirectoryColumn>
       </LeftContainer>
 

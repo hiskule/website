@@ -10,6 +10,7 @@ import {
 } from "./nav.styled";
 import Logo from "../../assets/hiskule_small.webp";
 import { useNavigate, useLocation } from "react-router-dom";
+import { PRIMARY_NAVIGATION, ROUTES } from "../../shared/config/routes";
 
 const Nav: React.FC = () => {
   const navigate = useNavigate();
@@ -25,18 +26,19 @@ const Nav: React.FC = () => {
 
   return (
     <StyledNavbar>
-      <StyledHiSkuleLogo src={Logo} onClick={() => navigate("/")}/>
+      <StyledHiSkuleLogo src={Logo} alt="Hi-Skule home" onClick={() => navigate(ROUTES.home)}/>
 
       {/* Desktop Menu */}
       <NavMenu>
-        <NavItem $highlight={currentPath === "/event"} onClick={() => handleNavClick("/event")}>EVENTS</NavItem>
-        <NavItem $highlight={currentPath === "/team"} onClick={() => handleNavClick("/team")}>TEAM</NavItem>
-        <NavItem $highlight={currentPath === "/mentor"} onClick={() => handleNavClick("/mentor")}>GET INVOLVED</NavItem>
-        <NavItem $highlight={currentPath === "/contact"} onClick={() => handleNavClick("/contact")}>CONTACT US</NavItem>
+        {PRIMARY_NAVIGATION.map((item) => (
+          <NavItem key={item.path} $highlight={currentPath === item.path} onClick={() => handleNavClick(item.path)}>
+            {item.label}
+          </NavItem>
+        ))}
       </NavMenu>
 
       {/* Hamburger for mobile */}
-      <HamburgerButton onClick={() => setIsOpen(true)}>
+      <HamburgerButton aria-label="Open navigation" onClick={() => setIsOpen(true)}>
         ☰
       </HamburgerButton>
 
@@ -45,15 +47,15 @@ const Nav: React.FC = () => {
 
       {/* Mobile Drawer */}
       <MobileDrawer $open={isOpen}>
-        <NavItem $highlight={currentPath === "/"} onClick={() => handleNavClick("/")}>HOME</NavItem>
-        <NavItem $highlight={currentPath === "/event"} onClick={() => handleNavClick("/event")}>EVENTS</NavItem>
-        <NavItem $highlight={currentPath === "/team"} onClick={() => handleNavClick("/team")}>TEAM</NavItem>
-        <NavItem $highlight={currentPath === "/mentor"} onClick={() => handleNavClick("/mentor")}>GET INVOLVED</NavItem>
-        <NavItem $highlight={currentPath === "/contact"} onClick={() => handleNavClick("/contact")}>CONTACT US</NavItem>
+        <NavItem $highlight={currentPath === ROUTES.home} onClick={() => handleNavClick(ROUTES.home)}>HOME</NavItem>
+        {PRIMARY_NAVIGATION.map((item) => (
+          <NavItem key={item.path} $highlight={currentPath === item.path} onClick={() => handleNavClick(item.path)}>
+            {item.label}
+          </NavItem>
+        ))}
       </MobileDrawer>
     </StyledNavbar>
   );
 };
 
 export default Nav;
-
