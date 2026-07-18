@@ -10,6 +10,7 @@
 }
 
 .popup-modal-card {
+  position: relative;
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
@@ -70,4 +71,26 @@
   color: var(--color-on-surface-variant);
   line-height: 26px;
   margin: 0;
+}
+
+.popup-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: var(--color-deep-navy);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.popup-close-btn:hover {
+  color: var(--color-electric-gold);
+  transform: scale(1.1);
 }

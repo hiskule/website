@@ -40,7 +40,7 @@ const Team: React.FC = () => {
 
       {/* Meet the Team Section */}
       <div className="team-section-heading">
-        <span>Project & Executive Leads</span>
+        <span>Events & Operations Leads</span>
         <div className="team-section-divider" />
       </div>
 

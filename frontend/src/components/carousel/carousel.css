@@ -1,5 +1,6 @@
 .carousel-wrapper {
   width: 100%;
+  pointer-events: none;
 }
 
 .carousel-wrapper .slick-slider {

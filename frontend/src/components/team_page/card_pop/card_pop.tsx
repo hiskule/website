@@ -1,4 +1,5 @@
 import React from "react";
+import { FaTimes } from "react-icons/fa";
 import "./card_pop.css";
 
 interface PopupProps {
@@ -12,6 +13,9 @@ const PopUp: React.FC<PopupProps> = ({ data, onClose }) => {
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-modal-card" onClick={(e) => e.stopPropagation()}>
+        <button className="popup-close-btn" onClick={onClose} aria-label="Close">
+          <FaTimes />
+        </button>
         <img className="popup-modal-img" src={data.img} alt={data.name} />
         <div className="popup-modal-content">
           <span className="popup-modal-role">{data.role}</span>
