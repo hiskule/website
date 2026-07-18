@@ -143,12 +143,6 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.event-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px var(--color-electric-gold);
 }
 
 @media (min-width: 992px) {

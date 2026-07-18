@@ -17,10 +17,10 @@ const Hero: React.FC = () => {
           </div>
           <h1 className="hero-title">
             Inspiring the Next Generation of{" "}
-            <span className="hero-title-gold">Engineers</span> at UofT
+            <span className="hero-title-gold">Engineers</span> at <span className="hero-title-gold">University of Toronto</span>
           </h1>
           <p className="hero-desc">
-            Inspiring the next generation of engineers through hands-on outreach and mentorship. We bridge the gap between curiosity and creation.
+            Inspiring the next generation of engineers through hands-on outreach and mentorship. We bridge the gap between curiosity and creation. Join us in our events below!
           </p>
           <div className="hero-buttons">
             <button
