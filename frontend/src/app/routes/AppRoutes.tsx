@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import { AppLayout } from '../layout/AppLayout'
 import { ROUTES } from '../../shared/config/routes'
 
@@ -22,6 +22,7 @@ export function AppRoutes() {
           <Route path={ROUTES.mentor} element={<MentorPage />} />
           <Route path={ROUTES.contact} element={<ContactPage />} />
           <Route path={ROUTES.judging} element={<JudgeScoringPage />} />
+          <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
         </Route>
       </Routes>
     </Suspense>
