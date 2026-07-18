@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyledNavbar,
-  StyledHiSkuleLogo,
-  NavMenu,
-  NavItem,
-  HamburgerButton,
-  MobileDrawer,
-  DrawerOverlay
-} from "./nav.styled";
+import "./nav.css";
 import Logo from "../../assets/hiskule_small.webp";
 import { useNavigate, useLocation } from "react-router-dom";
 import { PRIMARY_NAVIGATION, ROUTES } from "../../shared/config/routes";
@@ -21,41 +13,71 @@ const Nav: React.FC = () => {
 
   const handleNavClick = (path: string) => {
     navigate(path);
-    setIsOpen(false); // close drawer after navigating
+    setIsOpen(false);
   };
 
   return (
-    <StyledNavbar>
-      <StyledHiSkuleLogo src={Logo} alt="Hi-Skule home" onClick={() => navigate(ROUTES.home)}/>
+    <header className="nav-header">
+      <div className="nav-inner">
+        {/* Logo Group */}
+        <div className="nav-logo-group" onClick={() => handleNavClick(ROUTES.home)}>
+          <img className="nav-logo-img" src={Logo} alt="Hi-Skule™ Logo" />
+          <span className="nav-logo-text">Hi-Skule™</span>
+        </div>
 
-      {/* Desktop Menu */}
-      <NavMenu>
+        {/* Desktop Links */}
+        <nav className="nav-links-desktop">
+          <span
+            className={`nav-link ${currentPath === ROUTES.home ? "active" : ""}`}
+            onClick={() => handleNavClick(ROUTES.home)}
+          >
+            HOME
+          </span>
+          {PRIMARY_NAVIGATION.map((item) => (
+            <span
+              key={item.path}
+              className={`nav-link ${currentPath === item.path ? "active" : ""}`}
+              onClick={() => handleNavClick(item.path)}
+            >
+              {item.label}
+            </span>
+          ))}
+        </nav>
+
+        {/* Hamburger Button for Mobile */}
+        <button
+          className="nav-hamburger"
+          aria-label="Open navigation"
+          onClick={() => setIsOpen(true)}
+        >
+          ☰
+        </button>
+      </div>
+
+      {/* Mobile Drawer & Overlay */}
+      {isOpen && (
+        <div className="nav-drawer-overlay" onClick={() => setIsOpen(false)} />
+      )}
+      <div className={`nav-mobile-drawer ${isOpen ? "open" : ""}`}>
+        <span
+          className={`nav-mobile-link ${currentPath === ROUTES.home ? "active" : ""}`}
+          onClick={() => handleNavClick(ROUTES.home)}
+        >
+          HOME
+        </span>
         {PRIMARY_NAVIGATION.map((item) => (
-          <NavItem key={item.path} $highlight={currentPath === item.path} onClick={() => handleNavClick(item.path)}>
+          <span
+            key={item.path}
+            className={`nav-mobile-link ${currentPath === item.path ? "active" : ""}`}
+            onClick={() => handleNavClick(item.path)}
+          >
             {item.label}
-          </NavItem>
+          </span>
         ))}
-      </NavMenu>
-
-      {/* Hamburger for mobile */}
-      <HamburgerButton aria-label="Open navigation" onClick={() => setIsOpen(true)}>
-        ☰
-      </HamburgerButton>
-
-      {/* Drawer Overlay */}
-      {isOpen && <DrawerOverlay onClick={() => setIsOpen(false)} />}
-
-      {/* Mobile Drawer */}
-      <MobileDrawer $open={isOpen}>
-        <NavItem $highlight={currentPath === ROUTES.home} onClick={() => handleNavClick(ROUTES.home)}>HOME</NavItem>
-        {PRIMARY_NAVIGATION.map((item) => (
-          <NavItem key={item.path} $highlight={currentPath === item.path} onClick={() => handleNavClick(item.path)}>
-            {item.label}
-          </NavItem>
-        ))}
-      </MobileDrawer>
-    </StyledNavbar>
+      </div>
+    </header>
   );
 };
 
 export default Nav;
+

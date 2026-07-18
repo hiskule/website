@@ -1,7 +1,30 @@
 :root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #111827;
-  background: #ffffff;
+  /* Academic Kinetic Palette */
+  --color-deep-navy: #0B0B3B;
+  --color-electric-gold: #F6CC13;
+  --color-pure-white: #FFFFFF;
+  --color-subtle-gray: #F4F4F9;
+  --color-ink-black: #05051A;
+  --color-on-surface-variant: #47464f;
+  --color-outline: #777680;
+  --color-outline-variant: #c8c5d0;
+
+  /* Typography Scale */
+  --font-family-primary: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  
+  /* Spacing Tokens */
+  --spacing-base: 8px;
+  --spacing-stack-sm: 12px;
+  --spacing-stack-md: 24px;
+  --spacing-stack-lg: 48px;
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 48px;
+  --container-max: 1200px;
+
+  font-family: var(--font-family-primary);
+  color: var(--color-ink-black);
+  background: var(--color-pure-white);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -22,11 +45,23 @@ body,
   min-width: 320px;
   min-height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 body {
   min-height: 100vh;
+  background-color: var(--color-pure-white);
+  color: var(--color-ink-black);
 }
+
+main {
+  padding-top: 74px;
+  min-height: calc(100vh - 74px);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 
 button,
 input,
@@ -37,9 +72,73 @@ textarea {
 
 a {
   color: inherit;
+  text-decoration: none;
 }
 
 img {
   display: block;
   max-width: 100%;
 }
+
+/* Base Utility Classes for Academic Kinetic */
+.btn-primary-gold {
+  background-color: var(--color-electric-gold);
+  color: var(--color-deep-navy);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary-gold:hover {
+  background-color: var(--color-pure-white);
+  box-shadow: inset 0 0 0 2px var(--color-electric-gold);
+}
+
+.btn-secondary-navy {
+  background-color: transparent;
+  color: var(--color-pure-white);
+  border: 2px solid var(--color-pure-white);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-secondary-navy:hover {
+  background-color: var(--color-pure-white);
+  color: var(--color-deep-navy);
+}
+
+.container-kinetic {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-left: var(--spacing-margin-mobile);
+  padding-right: var(--spacing-margin-mobile);
+}
+
+@media (min-width: 768px) {
+  .container-kinetic {
+    padding-left: var(--spacing-margin-desktop);
+    padding-right: var(--spacing-margin-desktop);
+  }
+}
+

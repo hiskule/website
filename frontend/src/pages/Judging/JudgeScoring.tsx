@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import Select from 'react-select'
+import './JudgeScoring.css'
 import { judgingApi } from '../../features/judging/api/judgingApi'
 import { EMPTY_SCORES } from '../../features/judging/model/types'
 import type { Judge, Scores } from '../../features/judging/model/types'
-import { Button, Container, Field, Form, Grid, Input, Label, Message, Page, Title } from './JudgeScoring.style'
 
 type Option<T> = { value: T; label: string }
 
@@ -60,18 +60,19 @@ export default function JudgeScoringPage() {
   }
 
   return (
-    <Page>
-      <Container>
-        <Title>🏆 Judge Scoring</Title>
-        <Form onSubmit={handleSubmit}>
-          <Field><Label>Judge</Label><Select options={judges.map(({ name }) => ({ value: name, label: name }))} value={judge} onChange={setJudge} placeholder="Select judge" /></Field>
-          {judge && <Field><Label>Room</Label><Select options={rooms.map((value) => ({ value, label: value }))} value={room} onChange={setRoom} placeholder="Select room" /></Field>}
-          {room && <Field><Label>Team</Label><Select options={teams} value={team} onChange={setTeam} placeholder="Select team" /></Field>}
-          {team && <Grid>{(Object.keys(scores) as (keyof Scores)[]).map((category, index) => <Field key={category}><Label htmlFor={category}>Category {index + 1}</Label><Input id={category} type="number" min={0} max={10} value={scores[category] ?? ''} onChange={(event) => setScores((current) => ({ ...current, [category]: event.target.value === '' ? null : Number(event.target.value) }))} /></Field>)}</Grid>}
-          {team && <Button type="submit" disabled={submitting}>{submitting ? 'Submitting…' : 'Submit scores'}</Button>}
-        </Form>
-        {message && <Message role="status">{message}</Message>}
-      </Container>
-    </Page>
+    <div className="judging-page">
+      <div className="judging-container">
+        <h1 className="judging-title">🏆 Judge Scoring</h1>
+        <form className="judging-form" onSubmit={handleSubmit}>
+          <div className="judging-field"><label className="judging-label">Judge</label><Select options={judges.map(({ name }) => ({ value: name, label: name }))} value={judge} onChange={setJudge} placeholder="Select judge" /></div>
+          {judge && <div className="judging-field"><label className="judging-label">Room</label><Select options={rooms.map((value) => ({ value, label: value }))} value={room} onChange={setRoom} placeholder="Select room" /></div>}
+          {room && <div className="judging-field"><label className="judging-label">Team</label><Select options={teams} value={team} onChange={setTeam} placeholder="Select team" /></div>}
+          {team && <div className="judging-grid">{(Object.keys(scores) as (keyof Scores)[]).map((category, index) => <div className="judging-field" key={category}><label className="judging-label" htmlFor={category}>Category {index + 1}</label><input className="judging-input" id={category} type="number" min={0} max={10} value={scores[category] ?? ''} onChange={(event) => setScores((current) => ({ ...current, [category]: event.target.value === '' ? null : Number(event.target.value) }))} /></div>)}</div>}
+          {team && <button className="judging-button" type="submit" disabled={submitting}>{submitting ? 'Submitting…' : 'Submit scores'}</button>}
+        </form>
+        {message && <p className="judging-message" role="status">{message}</p>}
+      </div>
+    </div>
   )
 }
+

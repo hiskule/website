@@ -1,11 +1,4 @@
 import React from "react";
-import {
-  StyledCard,
-  Text,
-  Name,
-  Position,
-  LinkSection,
-} from "./card.style";
 import { FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 interface CardProps {
@@ -25,7 +18,8 @@ const Card: React.FC<CardProps> = ({ data, onClick }) => {
   };
 
   return (
-    <StyledCard
+    <article
+      className="team-card"
       onClick={onClick}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={(e) => {
@@ -34,21 +28,25 @@ const Card: React.FC<CardProps> = ({ data, onClick }) => {
         }
       }}
     >
-      <img src={data.img} style={{borderRadius: "10px"}}/>
+      <img className="team-card-img" src={data.img} alt={data.name} />
 
-      <Text>
-        <Name>{data.name}</Name>
-        <Position>{data.role}</Position>
-      </Text>
+      <div className="team-card-text-container">
+        <span className="team-card-role">{data.role}</span>
+        <h3 className="team-card-name" style={{ marginTop: "8px" }}>
+          {data.name}
+        </h3>
+      </div>
 
-      <LinkSection>
+      <div className="team-card-links">
         <a
           href={data.emaillink}
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleIconClick}
+          className="team-card-icon"
+          aria-label={`Email ${data.name}`}
         >
-          <FaEnvelope size={48} color="#000063" />
+          <FaEnvelope size={24} />
         </a>
 
         <a
@@ -56,12 +54,15 @@ const Card: React.FC<CardProps> = ({ data, onClick }) => {
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleIconClick}
+          className="team-card-icon"
+          aria-label={`LinkedIn ${data.name}`}
         >
-          <FaLinkedin size={48} color="#000063" />
+          <FaLinkedin size={24} />
         </a>
-      </LinkSection>
-    </StyledCard>
+      </div>
+    </article>
   );
 };
 
 export default Card;
+

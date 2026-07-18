@@ -1,0 +1,6 @@
+.home-page-container {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-pure-white);
+  padding-top: 0;
+}

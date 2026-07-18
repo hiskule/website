@@ -1,0 +1,111 @@
+.events-cta-container {
+  padding: var(--spacing-stack-lg) var(--spacing-margin-mobile);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-stack-lg);
+}
+
+@media (min-width: 768px) {
+  .events-cta-container {
+    padding: var(--spacing-stack-lg) var(--spacing-margin-desktop);
+  }
+}
+
+
+
+.home-bottom-cta {
+  background-color: var(--color-pure-white);
+  border: 2px solid var(--color-deep-navy);
+  padding: 48px 32px;
+  text-align: center;
+  position: relative;
+  margin-top: 24px;
+}
+
+.home-cta-badge-top {
+  position: absolute;
+  top: -16px;
+  left: -16px;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-electric-gold);
+  border: 2px solid var(--color-deep-navy);
+}
+
+.home-cta-badge-bottom {
+  position: absolute;
+  bottom: -16px;
+  right: -16px;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-deep-navy);
+  border: 2px solid var(--color-electric-gold);
+}
+
+.home-cta-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-deep-navy);
+  margin-bottom: 16px;
+}
+
+.home-cta-desc {
+  font-size: 18px;
+  color: var(--color-on-surface-variant);
+  max-width: 680px;
+  margin: 0 auto 32px auto;
+  line-height: 28px;
+}
+
+.home-cta-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .home-cta-buttons {
+    flex-direction: row;
+  }
+}
+
+.btn-navy-solid {
+  background-color: var(--color-deep-navy);
+  color: var(--color-pure-white);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px var(--color-electric-gold);
+  transition: all 0.2s ease;
+}
+
+.btn-navy-solid:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--color-electric-gold);
+}
+
+.btn-navy-outline {
+  background-color: var(--color-pure-white);
+  color: var(--color-deep-navy);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border: 2px solid var(--color-deep-navy);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-navy-outline:hover {
+  background-color: var(--color-subtle-gray);
+}

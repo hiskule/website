@@ -1,7 +1,7 @@
 import React from "react";
+import { motion } from "framer-motion";
 import Logo from "../../../assets/hiskule_full.webp";
 import SmallLogo from "../../../assets/hiskule_small.webp";
-import {FloatingImageStyled} from './floating_image.style'
 
 const floatingImages = [
   Logo, Logo, Logo, Logo, Logo, Logo,
@@ -12,15 +12,16 @@ const FloatingImages: React.FC = () => {
   return (
     <>
       {floatingImages.map((src, idx) => {
-        const startX = Math.random() * window.innerWidth;
+        const startX = Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1000);
         const duration = 6 + Math.random() * 4;
 
         return (
-          <FloatingImageStyled
+          <motion.img
             key={idx}
             src={src}
+            className="contact-floating-img"
             initial={{ y: 50, x: startX, rotate: 0 }}
-            animate={{ y: [ window.innerHeight + 50, -50], rotate: [0, 360] }}
+            animate={{ y: [ (typeof window !== "undefined" ? window.innerHeight : 800) + 50, -50], rotate: [0, 360] }}
             transition={{ duration, repeat: Infinity, ease: "linear" }}
           />
         );
@@ -30,3 +31,4 @@ const FloatingImages: React.FC = () => {
 };
 
 export default FloatingImages;
+

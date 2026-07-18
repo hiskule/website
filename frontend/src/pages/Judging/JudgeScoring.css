@@ -1,0 +1,86 @@
+.judging-page {
+  width: 100%;
+  padding: 40px 20px;
+}
+
+.judging-container {
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 24px;
+  background: var(--color-pure-white);
+  border: 2px solid var(--color-deep-navy);
+  box-shadow: 6px 6px 0px var(--color-electric-gold);
+}
+
+.judging-title {
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--color-deep-navy);
+  margin-bottom: 24px;
+}
+
+.judging-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.judging-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.judging-label {
+  font-weight: 700;
+  color: var(--color-deep-navy);
+  font-size: 14px;
+}
+
+.judging-input {
+  width: 100%;
+  border: 2px solid var(--color-outline-variant);
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.judging-input:focus {
+  border-color: var(--color-electric-gold);
+  outline: none;
+}
+
+.judging-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.judging-button {
+  border: none;
+  border-radius: 4px;
+  padding: 14px;
+  background: var(--color-deep-navy);
+  color: var(--color-pure-white);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px var(--color-electric-gold);
+  transition: all 0.2s ease;
+}
+
+.judging-button:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--color-electric-gold);
+}
+
+.judging-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.judging-message {
+  text-align: center;
+  color: var(--color-deep-navy);
+  font-weight: 700;
+  margin-top: 16px;
+}

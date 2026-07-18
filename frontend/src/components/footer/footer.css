@@ -1,0 +1,140 @@
+.footer-container {
+  background-color: var(--color-deep-navy);
+  border-top: 2px solid var(--color-electric-gold);
+  color: var(--color-pure-white);
+  width: 100%;
+}
+
+.footer-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--spacing-stack-lg) var(--spacing-margin-mobile);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-stack-lg);
+}
+
+@media (min-width: 768px) {
+  .footer-inner {
+    padding: var(--spacing-stack-lg) var(--spacing-margin-desktop);
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.footer-logo-img {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+}
+
+.footer-logo-text {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-pure-white);
+}
+
+.footer-brand-desc {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 24px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-col-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-electric-gold);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.footer-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-nav-item {
+  font-size: 16px;
+  color: var(--color-pure-white);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.footer-nav-item:hover,
+.footer-nav-item.active {
+  color: var(--color-electric-gold);
+  text-decoration: underline;
+}
+
+.footer-social-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.footer-social-link {
+  color: var(--color-pure-white);
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+}
+
+.footer-social-link:hover {
+  color: var(--color-electric-gold);
+  transform: translateY(-2px);
+}
+
+.footer-contact-text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 20px;
+}
+
+.footer-mail-link {
+  color: var(--color-electric-gold);
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 24px var(--spacing-margin-mobile);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .footer-bottom {
+    padding: 24px var(--spacing-margin-desktop);
+    text-align: left;
+  }
+}
+
+.footer-copyright {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}

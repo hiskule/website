@@ -1,0 +1,15 @@
+.carousel-wrapper {
+  width: 100%;
+  padding: 0 10px;
+}
+
+.carousel-wrapper .slick-slide img {
+  width: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.carousel-wrapper .slick-prev,
+.carousel-wrapper .slick-next {
+  z-index: 1;
+}

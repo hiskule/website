@@ -5,7 +5,8 @@ import { ROUTES } from '../../shared/config/routes'
 
 const ContactPage = lazy(() => import('../../pages/Contact/Contact'))
 const EventsPage = lazy(() => import('../../pages/Events/Events'))
-const HomePage = lazy(() => import('../../pages/Home'))
+const HomePage = lazy(() => import('../../pages/Home/Home'))
+
 const JudgeScoringPage = lazy(() => import('../../pages/Judging/JudgeScoring'))
 const MentorPage = lazy(() => import('../../pages/Mentor/Mentor'))
 const TeamPage = lazy(() => import('../../pages/Team/Team'))

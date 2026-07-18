@@ -25,7 +25,7 @@ export const cardData = [
     img: pic.Chris },
 
   { name: 'Tristan Seto', 
-    role: 'Vice Director - Events', 
+    role: 'Vice Director of Events', 
     bio: 'Previously in marketing then logistics, Tristan\'s third year on the <strong>Hi-Skule™</strong> team is as the Vice-Director Events. From not knowing how to code in high school to specializing in electrical and computer engineering, Tristan is passionate about helping students create memorable experiences, discover the field of engineering, and help them align the discipline with their interests. Feel free to connect with him! ', 
     emaillink:'mailto:events@hiskule.skule.ca', 
     link:'https://www.linkedin.com/in/tristan-seto/',
@@ -89,7 +89,7 @@ export const cardData = [
 
   { name: 'Roderick Liao', 
     role: 'First-Year Executive', 
-    bio:'Roderick is thrilled to be one of the First-Year Executives for  this year. Having participated in Hi-Skule events for 3 years as a high school student, he now hopes to give back by inspiring the next generation of engineers. Don’t hesitate to reach out to him!', 
+    bio:'Roderick is thrilled to be one of the First-Year Executives for this year. Having participated in <strong>Hi-Skule™</strong> events for 3 years as a high school student, he now hopes to give back by inspiring the next generation of engineers. Don’t hesitate to reach out to him!', 
     emaillink:'mailto:roderickliao25@gmail.com',  
     link:'https://www.linkedin.com/in/roderick-liao-628957283/',
     img: pic.Roderick },

@@ -1,71 +1,49 @@
-import React, { useEffect, useRef, useState } from "react";
-import {Container, FixedSection, Title,Text,  Content, Trigger, Image, Mobile} from './about.style'
-import { aboutUsSection } from "../../../data/home";
+import React from "react";
+import "./about.css";
 
 const About: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const triggerRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const index = Number(entry.target.getAttribute("data-index"));
-            setActiveIndex(index);
-            break;
-          }
-        }
-      },
-      {
-        threshold: 0.6,
-      }
-    );
-
-    triggerRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const { content, imageSrc } = aboutUsSection[activeIndex];
-
   return (
-    <Container>
-      {/* desktop */}
-      <FixedSection>
-        <Text>
-          <Title>ABOUT US</Title>
-          <Content dangerouslySetInnerHTML={{ __html: content }} />
-        </Text >
-        <Image src={imageSrc}/>
-      </FixedSection>
+    <>
+      {/* Pillars Section */}
+      <section className="about-section">
+        <div className="about-intro-section">
+          <h2 className="about-intro-title">ABOUT US</h2>
+          <p className="about-intro-desc">
+            <strong>Hi-Skule™</strong> is an engineering outreach and mentorship club at the University of Toronto. We organize design challenges and networking events for high school students interested in engineering at UofT. We understand that choosing programs and universities is tough (we’ve been there as well!), so we aim to provide accurate and thorough information about engineering at UofT.
+          </p>
+        </div>
 
-      {aboutUsSection.map((_, i) => (
-        <Trigger
-          key={i}
-          data-index={i}
-          ref={(el) => {
-            triggerRefs.current[i] = el;
-            }}
-        />
-      ))}
+        <div className="about-header">
+          <h2 className="about-title">Empowering Future Engineers</h2>
+        </div>
 
-      {/* Mobile */}
-      <Mobile>
-        <Title>ABOUT US</Title>
-        {aboutUsSection.map((section, i) => (
-          <div key={i}>
-            <Text>
-              <Content dangerouslySetInnerHTML={{ __html: section.content }} />
-            </Text>
-            <Image src={section.imageSrc} />
+        <div className="pillars-grid">
+          <div className="pillar-card">
+            <h3 className="pillar-card-title">Learning the Engineering Profession</h3>
+            <p className="pillar-card-desc">
+              We work to raise awareness about what engineering entails by having our U of T students and professors share their insights on university life and what it truly means to be an engineer.
+            </p>
           </div>
-        ))}
-      </Mobile>
-    </Container>
+
+          <div className="pillar-card">
+            <h3 className="pillar-card-title">Developing an Engineering Mindset</h3>
+            <p className="pillar-card-desc">
+              We aim to instill a strong foundation of engineering principles in youth through engaging workshops, lectures, and innovative content created by our team.
+            </p>
+          </div>
+
+          <div className="pillar-card">
+            <h3 className="pillar-card-title">Mentorship & Outreach Opportunities</h3>
+            <p className="pillar-card-desc">
+              We connect high school students with current engineering students and professors to foster relationships that guide their educational journeys.
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 
 export default About;
+
+

@@ -1,5 +1,4 @@
 import React from "react";
-import { OurMissionContainer, Section, Title, Description } from "./team_card.style";
 
 interface TeamCardProps {
   imageSrc: string;
@@ -8,14 +7,20 @@ interface TeamCardProps {
 
 const TeamCard: React.FC<TeamCardProps> = ({ imageSrc, description }) => {
   return (
-    <OurMissionContainer>
-      <Section>
-        <img src={imageSrc} alt="Team Logo"  />
-        <Title>OUR MISSION</Title>
-        <Description dangerouslySetInnerHTML={{ __html: description }}/>
-      </Section>
-    </OurMissionContainer>
+    <section className="team-mission-box">
+      <div>
+        <img className="team-mission-img" src={imageSrc} alt="Team Logo" />
+      </div>
+      <div>
+        <h2 className="team-mission-title">OUR MISSION</h2>
+        <div
+          className="team-mission-text"
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
+      </div>
+    </section>
   );
 };
 
 export default TeamCard;
+

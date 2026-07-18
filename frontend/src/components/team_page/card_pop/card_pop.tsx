@@ -1,5 +1,5 @@
 import React from "react";
-import { PopupWrapper,  ContentCard, Name, Position, Description, CardWrapper, Image} from "./card_pop.style";
+import "./card_pop.css";
 
 interface PopupProps {
   data: { name: string; role: string; bio: string; img: string; };
@@ -10,17 +10,21 @@ const PopUp: React.FC<PopupProps> = ({ data, onClose }) => {
   if (!data) return null;
 
   return (
-    <PopupWrapper onClick={onClose}>
-      <CardWrapper onClick={e => e.stopPropagation()}>
-        <Image src={data.img}/>
-        <ContentCard>
-          <Name>{data.name}</Name>
-          <Position>{data.role}</Position>
-          <Description dangerouslySetInnerHTML={{ __html: data.bio }}/>
-        </ContentCard>
-      </CardWrapper>
-    </PopupWrapper>
+    <div className="popup-overlay" onClick={onClose}>
+      <div className="popup-modal-card" onClick={(e) => e.stopPropagation()}>
+        <img className="popup-modal-img" src={data.img} alt={data.name} />
+        <div className="popup-modal-content">
+          <span className="popup-modal-role">{data.role}</span>
+          <h2 className="popup-modal-name">{data.name}</h2>
+          <div
+            className="popup-modal-bio"
+            dangerouslySetInnerHTML={{ __html: data.bio }}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default PopUp
+export default PopUp;
+
