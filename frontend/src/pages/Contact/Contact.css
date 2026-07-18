@@ -61,11 +61,17 @@
 }
 
 .social-links-row {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
   gap: 24px;
   justify-content: center;
   align-items: center;
+}
+
+@media (min-width: 640px) {
+  .social-links-row {
+    grid-template-columns: repeat(4, max-content);
+  }
 }
 
 .social-bubble-wrapper {
