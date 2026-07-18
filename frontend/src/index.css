@@ -142,3 +142,8 @@ img {
   }
 }
 
+.kinetic-border-shadow {
+  border: 2px solid var(--color-deep-navy);
+  box-shadow: 4px 4px 0px var(--color-electric-gold);
+}
+

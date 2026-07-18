@@ -1,23 +1,58 @@
-.events-page-container {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: var(--spacing-stack-lg) var(--spacing-margin-mobile);
+.events-page-wrapper {
   min-height: 80vh;
 }
 
-@media (min-width: 768px) {
-  .events-page-container {
-    padding: var(--spacing-stack-lg) var(--spacing-margin-desktop);
-  }
+.events-hero-wrapper {
+  background-color: var(--color-deep-navy);
+  padding: var(--spacing-stack-lg) 0 0 0;
+}
+
+.events-upcoming-wrapper {
+  background-color: var(--color-deep-navy);
+  padding: 32px 0 48px 0;
+}
+
+.events-all-wrapper {
+  background-color: var(--color-pure-white);
+  padding: var(--spacing-stack-lg) 0;
+}
+
+.bg-navy .events-hero-title {
+  color: var(--color-pure-white);
+}
+
+.bg-navy .events-section-title {
+  color: var(--color-electric-gold);
+}
+
+.bg-navy .events-hero-desc {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.bg-navy .events-year-badge {
+  background-color: var(--color-electric-gold);
+  color: var(--color-deep-navy);
+}
+
+.bg-navy .mini-event-card {
+  background-color: var(--color-ink-black);
+}
+
+.bg-navy .mini-event-title {
+  color: var(--color-pure-white);
+}
+
+.bg-navy .mini-event-time,
+.bg-navy .mini-event-desc {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .events-hero {
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-bottom: 2px solid var(--color-subtle-gray);
-  padding-bottom: 24px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 @media (min-width: 768px) {
@@ -65,12 +100,9 @@
 }
 
 .events-featured-next {
-  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 2px solid var(--color-subtle-gray);
-  padding-bottom: 40px;
 }
 
 .events-section-title {

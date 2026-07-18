@@ -17,7 +17,7 @@ const Hero: React.FC = () => {
           </div>
           <h1 className="hero-title">
             Inspiring the Next Generation of{" "}
-            <span className="hero-title-gold">Engineers</span> at U of T
+            <span className="hero-title-gold">Engineers</span> at UofT
           </h1>
           <p className="hero-desc">
             Inspiring the next generation of engineers through hands-on outreach and mentorship. We bridge the gap between curiosity and creation.
