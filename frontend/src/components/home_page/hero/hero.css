@@ -97,7 +97,9 @@
 
 .hero-visual {
   position: relative;
-  display: none;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 @media (min-width: 1024px) {
