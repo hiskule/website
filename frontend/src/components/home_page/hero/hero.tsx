@@ -44,7 +44,6 @@ const Hero: React.FC = () => {
             event={eventsData[0]} 
             className="hero-animated-card"
             onButtonClick={() => navigate(ROUTES.events)}
-            buttonText="Learn More →"
           />
         </div>
       </div>

@@ -25,7 +25,7 @@ const EventsSection: React.FC<Props> = ({ title, time, description, images, link
               className="btn-primary-gold"
               onClick={() => window.open(link, "_blank")}
             >
-              REGISTER FOR EVENT →
+              REGISTER NOW →
             </button>
           </div>
         )}

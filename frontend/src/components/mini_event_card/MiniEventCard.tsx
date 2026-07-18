@@ -11,14 +11,12 @@ interface EventData {
 
 interface MiniEventCardProps {
   event: EventData;
-  buttonText?: string;
   onButtonClick?: () => void;
   className?: string;
 }
 
 const MiniEventCard: React.FC<MiniEventCardProps> = ({ 
   event, 
-  buttonText = "Learn More →",
   onButtonClick,
   className = "" 
 }) => {
@@ -41,10 +39,12 @@ const MiniEventCard: React.FC<MiniEventCardProps> = ({
         />
         {onButtonClick && (
           <button 
-            className="btn-primary-gold mini-event-btn" 
-            onClick={onButtonClick}
+            className="btn-primary-gold mini-event-btn"
+            onClick={event.link ? onButtonClick : undefined}
+            disabled={!event.link}
+            style={!event.link ? { cursor: "not-allowed", opacity: 0.5, filter: "grayscale(100%)" } : {}}
           >
-            {buttonText}
+            {event.link ? "Register Now" : "Coming Soon"}
           </button>
         )}
       </div>

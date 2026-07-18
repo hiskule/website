@@ -31,7 +31,6 @@ const Event: React.FC = () => {
             <h2 className="events-section-title">UPCOMING EVENT</h2>
             <MiniEventCard 
               event={eventsData[0]} 
-              buttonText="Register Now" 
               onButtonClick={() => {
                 if (eventsData[0].link) window.open(eventsData[0].link, "_blank");
               }}
