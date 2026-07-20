@@ -1,18 +1,21 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
+const fs = require("fs");
+try {
+  const express = require("express");
+  const dotenv = require("dotenv");
+  const cors = require("cors");
+  
+  const { sequelize, Team, Judge, Score, dbError } = require("./models/index.js");
+  
+  // Load environment variables
+  dotenv.config();
+  
+  const app = express();
+  app.use(cors());
+  app.use(express.json());
+  
+  // Debug route to view crashes directly in the browser
+  app.get("/", (req, res) => {
 
-const { sequelize, Team, Judge, Score, dbError } = require("./models/index.js");
-
-// Load environment variables
-dotenv.config();
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-// Debug route to view crashes directly in the browser
-app.get("/", (req, res) => {
   if (dbError) {
     res.json({
       status: "CRASHED ON BOOT",
@@ -218,5 +221,11 @@ app.get("/scores/:judgeName/:teamNumber/", async (req, res) => {
 
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+} catch (err) {
+  fs.writeFileSync("crash.txt", String(err.stack || err));
+  console.error("FATAL ERROR:", err);
+  process.exit(1);
+}
