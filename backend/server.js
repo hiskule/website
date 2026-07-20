@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const mysql = require("mysql2/promise");
+
 const { sequelize, Team, Judge, Score } = require("./models/index.js");
 
 // Load environment variables
@@ -11,13 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Database connection
-const db = await mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-});
+
 
 // Simple route
 app.get("/", (req, res) => {
