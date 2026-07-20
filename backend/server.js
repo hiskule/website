@@ -11,34 +11,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
-
-// Swagger Configuration
-const swaggerOptions = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Hiskule API",
-      version: "1.0.0",
-      description: "API for Hiskule judging platform",
-    },
-    servers: [
-      {
-        url: `http://localhost:${process.env.PORT || 3000}`,
-        description: "Local server",
-      },
-      {
-        url: "https://api.hiskule.skule.ca",
-        description: "Live server",
-      },
-    ],
-  },
-  apis: ["./server.js"],
-};
-
-const swaggerSpec = swaggerJsdoc(swaggerOptions);
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 /**
  * @swagger
