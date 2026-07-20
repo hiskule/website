@@ -1,5 +1,5 @@
-import { Sequelize, DataTypes } from "sequelize";
-import dotenv from "dotenv";
+const { Sequelize, DataTypes } = require("sequelize");
+const dotenv = require("dotenv");
 dotenv.config();
 
 const sequelize = new Sequelize(
@@ -12,9 +12,9 @@ const sequelize = new Sequelize(
   }
 );
 
-import JudgeModel from "./Judge.js";
-import TeamModel from "./Team.js";
-import ScoreModel from "./Score.js";
+const JudgeModel = require("./Judge.js");
+const TeamModel = require("./Team.js");
+const ScoreModel = require("./Score.js");
 
 // Initialize models
 const Judge = JudgeModel(sequelize, DataTypes);
@@ -27,4 +27,4 @@ Score.belongsTo(Judge, { foreignKey: "judgeId" });
 Team.hasMany(Score, { foreignKey: "teamId" });
 Score.belongsTo(Team, { foreignKey: "teamId" });
 
-export { sequelize, Judge, Team, Score };
+module.exports = { sequelize, Judge, Team, Score };

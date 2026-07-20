@@ -1,5 +1,5 @@
 // models/Score.js
-export default (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Score = sequelize.define("Score", {
     category1: DataTypes.INTEGER,
     category2: DataTypes.INTEGER,

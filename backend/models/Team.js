@@ -1,5 +1,5 @@
 // models/Team.js
-export default (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Team = sequelize.define("Team", {
     team_number: {
       type: DataTypes.INTEGER,

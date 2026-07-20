@@ -1,8 +1,8 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import mysql from "mysql2/promise";
-import { sequelize, Team, Judge, Score } from "./models/index.js";
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const mysql = require("mysql2/promise");
+const { sequelize, Team, Judge, Score } = require("./models/index.js");
 
 // Load environment variables
 dotenv.config();
