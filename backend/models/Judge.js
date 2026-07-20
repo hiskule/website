@@ -4,7 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+    },
+    room: {
+      type: DataTypes.STRING,
+      allowNull: true, // Some judges might not be assigned a room yet
     },
   });
 

@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server.js",
-    "seed": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "dev": "nodemon server.js",
+    "seed": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "seed:json": "node scripts/seed-from-json.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
+    "nodemon": "^3.1.14",
     "sequelize-cli": "^6.6.3"
   }
 }

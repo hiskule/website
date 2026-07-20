@@ -1,0 +1,37 @@
+[
+  {
+    "name": "UTHSDC",
+    "date": "2026-11-07",
+    "categories": [
+      {
+        "name": "Engineering Design Process",
+        "description": "Did the team use engineering techniques during their design process?",
+        "max_score": 10
+      },
+      {
+        "name": "Aesthetics/Realism",
+        "description": "Is this a practical solution? Is the solution viable?",
+        "max_score": 5
+      },
+      {
+        "name": "Coolness/uniqueness",
+        "description": "Is the solution creative?",
+        "max_score": 5
+      },
+      {
+        "name": "Presentation",
+        "description": "Did the team articulate clearly? Did they respond well to questions?",
+        "max_score": 5
+      }
+    ],
+    "judges": [
+      { "name": "Alice Johnson", "room": "2170" },
+      { "name": "Bob Lee", "room": "2172" }
+    ],
+    "teams": [
+      { "team_number": 1, "room": "2170", "time_slot": "10:00 AM" },
+      { "team_number": 2, "room": "2170", "time_slot": "10:15 AM" },
+      { "team_number": 3, "room": "2172", "time_slot": "10:00 AM" }
+    ]
+  }
+]

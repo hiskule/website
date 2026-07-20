@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const { sequelize, Team, Judge, Score, dbError } = require("./models/index.js");
+const { sequelize, Competition, Team, Judge, Score, dbError } = require("./models/index.js");
 
 // Load environment variables
 dotenv.config();
@@ -42,21 +42,34 @@ if (process.env.NODE_ENV !== "production") {
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 
-// Debug route to view crashes directly in the browser
-app.get("/", (req, res) => {
-  if (dbError) {
-    res.json({
-      status: "CRASHED ON BOOT",
-      error: dbError,
-      env: {
-        NODE_ENV: process.env.NODE_ENV,
-        DB_NAME_IS_SET: !!process.env.DB_NAME,
-        DB_USER_IS_SET: !!process.env.DB_USER,
-        PORT: process.env.PORT
-      }
-    });
-  } else {
-    res.send("Backend is running ✅");
+/**
+ * @swagger
+ * /reset-db:
+ *   post:
+ *     summary: DANGER! Wipes and recreates the entire database
+ */
+app.post("/reset-db", async (req, res) => {
+  try {
+    // force: true drops all tables and recreates them
+    await sequelize.sync({ force: true });
+    res.json({ message: "Database completely wiped and recreated successfully!" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * @swagger
+ * /competitions:
+ *   get:
+ *     summary: Get all competitions
+ */
+app.get("/competitions", async (req, res) => {
+  try {
+    const comps = await Competition.findAll();
+    res.json(comps);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -64,14 +77,20 @@ app.get("/", (req, res) => {
  * @swagger
  * /judgeDropdown:
  *   get:
- *     summary: Get all judges
- *     responses:
- *       200:
- *         description: List of judges
+ *     summary: Get all judges for a specific competition
+ *     parameters:
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
  */
 app.get("/judgeDropdown", async (req, res) => {
   try {
-    const judges = await Judge.findAll();
+    const { competitionId } = req.query;
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+    
+    const judges = await Judge.findAll({ where: { competitionId } });
     res.status(200).json(judges);
   } catch (error) {
     console.error("Error fetching judges:", error);
@@ -83,14 +102,20 @@ app.get("/judgeDropdown", async (req, res) => {
  * @swagger
  * /rooms:
  *   get:
- *     summary: Get all rooms
- *     responses:
- *       200:
- *         description: List of rooms
+ *     summary: Get all rooms for a specific competition
+ *     parameters:
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
  */
 app.get("/rooms", async (req, res) => {
   try {
-    const teams = await Team.findAll({ attributes: ["room"] });
+    const { competitionId } = req.query;
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+
+    const teams = await Team.findAll({ where: { competitionId }, attributes: ["room"] });
     const rooms = [...new Set(teams.map((t) => t.room))];
     res.status(200).json(rooms);
   } catch (error) {
@@ -103,25 +128,27 @@ app.get("/rooms", async (req, res) => {
  * @swagger
  * /rooms/{roomName}/teams:
  *   get:
- *     summary: Get teams by room name
+ *     summary: Get teams by room name and competition
  *     parameters:
  *       - in: path
  *         name: roomName
  *         required: true
  *         schema:
  *           type: string
- *     responses:
- *       200:
- *         description: List of teams in the room
- *       404:
- *         description: No teams found for room
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
  */
 app.get("/rooms/:roomName/teams", async (req, res) => {
   try {
     const { roomName } = req.params;
+    const { competitionId } = req.query;
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
 
     const teams = await Team.findAll({
-      where: { room: roomName },
+      where: { room: roomName, competitionId },
     });
 
     if (teams.length === 0) {
@@ -138,9 +165,54 @@ app.get("/rooms/:roomName/teams", async (req, res) => {
 
 /**
  * @swagger
+ * /judges/{judgeId}/schedule:
+ *   get:
+ *     summary: Get a judge's team schedule based on their assigned room
+ *     parameters:
+ *       - in: path
+ *         name: judgeId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
+ */
+app.get("/judges/:judgeId/schedule", async (req, res) => {
+  try {
+    const { judgeId } = req.params;
+    const { competitionId } = req.query;
+
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+
+    const judge = await Judge.findOne({ where: { id: judgeId, competitionId } });
+    if (!judge) return res.status(404).json({ error: "Judge not found" });
+    if (!judge.room) return res.status(400).json({ error: "Judge is not assigned to a room" });
+
+    // Fetch teams in that room, ordered by time_slot
+    const teams = await Team.findAll({
+      where: { room: judge.room, competitionId },
+      order: [["time_slot", "ASC"]]
+    });
+
+    res.json({
+      judgeName: judge.name,
+      room: judge.room,
+      schedule: teams
+    });
+  } catch (error) {
+    console.error("Error fetching judge schedule:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * @swagger
  * /judge:
  *   post:
- *     summary: Submit a score for a team
+ *     summary: Submit JSON scores for a team
  *     requestBody:
  *       required: true
  *       content:
@@ -148,48 +220,40 @@ app.get("/rooms/:roomName/teams", async (req, res) => {
  *           schema:
  *             type: object
  *             properties:
+ *               competitionId:
+ *                 type: integer
  *               judgeName:
- *                 type: string
- *               room:
  *                 type: string
  *               teamNumber:
  *                 type: integer
- *               category1:
- *                 type: integer
- *               category2:
- *                 type: integer
- *               category3:
- *                 type: integer
- *               category4:
- *                 type: integer
- *               category5:
- *                 type: integer
- *     responses:
- *       200:
- *         description: Score submitted successfully
- *       400:
- *         description: Judge or Team not found
+ *               scores:
+ *                 type: object
+ *                 description: Dynamic JSON object mapping category names to integer scores
  */
 app.post("/judge", async (req, res) => {
-  const { judgeName, room, teamNumber, category1, category2, category3, category4, category5 } = req.body;
+  const { competitionId, judgeName, teamNumber, scores, feedback } = req.body;
+
+  if (!competitionId || !judgeName || !teamNumber || !scores) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
 
   // find judge
-  const judge = await Judge.findOne({ where: { name: judgeName } });
+  const judge = await Judge.findOne({ where: { name: judgeName, competitionId } });
   if (!judge) {
-    return res.status(400).json({ error: "Judge not found" });
+    return res.status(400).json({ error: "Judge not found in this competition" });
   }
 
   // find team
-  const team = await Team.findOne({ where: { team_number: teamNumber } });
+  const team = await Team.findOne({ where: { team_number: teamNumber, competitionId } });
   if (!team) {
-    return res.status(400).json({ error: "Team not found" });
+    return res.status(400).json({ error: "Team not found in this competition" });
   }
 
   // check if this judge already scored this team
   const existing = await Score.findOne({ where: { judgeId: judge.id, teamId: team.id } });
 
   if (existing) {
-    await existing.update({ category1, category2, category3, category4, category5 });
+    await existing.update({ scores, feedback });
     return res.json({ message: "Scores updated", existing });
   }
 
@@ -197,11 +261,8 @@ app.post("/judge", async (req, res) => {
   const score = await Score.create({
     judgeId: judge.id,
     teamId: team.id,
-    category1,
-    category2,
-    category3,
-    category4,
-    category5
+    scores,
+    feedback
   });
 
   res.json({ message: "New scores submitted", score });
@@ -223,18 +284,20 @@ app.post("/judge", async (req, res) => {
  *         required: true
  *         schema:
  *           type: integer
- *     responses:
- *       200:
- *         description: Previous score data
- *       404:
- *         description: Judge or Team not found
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
  */
-// GET previous score for a judge and team
 app.get("/scores/:judgeName/:teamNumber/", async (req, res) => {
   const { judgeName, teamNumber } = req.params;
+  const { competitionId } = req.query;
 
-  const judge = await Judge.findOne({ where: { name: judgeName } });
-  const team = await Team.findOne({ where: { team_number: teamNumber } });
+  if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+
+  const judge = await Judge.findOne({ where: { name: judgeName, competitionId } });
+  const team = await Team.findOne({ where: { team_number: teamNumber, competitionId } });
 
   if (!judge || !team) {
     return res.status(404).json({ error: "Judge or Team not found" });

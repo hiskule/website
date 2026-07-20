@@ -4,11 +4,14 @@ module.exports = (sequelize, DataTypes) => {
     team_number: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
     },
     room: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    time_slot: {
+      type: DataTypes.STRING, // e.g. "10:30 AM"
+      allowNull: true,
     },
   });
 
