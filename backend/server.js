@@ -1,21 +1,49 @@
-const fs = require("fs");
-try {
-  const express = require("express");
-  const dotenv = require("dotenv");
-  const cors = require("cors");
-  
-  const { sequelize, Team, Judge, Score, dbError } = require("./models/index.js");
-  
-  // Load environment variables
-  dotenv.config();
-  
-  const app = express();
-  app.use(cors());
-  app.use(express.json());
-  
-  // Debug route to view crashes directly in the browser
-  app.get("/", (req, res) => {
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const { sequelize, Team, Judge, Score, dbError } = require("./models/index.js");
 
+// Load environment variables
+dotenv.config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Security: Only show API docs and load Swagger libraries on local testing environments
+if (process.env.NODE_ENV !== "production") {
+  const swaggerJsdoc = require("swagger-jsdoc");
+  const swaggerUi = require("swagger-ui-express");
+
+  // Swagger Configuration
+  const swaggerOptions = {
+    definition: {
+      openapi: "3.0.0",
+      info: {
+        title: "Hiskule API",
+        version: "1.0.0",
+        description: "API for Hiskule judging platform",
+      },
+      servers: [
+        {
+          url: `http://localhost:${process.env.PORT || 3000}`,
+          description: "Local server",
+        },
+        {
+          url: "https://api.hiskule.skule.ca",
+          description: "Live server",
+        },
+      ],
+    },
+    apis: ["./server.js"],
+  };
+
+  const swaggerSpec = swaggerJsdoc(swaggerOptions);
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
+
+// Debug route to view crashes directly in the browser
+app.get("/", (req, res) => {
   if (dbError) {
     res.json({
       status: "CRASHED ON BOOT",
@@ -221,11 +249,5 @@ app.get("/scores/:judgeName/:teamNumber/", async (req, res) => {
 
 
 
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-} catch (err) {
-  fs.writeFileSync("crash.txt", String(err.stack || err));
-  console.error("FATAL ERROR:", err);
-  process.exit(1);
-}
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
