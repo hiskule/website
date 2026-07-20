@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://api.hiskule.skule.ca'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.hiskule.skule.ca';
 
 export async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, init)
