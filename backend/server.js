@@ -2,7 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-const { sequelize, Team, Judge, Score } = require("./models/index.js");
+const { sequelize, Team, Judge, Score, dbError } = require("./models/index.js");
 
 // Load environment variables
 dotenv.config();
@@ -11,19 +11,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-/**
- * @swagger
- * /:
- *   get:
- *     summary: Health check endpoint
- *     responses:
- *       200:
- *         description: Backend is running
- */
-// Simple route
+// Debug route to view crashes directly in the browser
 app.get("/", (req, res) => {
-  res.send("Backend is running ✅");
+  if (dbError) {
+    res.json({
+      status: "CRASHED ON BOOT",
+      error: dbError,
+      env: {
+        NODE_ENV: process.env.NODE_ENV,
+        DB_NAME_IS_SET: !!process.env.DB_NAME,
+        DB_USER_IS_SET: !!process.env.DB_USER,
+        PORT: process.env.PORT
+      }
+    });
+  } else {
+    res.send("Backend is running ✅");
+  }
 });
 
 /**
