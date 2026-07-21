@@ -42,6 +42,10 @@ if (process.env.NODE_ENV !== "production") {
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to the Hiskule API!" });
+});
+
 /**
  * @swagger
  * /reset-db:
