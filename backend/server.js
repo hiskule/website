@@ -1,3 +1,6 @@
+// ============================================================================
+// #################### CONFIGURATION & SETUP ####################
+// ============================================================================
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -10,6 +13,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ============================================================================
+// #################### SWAGGER CONFIGURATION ####################
+// ============================================================================
 // Security: Only show API docs and load Swagger libraries on local testing environments
 if (process.env.NODE_ENV !== "production") {
   const swaggerJsdoc = require("swagger-jsdoc");
@@ -42,6 +48,18 @@ if (process.env.NODE_ENV !== "production") {
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 
+// ============================================================================
+// #################### GLOBAL ENDPOINTS ####################
+// ============================================================================
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: API Health Check
+ *     responses:
+ *       200:
+ *         description: Success
+ */
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the Hiskule API!" });
 });
@@ -51,6 +69,11 @@ app.get("/", (req, res) => {
  * /reset-db:
  *   post:
  *     summary: DANGER! Wipes and recreates the entire database
+ *     responses:
+ *       200:
+ *         description: Database completely wiped and recreated successfully!
+ *       500:
+ *         description: Internal server error
  */
 app.post("/reset-db", async (req, res) => {
   try {
@@ -62,11 +85,19 @@ app.post("/reset-db", async (req, res) => {
   }
 });
 
+// ============================================================================
+// #################### COMPETITION ENDPOINTS ####################
+// ============================================================================
 /**
  * @swagger
  * /competitions:
  *   get:
  *     summary: Get all competitions
+ *     responses:
+ *       200:
+ *         description: Success
+ *       500:
+ *         description: Internal server error
  */
 app.get("/competitions", async (req, res) => {
   try {
@@ -77,6 +108,9 @@ app.get("/competitions", async (req, res) => {
   }
 });
 
+// ============================================================================
+// #################### JUDGE ENDPOINTS ####################
+// ============================================================================
 /**
  * @swagger
  * /judgeDropdown:
@@ -88,12 +122,19 @@ app.get("/competitions", async (req, res) => {
  *         required: true
  *         schema:
  *           type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: competitionId required
+ *       500:
+ *         description: Internal server error
  */
 app.get("/judgeDropdown", async (req, res) => {
   try {
     const { competitionId } = req.query;
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
-    
+
     const judges = await Judge.findAll({ where: { competitionId } });
     res.status(200).json(judges);
   } catch (error) {
@@ -101,71 +142,6 @@ app.get("/judgeDropdown", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-/**
- * @swagger
- * /rooms:
- *   get:
- *     summary: Get all rooms for a specific competition
- *     parameters:
- *       - in: query
- *         name: competitionId
- *         required: true
- *         schema:
- *           type: integer
- */
-app.get("/rooms", async (req, res) => {
-  try {
-    const { competitionId } = req.query;
-    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
-
-    const teams = await Team.findAll({ where: { competitionId }, attributes: ["room"] });
-    const rooms = [...new Set(teams.map((t) => t.room))];
-    res.status(200).json(rooms);
-  } catch (error) {
-    console.error("Error fetching rooms:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-/**
- * @swagger
- * /rooms/{roomName}/teams:
- *   get:
- *     summary: Get teams by room name and competition
- *     parameters:
- *       - in: path
- *         name: roomName
- *         required: true
- *         schema:
- *           type: string
- *       - in: query
- *         name: competitionId
- *         required: true
- *         schema:
- *           type: integer
- */
-app.get("/rooms/:roomName/teams", async (req, res) => {
-  try {
-    const { roomName } = req.params;
-    const { competitionId } = req.query;
-    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
-
-    const teams = await Team.findAll({
-      where: { room: roomName, competitionId },
-    });
-
-    if (teams.length === 0) {
-      return res.status(404).json({ message: `No teams found for room: ${roomName}` });
-    }
-
-    res.status(200).json(teams);
-  } catch (error) {
-    console.error("Error fetching teams by room:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
 
 /**
  * @swagger
@@ -183,6 +159,15 @@ app.get("/rooms/:roomName/teams", async (req, res) => {
  *         required: true
  *         schema:
  *           type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: competitionId required or Judge is not assigned to a room
+ *       404:
+ *         description: Judge not found
+ *       500:
+ *         description: Internal server error
  */
 app.get("/judges/:judgeId/schedule", async (req, res) => {
   try {
@@ -212,6 +197,108 @@ app.get("/judges/:judgeId/schedule", async (req, res) => {
   }
 });
 
+// ============================================================================
+// #################### ROOM & TEAM ENDPOINTS ####################
+// ============================================================================
+/**
+ * @swagger
+ * /rooms:
+ *   get:
+ *     summary: Get all rooms for a specific competition
+ *     parameters:
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: competitionId required
+ *       500:
+ *         description: Internal server error
+ */
+app.get("/rooms", async (req, res) => {
+  try {
+    const { competitionId } = req.query;
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+
+    const judges = await Judge.findAll({ where: { competitionId } });
+    const teams = await Team.findAll({ where: { competitionId }, attributes: ["room"] });
+
+    // Extract unique room names from both judges and teams
+    const roomNames = [...new Set([
+      ...judges.map(j => j.room).filter(Boolean),
+      ...teams.map(t => t.room).filter(Boolean)
+    ])];
+
+    const roomsData = roomNames.map(roomName => {
+      const roomJudges = judges.filter(j => j.room === roomName).map(j => j.name);
+      return {
+        room: roomName,
+        judges: roomJudges.length > 0 ? roomJudges : ["NO JUDGE"]
+      };
+    });
+
+    res.status(200).json(roomsData);
+  } catch (error) {
+    console.error("Error fetching rooms:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * @swagger
+ * /rooms/{roomName}/teams:
+ *   get:
+ *     summary: Get teams by room name and competition
+ *     parameters:
+ *       - in: path
+ *         name: roomName
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: competitionId required
+ *       404:
+ *         description: No teams found for room
+ *       500:
+ *         description: Internal server error
+ */
+app.get("/rooms/:roomName/teams", async (req, res) => {
+  try {
+    const { roomName } = req.params;
+    const { competitionId } = req.query;
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+
+    const teams = await Team.findAll({
+      where: { room: roomName, competitionId },
+    });
+
+    if (teams.length === 0) {
+      return res.status(404).json({ message: `No teams found for room: ${roomName}` });
+    }
+
+    res.status(200).json(teams);
+  } catch (error) {
+    console.error("Error fetching teams by room:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+// ============================================================================
+// #################### SCORING ENDPOINTS ####################
+// ============================================================================
 /**
  * @swagger
  * /judge:
@@ -233,6 +320,16 @@ app.get("/judges/:judgeId/schedule", async (req, res) => {
  *               scores:
  *                 type: object
  *                 description: Dynamic JSON object mapping category names to integer scores
+ *               feedback:
+ *                 type: string
+ *                 description: Text feedback from the judge
+ *     responses:
+ *       200:
+ *         description: Scores submitted successfully
+ *       400:
+ *         description: Missing required fields or Judge/Team not found
+ *       500:
+ *         description: Internal server error
  */
 app.post("/judge", async (req, res) => {
   const { competitionId, judgeName, teamNumber, scores, feedback } = req.body;
@@ -293,6 +390,15 @@ app.post("/judge", async (req, res) => {
  *         required: true
  *         schema:
  *           type: integer
+ *     responses:
+ *       200:
+ *         description: Success (Returns previousScores object or null)
+ *       400:
+ *         description: competitionId required
+ *       404:
+ *         description: Judge or Team not found
+ *       500:
+ *         description: Internal server error
  */
 app.get("/scores/:judgeName/:teamNumber/", async (req, res) => {
   const { judgeName, teamNumber } = req.params;
