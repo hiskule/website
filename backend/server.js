@@ -93,8 +93,15 @@ app.post("/reset-db", async (req, res) => {
  * @swagger
  * /seed-db:
  *   post:
- *     summary: Seed the database with competitions.json data
+ *     summary: Seed the database with JSON data
  *     tags: [Global]
+ *     parameters:
+ *       - in: query
+ *         name: filename
+ *         schema:
+ *           type: string
+ *           default: uthsdc-2026.json
+ *         description: The name of the JSON file in the data folder
  *     responses:
  *       200:
  *         description: Database successfully seeded!
@@ -105,10 +112,11 @@ app.post("/seed-db", async (req, res) => {
   try {
     const fs = require('fs');
     const path = require('path');
-    const competitionsPath = path.resolve(__dirname, 'data/competitions.json');
+    const filename = req.query.filename || 'uthsdc-2026.json';
+    const competitionsPath = path.resolve(__dirname, 'data', filename);
     
     if (!fs.existsSync(competitionsPath)) {
-      return res.status(404).json({ error: "competitions.json file not found on server" });
+      return res.status(404).json({ error: `${filename} file not found on server` });
     }
     
     const competitionsData = JSON.parse(fs.readFileSync(competitionsPath, 'utf-8'));
