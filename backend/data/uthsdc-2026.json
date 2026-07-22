@@ -1,6 +1,7 @@
 [
   {
     "name": "UTHSDC",
+    "isActive": true,
     "date": "2026-11-07",
     "categories": [
       {
@@ -25,13 +26,13 @@
       }
     ],
     "judges": [
-      { "name": "Alice Johnson", "room": "2170" },
-      { "name": "Bob Lee", "room": "2172" }
+      { "name": "Alice Johnson", "room": "2170", "username": "alice_uthsdc_26", "password": "password123" },
+      { "name": "Bob Lee", "room": "2172", "username": "bob_uthsdc_26", "password": "password123" }
     ],
     "teams": [
-      { "team_number": 1, "room": "2170", "time_slot": "10:00 AM" },
-      { "team_number": 2, "room": "2170", "time_slot": "10:15 AM" },
-      { "team_number": 3, "room": "2172", "time_slot": "10:00 AM" }
+      { "team_number": 1, "room": "2170", "start_time": "10:00 AM", "end_time": "10:15 AM", "username": "team1_uthsdc_26", "password": "password123" },
+      { "team_number": 2, "room": "2170", "start_time": "10:15 AM", "end_time": "10:30 AM", "username": "team2_uthsdc_26", "password": "password123" },
+      { "team_number": 3, "room": "2172", "start_time": "10:00 AM", "end_time": "10:15 AM", "username": "team3_uthsdc_26", "password": "password123" }
     ]
   }
 ]

@@ -5,9 +5,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    room: {
+    username: {
       type: DataTypes.STRING,
-      allowNull: true, // Some judges might not be assigned a room yet
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   });
 

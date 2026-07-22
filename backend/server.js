@@ -4,7 +4,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const { sequelize, Competition, Team, Judge, Score, dbError } = require("./models/index.js");
+const { sequelize, Competition, Team, Judge, Room, Score, dbError } = require("./models/index.js");
 
 // Load environment variables
 dotenv.config();
@@ -48,6 +48,8 @@ if (process.env.NODE_ENV !== "production") {
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 
+
+
 // ============================================================================
 // #################### GLOBAL ENDPOINTS ####################
 // ============================================================================
@@ -56,6 +58,7 @@ if (process.env.NODE_ENV !== "production") {
  * /:
  *   get:
  *     summary: API Health Check
+ *     tags: [Global]
  *     responses:
  *       200:
  *         description: Success
@@ -69,6 +72,7 @@ app.get("/", (req, res) => {
  * /reset-db:
  *   post:
  *     summary: DANGER! Wipes and recreates the entire database
+ *     tags: [Global]
  *     responses:
  *       200:
  *         description: Database completely wiped and recreated successfully!
@@ -86,6 +90,67 @@ app.post("/reset-db", async (req, res) => {
 });
 
 // ============================================================================
+// #################### AUTHENTICATION ENDPOINTS ####################
+// ============================================================================
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Unified login for Judges and Teams
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Success, returns role and user data
+ *       401:
+ *         description: Invalid credentials
+ *       403:
+ *         description: Competition is closed
+ *       500:
+ *         description: Internal server error
+ */
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    let user = await Judge.findOne({ where: { username, password }, attributes: { exclude: ['password'] } });
+    let role = "judge";
+
+    if (!user) {
+      user = await Team.findOne({ where: { username, password }, attributes: { exclude: ['password'] } });
+      role = "team";
+    }
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const comp = await Competition.findByPk(user.competitionId);
+    if (!comp || !comp.isActive) {
+      return res.status(403).json({ error: "This competition is currently closed." });
+    }
+
+    return res.json({ role, user });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// ============================================================================
 // #################### COMPETITION ENDPOINTS ####################
 // ============================================================================
 /**
@@ -93,6 +158,7 @@ app.post("/reset-db", async (req, res) => {
  * /competitions:
  *   get:
  *     summary: Get all competitions
+ *     tags: [Competitions]
  *     responses:
  *       200:
  *         description: Success
@@ -108,6 +174,96 @@ app.get("/competitions", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /competitions/{id}:
+ *   get:
+ *     summary: Get a specific competition (useful for fetching the grading rubric/categories)
+ *     tags: [Competitions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ *       404:
+ *         description: Competition not found
+ *       500:
+ *         description: Internal server error
+ */
+app.get("/competitions/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comp = await Competition.findByPk(id);
+    if (!comp) return res.status(404).json({ error: "Competition not found" });
+    res.json(comp);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * @swagger
+ * /competitions/{id}/activate:
+ *   post:
+ *     summary: Set a competition as active (and deactivate all others)
+ *     tags: [Competitions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Competition activated
+ *       404:
+ *         description: Competition not found
+ *       500:
+ *         description: Internal server error
+ */
+app.post("/competitions/:id/activate", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comp = await Competition.findByPk(id);
+    if (!comp) return res.status(404).json({ error: "Competition not found" });
+
+    // Set all others to false
+    await Competition.update({ isActive: false }, { where: {} });
+    
+    // Set this one to true
+    await comp.update({ isActive: true });
+
+    res.json({ message: `Competition ${comp.name} activated successfully`, competition: comp });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * @swagger
+ * /competitions/deactivate-all:
+ *   post:
+ *     summary: Lock down the platform by deactivating all competitions
+ *     tags: [Competitions]
+ *     responses:
+ *       200:
+ *         description: All competitions deactivated
+ *       500:
+ *         description: Internal server error
+ */
+app.post("/competitions/deactivate-all", async (req, res) => {
+  try {
+    await Competition.update({ isActive: false }, { where: {} });
+    res.json({ message: "All competitions have been deactivated. Logins are now closed." });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // ============================================================================
 // #################### JUDGE ENDPOINTS ####################
 // ============================================================================
@@ -116,6 +272,7 @@ app.get("/competitions", async (req, res) => {
  * /judgeDropdown:
  *   get:
  *     summary: Get all judges for a specific competition
+ *     tags: [Judges]
  *     parameters:
  *       - in: query
  *         name: competitionId
@@ -148,6 +305,7 @@ app.get("/judgeDropdown", async (req, res) => {
  * /judges/{judgeId}/schedule:
  *   get:
  *     summary: Get a judge's team schedule based on their assigned room
+ *     tags: [Judges]
  *     parameters:
  *       - in: path
  *         name: judgeId
@@ -178,17 +336,19 @@ app.get("/judges/:judgeId/schedule", async (req, res) => {
 
     const judge = await Judge.findOne({ where: { id: judgeId, competitionId } });
     if (!judge) return res.status(404).json({ error: "Judge not found" });
-    if (!judge.room) return res.status(400).json({ error: "Judge is not assigned to a room" });
+    if (!judge.roomId) return res.status(400).json({ error: "Judge is not assigned to a room" });
 
-    // Fetch teams in that room, ordered by time_slot
+    // Fetch teams in that room, ordered by start_time
     const teams = await Team.findAll({
-      where: { room: judge.room, competitionId },
-      order: [["time_slot", "ASC"]]
+      where: { roomId: judge.roomId, competitionId },
+      order: [["start_time", "ASC"]]
     });
+
+    const room = await Room.findByPk(judge.roomId);
 
     res.json({
       judgeName: judge.name,
-      room: judge.room,
+      room: room ? room.name : null,
       schedule: teams
     });
   } catch (error) {
@@ -202,9 +362,120 @@ app.get("/judges/:judgeId/schedule", async (req, res) => {
 // ============================================================================
 /**
  * @swagger
+ * /teams/{teamId}/submission:
+ *   post:
+ *     summary: Submit a presentation link and comments
+ *     tags: [Teams]
+ *     parameters:
+ *       - in: path
+ *         name: teamId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               link:
+ *                 type: string
+ *               comments:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successfully submitted
+ *       400:
+ *         description: Missing fields
+ *       404:
+ *         description: Team not found
+ *       500:
+ *         description: Internal server error
+ */
+app.post("/teams/:teamId/submission", async (req, res) => {
+  try {
+    const { teamId } = req.params;
+    const { competitionId } = req.query;
+    const { link, comments } = req.body;
+
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+    
+    const team = await Team.findOne({ where: { id: teamId, competitionId } });
+    if (!team) return res.status(404).json({ error: "Team not found" });
+
+    await team.update({
+      presentation_link: link,
+      team_comments: comments,
+      submission_time: new Date()
+    });
+
+    res.json({ message: "Submission successful", team });
+  } catch (error) {
+    console.error("Submission error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * @swagger
+ * /teams/{teamId}/scores:
+ *   get:
+ *     summary: Get all scores and feedback a team has received from all judges
+ *     tags: [Teams]
+ *     parameters:
+ *       - in: path
+ *         name: teamId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: competitionId required
+ *       500:
+ *         description: Internal server error
+ */
+app.get("/teams/:teamId/scores", async (req, res) => {
+  try {
+    const { teamId } = req.params;
+    const { competitionId } = req.query;
+    
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+
+    // Ensure the team is in this competition
+    const team = await Team.findOne({ where: { id: teamId, competitionId } });
+    if (!team) return res.status(404).json({ error: "Team not found" });
+
+    const scores = await Score.findAll({
+      where: { teamId },
+      include: [{ model: Judge, attributes: ['name'] }]
+    });
+
+    res.json(scores);
+  } catch (error) {
+    console.error("Error fetching team scores:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * @swagger
  * /rooms:
  *   get:
  *     summary: Get all rooms for a specific competition
+ *     tags: [Rooms]
  *     parameters:
  *       - in: query
  *         name: competitionId
@@ -224,22 +495,16 @@ app.get("/rooms", async (req, res) => {
     const { competitionId } = req.query;
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
 
-    const judges = await Judge.findAll({ where: { competitionId } });
-    const teams = await Team.findAll({ where: { competitionId }, attributes: ["room"] });
-
-    // Extract unique room names from both judges and teams
-    const roomNames = [...new Set([
-      ...judges.map(j => j.room).filter(Boolean),
-      ...teams.map(t => t.room).filter(Boolean)
-    ])];
-
-    const roomsData = roomNames.map(roomName => {
-      const roomJudges = judges.filter(j => j.room === roomName).map(j => j.name);
-      return {
-        room: roomName,
-        judges: roomJudges.length > 0 ? roomJudges : ["NO JUDGE"]
-      };
+    const rooms = await Room.findAll({
+      where: { competitionId },
+      include: [{ model: Judge, attributes: ['name'] }]
     });
+
+    const roomsData = rooms.map(r => ({
+      id: r.id,
+      room: r.name,
+      judges: r.Judges.length > 0 ? r.Judges.map(j => j.name) : ["NO JUDGE"]
+    }));
 
     res.status(200).json(roomsData);
   } catch (error) {
@@ -250,15 +515,16 @@ app.get("/rooms", async (req, res) => {
 
 /**
  * @swagger
- * /rooms/{roomName}/teams:
+ * /rooms/{roomId}/teams:
  *   get:
- *     summary: Get teams by room name and competition
+ *     summary: Get teams by room ID and competition
+ *     tags: [Rooms]
  *     parameters:
  *       - in: path
- *         name: roomName
+ *         name: roomId
  *         required: true
  *         schema:
- *           type: string
+ *           type: integer
  *       - in: query
  *         name: competitionId
  *         required: true
@@ -274,18 +540,18 @@ app.get("/rooms", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.get("/rooms/:roomName/teams", async (req, res) => {
+app.get("/rooms/:roomId/teams", async (req, res) => {
   try {
-    const { roomName } = req.params;
+    const { roomId } = req.params;
     const { competitionId } = req.query;
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
 
     const teams = await Team.findAll({
-      where: { room: roomName, competitionId },
+      where: { roomId, competitionId },
     });
 
     if (teams.length === 0) {
-      return res.status(404).json({ message: `No teams found for room: ${roomName}` });
+      return res.status(404).json({ message: `No teams found for room ID: ${roomId}` });
     }
 
     res.status(200).json(teams);
@@ -304,6 +570,7 @@ app.get("/rooms/:roomName/teams", async (req, res) => {
  * /judge:
  *   post:
  *     summary: Submit JSON scores for a team
+ *     tags: [Judges]
  *     requestBody:
  *       required: true
  *       content:
@@ -313,9 +580,9 @@ app.get("/rooms/:roomName/teams", async (req, res) => {
  *             properties:
  *               competitionId:
  *                 type: integer
- *               judgeName:
- *                 type: string
- *               teamNumber:
+ *               judgeId:
+ *                 type: integer
+ *               teamId:
  *                 type: integer
  *               scores:
  *                 type: object
@@ -332,20 +599,20 @@ app.get("/rooms/:roomName/teams", async (req, res) => {
  *         description: Internal server error
  */
 app.post("/judge", async (req, res) => {
-  const { competitionId, judgeName, teamNumber, scores, feedback } = req.body;
+  const { competitionId, judgeId, teamId, scores, feedback } = req.body;
 
-  if (!competitionId || !judgeName || !teamNumber || !scores) {
+  if (!competitionId || !judgeId || !teamId || !scores) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   // find judge
-  const judge = await Judge.findOne({ where: { name: judgeName, competitionId } });
+  const judge = await Judge.findOne({ where: { id: judgeId, competitionId } });
   if (!judge) {
     return res.status(400).json({ error: "Judge not found in this competition" });
   }
 
   // find team
-  const team = await Team.findOne({ where: { team_number: teamNumber, competitionId } });
+  const team = await Team.findOne({ where: { id: teamId, competitionId } });
   if (!team) {
     return res.status(400).json({ error: "Team not found in this competition" });
   }
@@ -371,17 +638,18 @@ app.post("/judge", async (req, res) => {
 
 /**
  * @swagger
- * /scores/{judgeName}/{teamNumber}:
+ * /scores/{judgeId}/{teamId}:
  *   get:
  *     summary: Get previous score for a judge and team
+ *     tags: [Judges]
  *     parameters:
  *       - in: path
- *         name: judgeName
+ *         name: judgeId
  *         required: true
  *         schema:
- *           type: string
+ *           type: integer
  *       - in: path
- *         name: teamNumber
+ *         name: teamId
  *         required: true
  *         schema:
  *           type: integer
@@ -400,14 +668,14 @@ app.post("/judge", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.get("/scores/:judgeName/:teamNumber/", async (req, res) => {
-  const { judgeName, teamNumber } = req.params;
+app.get("/scores/:judgeId/:teamId", async (req, res) => {
+  const { judgeId, teamId } = req.params;
   const { competitionId } = req.query;
 
   if (!competitionId) return res.status(400).json({ error: "competitionId required" });
 
-  const judge = await Judge.findOne({ where: { name: judgeName, competitionId } });
-  const team = await Team.findOne({ where: { team_number: teamNumber, competitionId } });
+  const judge = await Judge.findOne({ where: { id: judgeId, competitionId } });
+  const team = await Team.findOne({ where: { id: teamId, competitionId } });
 
   if (!judge || !team) {
     return res.status(404).json({ error: "Judge or Team not found" });
@@ -418,6 +686,57 @@ app.get("/scores/:judgeName/:teamNumber/", async (req, res) => {
   if (!score) return res.json({ previousScores: null });
 
   res.json({ previousScores: score });
+});
+
+/**
+ * @swagger
+ * /scores:
+ *   get:
+ *     summary: Get all scores for a specific competition (Leaderboard/Admin)
+ *     tags: [Admin]
+ *     parameters:
+ *       - in: query
+ *         name: competitionId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: competitionId required
+ *       500:
+ *         description: Internal server error
+ */
+app.get("/scores", async (req, res) => {
+  try {
+    const { competitionId } = req.query;
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+
+    // Fetch all judges and teams in the competition first
+    const judges = await Judge.findAll({ where: { competitionId } });
+    const teams = await Team.findAll({ where: { competitionId } });
+
+    const judgeIds = judges.map(j => j.id);
+    const teamIds = teams.map(t => t.id);
+
+    // Fetch scores that belong to these judges and teams
+    const scores = await Score.findAll({
+      where: {
+        judgeId: judgeIds,
+        teamId: teamIds
+      },
+      include: [
+        { model: Judge, attributes: ['name'] },
+        { model: Team, attributes: ['team_number'] }
+      ]
+    });
+
+    res.json(scores);
+  } catch (error) {
+    console.error("Error fetching leaderboard scores:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 
