@@ -24,6 +24,7 @@ export default function TeamView() {
   const [rubric, setRubric] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [feedbackReleased, setFeedbackReleased] = useState(false);
   
   // Track if we should show the form or the "already submitted" view
   const [isEditing, setIsEditing] = useState(!user?.presentation_link);
@@ -42,6 +43,7 @@ export default function TeamView() {
       if (res.ok) {
         const data = await res.json();
         setRubric(data.categories || []);
+        setFeedbackReleased(!!data.feedbackReleased);
       }
     } catch (err) {
       console.error(err);
@@ -94,7 +96,7 @@ export default function TeamView() {
           <h1 className="text-display-lg" style={{ margin: 0 }}>Portal Dashboard</h1>
         <div className="team-welcome-row">
           <p className="text-body-lg">
-            Welcome, <strong>{user?.name || user?.username}</strong>
+            Welcome, <strong>{user?.name || (user?.team_number ? `Team ${user.team_number}` : user?.username)}</strong>
           </p>
           <span className="team-role-badge">TEAM</span>
         </div>
@@ -173,7 +175,7 @@ export default function TeamView() {
             <h2 className="text-headline-md">Judge Feedback</h2>
           </div>
           
-          {scores.length === 0 ? (
+          {!feedbackReleased ? (
             rubric.length > 0 ? (
               <div className="content-card" style={{ borderLeft: '4px solid var(--color-deep-navy)', borderRadius: 'var(--spacing-stack-sm)', overflow: 'hidden' }}>
                 <div className="feedback-card-header" style={{ display: 'block' }}>
@@ -186,7 +188,7 @@ export default function TeamView() {
                     </div>
                   </div>
                   <p className="text-body-md" style={{ color: 'var(--color-on-surface-variant)', margin: 0, fontSize: '14px' }}>
-                    Your project will be evaluated based on the following criteria. Feedback will appear here once submitted by a judge.
+                    Your project will be evaluated based on the following criteria. Feedback will appear here once released by the admin.
                   </p>
                 </div>
                 <div className="feedback-card-body">

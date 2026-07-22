@@ -7,6 +7,7 @@ interface Competition {
   id: number;
   name: string;
   date: string;
+  feedbackReleased?: boolean;
 }
 
 interface ActiveEventOverviewProps {
@@ -17,12 +18,14 @@ interface ActiveEventOverviewProps {
 export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ competition, onDeactivate }) => {
   const [rooms, setRooms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [feedbackReleased, setFeedbackReleased] = useState(!!competition.feedbackReleased);
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   useEffect(() => {
     fetchRooms();
-  }, [competition.id]);
+    setFeedbackReleased(!!competition.feedbackReleased);
+  }, [competition.id, competition.feedbackReleased]);
 
   const fetchRooms = async () => {
     try {
@@ -54,6 +57,22 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
     }
   };
 
+  const handleToggleFeedback = async () => {
+    try {
+      const res = await fetch(`${API_URL}/competitions/${competition.id}/release-feedback`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedbackReleased: !feedbackReleased })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setFeedbackReleased(data.feedbackReleased);
+      }
+    } catch (err) {
+      console.error('Error toggling feedback release:', err);
+    }
+  };
+
   return (
     <div className="active-event-overview">
       <section className="glass-card ae-card">
@@ -73,6 +92,24 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
             Deactivate Event
           </button>
         </div>
+      </section>
+
+      <div className="ae-section-title" style={{ marginTop: '32px' }}>
+        <h3 className="text-headline-md">Global Controls</h3>
+      </div>
+      <section className="glass-card global-controls-section">
+        <div>
+          <h4 className="text-headline-sm global-controls-title">Release Feedback</h4>
+          <p className="text-body-sm global-controls-desc">
+            Allow teams to view their evaluation scores and judge feedback on their dashboard.
+          </p>
+        </div>
+        <button 
+          onClick={handleToggleFeedback}
+          className={`global-controls-btn ${feedbackReleased ? 'released' : 'unreleased'}`}
+        >
+          {feedbackReleased ? 'Revoke Feedback' : 'Release Feedback'}
+        </button>
       </section>
 
       <Leaderboard competitionId={competition.id} />

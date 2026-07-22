@@ -8,6 +8,8 @@ export interface User {
   username?: string;
   name?: string;
   room?: string;
+  team_number?: number;
+  competitionId?: number;
 }
 
 interface AuthContextType {

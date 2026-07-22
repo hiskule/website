@@ -138,3 +138,44 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+.global-controls-section {
+  padding: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.global-controls-title {
+  margin: 0;
+  color: var(--color-on-surface);
+}
+
+.global-controls-desc {
+  margin: 4px 0 0;
+  color: var(--color-on-surface-variant);
+}
+
+.global-controls-btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.global-controls-btn:hover {
+  opacity: 0.9;
+}
+
+.global-controls-btn.unreleased {
+  background-color: var(--color-deep-navy);
+  color: var(--color-pure-white);
+}
+
+.global-controls-btn.released {
+  background-color: rgba(186, 26, 26, 0.1);
+  color: var(--color-error);
+}

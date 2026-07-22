@@ -9,6 +9,8 @@ interface TeamSchedule {
   end_time: string;
   presentation_link: string | null;
   team_comments: string | null;
+  isGraded?: boolean;
+  Scores?: any[];
 }
 
 interface Category {
@@ -71,26 +73,18 @@ export default function JudgeView() {
   const openScoring = async (team: TeamSchedule) => {
     setActiveTeam(team);
     setMessage('');
-    setFeedback('');
     
-    // Initialize scores to 0
+    // Initialize scores to 0 or existing
     const initialScores: Record<string, number> = {};
-    rubric.forEach(cat => initialScores[cat.name] = 0);
-    setScores(initialScores);
+    const existingScore = (team.Scores && team.Scores.length > 0) ? team.Scores[0] : null;
 
-    // Fetch previous scores if any
-    try {
-      const res = await fetch(`${API_URL}/scores/${user?.id}/${team.id}?competitionId=${user?.competitionId}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.previousScores) {
-          setScores(data.previousScores.scores || initialScores);
-          setFeedback(data.previousScores.feedback || '');
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    rubric.forEach(cat => {
+      initialScores[cat.name] = (existingScore && existingScore.scores) 
+        ? (existingScore.scores[cat.name] || 0) 
+        : 0;
+    });
+    setScores(initialScores);
+    setFeedback(existingScore ? existingScore.feedback || '' : '');
   };
 
   const handleScoreChange = (categoryName: string, value: number) => {
@@ -119,6 +113,9 @@ export default function JudgeView() {
       if (!res.ok) throw new Error('Failed to submit scores');
       setMessage('Scores saved successfully!');
       
+      // Refresh schedule to update badges
+      fetchSchedule();
+
       // Close modal after delay
       setTimeout(() => {
         setActiveTeam(null);
@@ -151,14 +148,14 @@ export default function JudgeView() {
 
       <main className="judge-main-content">
         <section className="judge-schedule-section">
-          <div className="judge-schedule-header">
-            <div className="judge-schedule-title-row">
-              <h2 className="text-headline-lg">Your Schedule</h2>
+          <div className="judge-schedule-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '24px' }}>
+            <div className="judge-schedule-title-row" style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-stack-md)' }}>
+              <h2 className="text-headline-lg" style={{ margin: 0 }}>Your Schedule</h2>
               <div className="judge-room-badge">
                 <span className="text-label-bold">Room: {roomName || 'Unassigned'}</span>
               </div>
             </div>
-            <p className="judge-schedule-subtitle">
+            <p className="judge-schedule-subtitle" style={{ maxWidth: '420px', textAlign: 'right', margin: 0, color: 'var(--color-on-surface-variant)', fontSize: '15px' }}>
               Select a team below to view submitted technical materials, presentation deck, and submit your final evaluation.
             </p>
           </div>
@@ -175,10 +172,25 @@ export default function JudgeView() {
                     </div>
                   </div>
                   <div className="schedule-card-mid">
-                    <h3 className="text-headline-md team-name-title">Team {team.team_number}</h3>
-                    <p className="text-label-sm team-category">Pending Evaluation</p>
+                    <h3 className="text-headline-md team-name-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      Team {team.team_number}
+                      {team.presentation_link ? (
+                        <span className="status-badge submitted">File Submitted</span>
+                      ) : (
+                        <span className="status-badge missing">No File Submitted</span>
+                      )}
+                    </h3>
+                    <div style={{ marginTop: '4px' }}>
+                      {team.isGraded ? (
+                        <span className="status-badge evaluated">Evaluated</span>
+                      ) : (
+                        <span className="status-badge pending">Pending Evaluation</span>
+                      )}
+                    </div>
                   </div>
-                  <button className="grade-btn">Evaluate</button>
+                  <button className="grade-btn">
+                    {team.isGraded ? 'Edit Evaluation' : 'Evaluate'}
+                  </button>
                 </div>
               ))
             )}
@@ -195,12 +207,13 @@ export default function JudgeView() {
             </div>
 
             <div className="team-materials">
+              <h3 className="section-subtitle">Team Submission</h3>
               {activeTeam.presentation_link ? (
                 <a href={activeTeam.presentation_link} target="_blank" rel="noreferrer" className="material-link">
                   View Presentation
                 </a>
               ) : (
-                <span className="no-material">No presentation linked yet.</span>
+                <div className="no-material" style={{ marginBottom: '1rem' }}>No presentation linked yet.</div>
               )}
               {activeTeam.team_comments && (
                 <div className="team-notes">
@@ -211,6 +224,7 @@ export default function JudgeView() {
 
             <form onSubmit={submitScore} className="scoring-form">
               <div className="rubric-section">
+                <h3 className="section-subtitle">Evaluation Rubric</h3>
                 {rubric.map(cat => (
                   <div key={cat.name} className="rubric-item">
                     <div className="rubric-item-header">

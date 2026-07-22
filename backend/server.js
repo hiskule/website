@@ -292,6 +292,53 @@ app.get("/competitions/:id", async (req, res) => {
 
 /**
  * @swagger
+ * /competitions/{id}/release-feedback:
+ *   put:
+ *     summary: Toggle feedback release for a competition
+ *     tags: [Competitions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               feedbackReleased:
+ *                 type: boolean
+ *     responses:
+ *       200:
+ *         description: Feedback release status updated
+ *       404:
+ *         description: Competition not found
+ */
+app.put("/competitions/:id/release-feedback", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { feedbackReleased } = req.body;
+
+    const competition = await Competition.findByPk(id);
+    if (!competition) {
+      return res.status(404).json({ error: "Competition not found" });
+    }
+
+    competition.feedbackReleased = feedbackReleased;
+    await competition.save();
+
+    res.json({ message: "Feedback release status updated", feedbackReleased: competition.feedbackReleased });
+  } catch (error) {
+    console.error("Error updating feedback release status:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * @swagger
  * /competitions/{id}/activate:
  *   post:
  *     summary: Set a competition as active (and deactivate all others)
@@ -426,15 +473,28 @@ app.get("/judges/:judgeId/schedule", async (req, res) => {
     // Fetch teams in that room, ordered by start_time
     const teams = await Team.findAll({
       where: { roomId: judge.roomId, competitionId },
-      order: [["start_time", "ASC"]]
+      order: [["start_time", "ASC"]],
+      include: [
+        {
+          model: Score,
+          where: { judgeId },
+          required: false
+        }
+      ]
     });
 
     const room = await Room.findByPk(judge.roomId);
 
+    const scheduleWithGrades = teams.map(t => {
+      const json = t.toJSON();
+      json.isGraded = json.Scores && json.Scores.length > 0;
+      return json;
+    });
+
     res.json({
       judgeName: judge.name,
       room: room ? room.name : null,
-      schedule: teams
+      schedule: scheduleWithGrades
     });
   } catch (error) {
     console.error("Error fetching judge schedule:", error);
@@ -842,4 +902,6 @@ app.get("/scores", async (req, res) => {
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+sequelize.sync().then(() => {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});

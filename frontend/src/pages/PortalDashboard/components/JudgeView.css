@@ -79,7 +79,7 @@
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: var(--spacing-stack-lg) var(--spacing-margin-mobile);
+  padding: var(--spacing-stack-md) var(--spacing-margin-mobile) var(--spacing-stack-lg);
 }
 
 @media (min-width: 768px) {
@@ -237,7 +237,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 2000;
   padding: 2rem;
   backdrop-filter: blur(4px);
 }
@@ -257,29 +257,46 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: calc(-1 * var(--spacing-stack-md));
   margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--color-outline-variant);
+  padding: var(--spacing-stack-md);
+  background-color: var(--color-deep-navy);
+  color: var(--color-pure-white);
+  border-top-left-radius: var(--spacing-stack-sm);
+  border-top-right-radius: var(--spacing-stack-sm);
 }
 
 .modal-header h2 {
   margin: 0;
-  color: var(--color-deep-navy);
+  color: var(--color-pure-white);
 }
 
 .close-btn {
   background: none;
   border: none;
   font-size: 2rem;
-  color: var(--color-outline);
+  color: var(--color-pure-white);
+  opacity: 0.8;
   cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.close-btn:hover {
+  opacity: 1;
 }
 
 .team-materials {
-  background: var(--color-subtle-gray);
-  padding: var(--spacing-stack-md);
-  border-radius: 8px;
   margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  margin-bottom: 1rem;
+  margin-top: 0;
 }
 
 .material-link {
@@ -381,4 +398,43 @@
 .modal-message {
   color: var(--color-on-surface);
   font-weight: 600;
+}
+
+.status-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 4px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  font-family: var(--font-family-primary);
+  line-height: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.missing {
+  background-color: rgba(186, 26, 26, 0.1);
+  color: var(--color-error);
+  border-color: rgba(186, 26, 26, 0.2);
+}
+
+.status-badge.submitted {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border-color: #bfdbfe;
+}
+
+.status-badge.evaluated {
+  background-color: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  border-color: rgba(46, 125, 50, 0.2);
+}
+
+.status-badge.pending {
+  background-color: rgba(186, 26, 26, 0.1);
+  color: var(--color-error);
+  border-color: rgba(186, 26, 26, 0.2);
 }

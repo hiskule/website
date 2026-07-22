@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    feedbackReleased: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   });
 
   return Competition;
