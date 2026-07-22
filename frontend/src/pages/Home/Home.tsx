@@ -1,8 +1,8 @@
 import React from 'react'
 import "./Home.css"
-import Hero from '../../components/home_page/hero/hero'
-import About from '../../components/home_page/about/about'
-import EventCard from '../../components/home_page/eventCard/eventCard'
+import Hero from './components/hero'
+import About from './components/about'
+import EventCard from './components/eventCard'
 
 const Home: React.FC = () => {
   return (

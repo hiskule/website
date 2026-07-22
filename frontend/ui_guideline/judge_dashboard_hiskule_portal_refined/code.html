@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hi-Skule™ Judge Dashboard</title>
+<!-- Google Fonts: Inter & Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "tertiary-fixed-dim": "#fbb79d",
+                        "surface-bright": "#f9f9f9",
+                        "background": "#f9f9f9",
+                        "primary-fixed": "#e1e0ff",
+                        "primary-container": "#151544",
+                        "subtle-gray": "#F4F4F9",
+                        "surface-container-highest": "#e2e2e2",
+                        "secondary-fixed": "#ffe17a",
+                        "pure-white": "#FFFFFF",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#554500",
+                        "on-primary-fixed": "#151544",
+                        "ink-black": "#05051A",
+                        "inverse-primary": "#c1c2fa",
+                        "primary-fixed-dim": "#c1c2fa",
+                        "on-secondary-fixed": "#231b00",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f9f9f9",
+                        "deep-navy": "#0B0B3B",
+                        "surface-tint": "#595a8b",
+                        "on-surface": "#1a1c1c",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#414272",
+                        "primary": "#000000",
+                        "on-tertiary-fixed-variant": "#6a3a27",
+                        "on-primary-container": "#7e7fb4",
+                        "inverse-surface": "#2f3131",
+                        "surface-container": "#eeeeee",
+                        "error": "#ba1a1a",
+                        "on-background": "#1a1c1c",
+                        "on-surface-variant": "#47464f",
+                        "on-secondary-container": "#705b00",
+                        "tertiary-container": "#341003",
+                        "surface-dim": "#dadada",
+                        "on-error-container": "#93000a",
+                        "electric-gold": "#F6CC13",
+                        "tertiary-fixed": "#ffdbce",
+                        "outline": "#777680",
+                        "on-tertiary-container": "#b0765f",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#ecc300",
+                        "outline-variant": "#c8c5d0",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container-low": "#f3f3f4",
+                        "on-tertiary-fixed": "#341003",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "inverse-on-surface": "#f0f1f1",
+                        "secondary-container": "#fed320",
+                        "secondary": "#715c00",
+                        "surface-variant": "#e2e2e2"
+                },
+                "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                },
+                "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "stack-sm": "12px",
+                        "stack-lg": "48px",
+                        "base": "8px",
+                        "stack-md": "24px"
+                },
+                "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"]
+                },
+                "fontSize": {
+                        "headline-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                }
+              },
+            },
+          }
+        </script>
+<style>
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+            .bento-card {
+                transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            }
+            .bento-card:hover {
+                transform: translateY(-4px);
+            }
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 4px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: rgba(255,255,255,0.05);
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #F6CC13;
+            }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col selection:bg-electric-gold selection:text-deep-navy">
+<!-- Top Navigation Bar -->
+<nav class="docked full-width top-0 bg-deep-navy border-b-2 border-electric-gold z-50">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-electric-gold text-3xl" style="font-variation-settings: 'FILL' 1;">engineering</span>
+<span class="text-headline-md font-headline-md font-extrabold text-pure-white">Hi-Skule™</span>
+</div>
+<div class="hidden md:flex items-center gap-gutter">
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">HOME</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">EVENTS</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">TEAM</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">MENTORSHIP</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">CONTACT US</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-electric-gold border-b-2 border-electric-gold pb-1 font-bold" href="#">PORTAL</a>
+</div>
+<button class="bg-electric-gold text-deep-navy px-6 py-2 font-label-bold text-label-bold uppercase tracking-widest hover:bg-pure-white transition-all duration-300">
+                LOGOUT
+            </button>
+</div>
+</nav>
+<!-- Header Section (Navy Background) -->
+<div class="bg-deep-navy w-full relative">
+<div class="absolute inset-0 pointer-events-none opacity-5">
+<div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #F6CC13 1px, transparent 0); background-size: 40px 40px;"></div>
+</div>
+<div class="w-full max-w-container-max mx-auto px-margin-desktop py-stack-lg relative z-10">
+<header class="flex flex-col gap-2">
+<h1 class="text-display-lg font-display-lg text-pure-white tracking-tighter">Portal Dashboard</h1>
+<div class="flex items-center gap-3">
+<p class="text-body-lg font-body-lg text-on-primary-container">Welcome, <span class="font-bold text-pure-white">Alice Johnson</span></p>
+<span class="bg-electric-gold/10 border border-electric-gold text-electric-gold px-3 py-0.5 rounded-full text-label-sm font-label-bold uppercase tracking-widest">JUDGE</span>
+</div>
+</header>
+</div>
+</div>
+<!-- Main Workspace (White/Surface Background) -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-stack-lg">
+<!-- Current Status Section -->
+<section class="mb-stack-lg">
+<div class="flex flex-wrap items-end justify-between gap-gutter border-b border-outline-variant pb-stack-sm mb-stack-md">
+<div class="flex items-center gap-4">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Your Schedule</h2>
+<div class="bg-surface-container px-4 py-1 flex items-center gap-2 border border-outline-variant">
+<span class="material-symbols-outlined text-deep-navy text-sm">meeting_room</span>
+<span class="text-label-bold font-label-bold text-on-surface">Room: 2170</span>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md max-w-md">
+                    Select a team below to view submitted technical materials, presentation deck, and submit your final evaluation.
+                </p>
+</div>
+<!-- Bento Schedule Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Team 1 Card -->
+<div class="bento-card bg-pure-white border-2 border-outline-variant/30 p-6 flex flex-col justify-between min-h-[220px] shadow-sm">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="bg-deep-navy text-pure-white px-3 py-1 text-label-sm font-label-bold">10:00 - 10:15</div>
+<span class="material-symbols-outlined text-outline">schedule</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-deep-navy">Solar Pulse Dynamics</h3>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-widest">Team 01 • Robotics</p>
+</div>
+<button class="mt-8 w-full bg-transparent border-2 border-deep-navy text-deep-navy hover:bg-deep-navy hover:text-pure-white transition-all py-3 font-label-bold text-label-bold uppercase">
+                        Evaluate
+                    </button>
+</div>
+<!-- Team 2 Card (Active State) -->
+<div class="bento-card bg-pure-white p-6 flex flex-col justify-between min-h-[220px] border-2 border-electric-gold shadow-[6px_6px_0px_0px_rgba(246,204,19,0.3)]">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="bg-electric-gold text-deep-navy px-3 py-1 text-label-sm font-label-bold">10:15 - 10:30</div>
+<span class="material-symbols-outlined text-deep-navy" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-deep-navy">Vertex Engine</h3>
+<p class="text-label-sm text-on-surface-variant/60 uppercase tracking-widest">Team 02 • Propulsion</p>
+</div>
+<button class="mt-8 w-full bg-deep-navy text-pure-white hover:bg-electric-gold hover:text-deep-navy transition-all py-3 font-label-bold text-label-bold uppercase">
+                        Evaluate Now
+                    </button>
+</div>
+<!-- Team 3 Card -->
+<div class="bento-card bg-surface-container-low border border-outline-variant/50 p-6 flex flex-col justify-between min-h-[220px]">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="bg-outline-variant text-on-surface-variant px-3 py-1 text-label-sm font-label-bold">10:30 - 10:45</div>
+<span class="material-symbols-outlined text-outline">lock</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface-variant">AquaFilter Pro</h3>
+<p class="text-label-sm text-on-surface-variant/50 uppercase tracking-widest">Team 03 • Sustainability</p>
+</div>
+<button class="mt-8 w-full bg-transparent border-2 border-outline-variant/30 text-on-surface-variant/30 py-3 font-label-bold text-label-bold uppercase cursor-not-allowed" disabled="">
+                        Upcoming
+                    </button>
+</div>
+<!-- Team 4 Card -->
+<div class="bento-card bg-surface-container-low border border-outline-variant/50 p-6 flex flex-col justify-between min-h-[220px]">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="bg-outline-variant text-on-surface-variant px-3 py-1 text-label-sm font-label-bold">10:45 - 11:00</div>
+<span class="material-symbols-outlined text-outline">lock</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface-variant">BioNode Mesh</h3>
+<p class="text-label-sm text-on-surface-variant/50 uppercase tracking-widest">Team 04 • Biomedical</p>
+</div>
+<button class="mt-8 w-full bg-transparent border-2 border-outline-variant/30 text-on-surface-variant/30 py-3 font-label-bold text-label-bold uppercase cursor-not-allowed" disabled="">
+                        Upcoming
+                    </button>
+</div>
+</div>
+</section>
+<!-- Judging Resources / Sidebar-like Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Rubric Guide -->
+<div class="lg:col-span-2 bg-pure-white border border-outline-variant p-gutter shadow-sm">
+<h4 class="text-label-bold font-label-bold text-deep-navy uppercase tracking-widest mb-stack-sm border-b border-outline-variant pb-2">JUDGING RUBRIC OVERVIEW</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="space-y-2">
+<div class="flex items-center gap-2 text-deep-navy font-bold">
+<span class="text-electric-gold font-black">01.</span> Innovation
+                        </div>
+<p class="text-label-sm text-on-surface-variant">Originality and engineering complexity of the solution.</p>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-2 text-deep-navy font-bold">
+<span class="text-electric-gold font-black">02.</span> Execution
+                        </div>
+<p class="text-label-sm text-on-surface-variant">Material selection, prototyping, and technical validation.</p>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-2 text-deep-navy font-bold">
+<span class="text-electric-gold font-black">03.</span> Impact
+                        </div>
+<p class="text-label-sm text-on-surface-variant">Scalability and societal/environmental problem solving.</p>
+</div>
+</div>
+</div>
+<!-- Assistant Box -->
+<div class="bg-electric-gold p-gutter flex flex-col justify-between shadow-sm">
+<div>
+<h4 class="text-deep-navy font-label-bold text-label-bold uppercase mb-2">Need Assistance?</h4>
+<p class="text-deep-navy/80 text-body-md font-medium">Flag a technical issue or request a volunteer to your room immediately.</p>
+</div>
+<button class="mt-6 border-2 border-deep-navy text-deep-navy px-6 py-2 font-label-bold text-label-bold hover:bg-deep-navy hover:text-pure-white transition-colors">
+                    CALL VOLUNTEER
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="mt-auto border-t border-outline-variant bg-deep-navy">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-stack-md w-full max-w-container-max mx-auto gap-4">
+<div class="flex items-center gap-4">
+<span class="text-label-bold font-label-bold text-electric-gold">HiSkule Outreach</span>
+<span class="text-on-primary-container hidden md:inline">|</span>
+<p class="text-label-sm font-label-sm text-on-primary-container">© 2024 HiSkule Engineering Outreach. Engineered for the future.</p>
+</div>
+<div class="flex gap-gutter">
+<a class="text-label-sm font-label-sm text-on-primary-container hover:text-electric-gold transition-colors" href="#">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-on-primary-container hover:text-electric-gold transition-colors" href="#">Terms of Service</a>
+<a class="text-label-sm font-label-sm text-on-primary-container hover:text-electric-gold transition-colors" href="#">University Relations</a>
+</div>
+</div>
+</footer>
+<!-- Atmosphere Particle Script -->
+<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const cards = document.querySelectorAll('.bento-card');
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        if(!card.classList.contains('border-electric-gold')) {
+                            card.classList.add('border-deep-navy/30');
+                        }
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        if(!card.classList.contains('border-electric-gold')) {
+                            card.classList.remove('border-deep-navy/30');
+                        }
+                    });
+                });
+            });
+    </script>
+</body></html>

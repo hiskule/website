@@ -1,6 +1,6 @@
 import React from 'react';
 import './Events.css';
-import EventsSection from '../../components/event_section/event_section';
+import EventsSection from './components/event_section';
 import { eventsData } from '../../data/events';
 import MiniEventCard from '../../components/mini_event_card/MiniEventCard';
 

@@ -1,0 +1,349 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Hi-Skule™ | Admin Master Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed-dim": "#fbb79d",
+            "surface-bright": "#f9f9f9",
+            "background": "#f3f4f6", // Updated background to light grey
+            "primary-fixed": "#e1e0ff",
+            "primary-container": "#151544",
+            "subtle-gray": "#F4F4F9",
+            "surface-container-highest": "#e2e2e2",
+            "secondary-fixed": "#ffe17a",
+            "pure-white": "#FFFFFF",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#554500",
+            "on-primary-fixed": "#151544",
+            "ink-black": "#05051A",
+            "inverse-primary": "#c1c2fa",
+            "primary-fixed-dim": "#c1c2fa",
+            "on-secondary-fixed": "#231b00",
+            "surface-container-lowest": "#ffffff",
+            "surface": "#f9f9f9",
+            "deep-navy": "#0B0B3B",
+            "surface-tint": "#595a8b",
+            "on-surface": "#1a1c1c",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#414272",
+            "primary": "#0B0B3B", // Navy
+            "on-tertiary-fixed-variant": "#6a3a27",
+            "on-primary-container": "#47464f",
+            "inverse-surface": "#2f3131",
+            "surface-container": "#eeeeee",
+            "error": "#ba1a1a",
+            "on-background": "#1a1c1c",
+            "on-surface-variant": "#47464f",
+            "on-secondary-container": "#705b00",
+            "tertiary-container": "#341003",
+            "surface-dim": "#dadada",
+            "on-error-container": "#93000a",
+            "electric-gold": "#F6CC13",
+            "tertiary-fixed": "#ffdbce",
+            "outline": "#777680",
+            "on-tertiary-container": "#b0765f",
+            "on-secondary": "#ffffff",
+            "secondary-fixed-dim": "#ecc300",
+            "outline-variant": "#c8c5d0",
+            "surface-container-high": "#e8e8e8",
+            "surface-container-low": "#f3f3f4",
+            "on-tertiary-fixed": "#341003",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "tertiary": "#000000",
+            "inverse-on-surface": "#f0f1f1",
+            "secondary-container": "#fed320",
+            "secondary": "#715c00",
+            "surface-variant": "#e2e2e2"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "gutter": "24px",
+            "container-max": "1200px",
+            "stack-sm": "12px",
+            "stack-lg": "48px",
+            "base": "8px",
+            "stack-md": "24px"
+          },
+          "fontFamily": {
+            "headline-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-bold": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "display-lg": ["Inter"]
+          },
+          "fontSize": {
+            "headline-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+            "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+            "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+            "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+            "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #f3f4f6; /* Updated to light background */
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    .status-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+    .hero-header {
+      background-color: #0B0B3B;
+      color: white;
+    }
+  </style>
+</head>
+<body class="text-on-surface">
+<!-- TopNavBar -->
+<nav class="bg-deep-navy border-b-2 border-electric-gold flex justify-between items-center w-full px-margin-desktop py-4 sticky top-0 z-50">
+<div class="max-w-container-max mx-auto w-full flex justify-between items-center">
+<div class="text-headline-md font-headline-md font-extrabold text-pure-white">
+        Hi-Skule™
+      </div>
+<div class="hidden md:flex items-center space-x-gutter">
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">HOME</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">EVENTS</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">TEAM</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">MENTORSHIP</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white hover:text-electric-gold transition-colors duration-200" href="#">CONTACT US</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-electric-gold border-b-2 border-electric-gold pb-1 font-bold" href="#">PORTAL</a>
+</div>
+<button class="bg-electric-gold text-deep-navy font-label-bold px-6 py-2 rounded-lg hover:bg-pure-white transition-all duration-300">
+        LOGOUT
+      </button>
+</div>
+</nav>
+<!-- Hero Dashboard Header Area -->
+<div class="hero-header w-full pt-stack-lg pb-24 px-margin-mobile md:px-margin-desktop">
+<header class="max-w-container-max mx-auto space-y-stack-sm">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-gutter">
+<div class="space-y-base">
+<h1 class="font-display-lg text-display-lg text-pure-white leading-none">Master Dashboard</h1>
+<p class="font-body-lg text-body-lg text-on-primary-fixed">
+            Welcome back, <span class="font-bold text-pure-white">admin</span>. Live event monitoring is active.
+          </p>
+</div>
+<div class="flex items-center space-x-base bg-white/10 border border-electric-gold/40 p-base rounded-xl">
+<span class="material-symbols-outlined text-electric-gold">settings</span>
+<span class="font-label-sm text-pure-white uppercase tracking-widest">System Status: Nominal</span>
+</div>
+</div>
+</header>
+</div>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop -mt-16 pb-stack-lg space-y-stack-lg">
+<!-- Live Event Control Center -->
+<section class="glass-card p-stack-md rounded-xl border-l-4 border-l-electric-gold">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-stack-md">
+<div class="space-y-base">
+<div class="flex items-center gap-base">
+<span class="flex h-3 w-3 relative">
+<span class="status-pulse absolute inline-flex h-full w-full rounded-full bg-electric-gold opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-electric-gold"></span>
+</span>
+<span class="bg-deep-navy text-electric-gold px-3 py-1 rounded-full font-label-bold text-label-sm tracking-widest">LIVE NOW</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-deep-navy">UTHS DC</h2>
+<p class="font-label-sm text-on-surface-variant">Competition Date: 2026-11-07 • Competition Arena A</p>
+</div>
+<button class="w-full md:w-auto border-2 border-error text-error px-stack-md py-stack-sm font-label-bold rounded-lg hover:bg-error hover:text-pure-white transition-all duration-300">
+          Deactivate Event
+        </button>
+</div>
+</section>
+<!-- Live Leaderboard Bento -->
+<section class="space-y-stack-md">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-deep-navy" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<h3 class="font-headline-md text-headline-md text-deep-navy">Live Leaderboard</h3>
+</div>
+<div class="overflow-x-auto glass-card rounded-xl">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-gray-200 bg-gray-50">
+<th class="px-stack-md py-4 font-label-bold text-label-sm text-on-surface-variant uppercase">Rank</th>
+<th class="px-stack-md py-4 font-label-bold text-label-sm text-on-surface-variant uppercase">Team</th>
+<th class="px-stack-md py-4 font-label-bold text-label-sm text-on-surface-variant uppercase">Avg Score</th>
+<th class="px-stack-md py-4 font-label-bold text-label-sm text-on-surface-variant uppercase">Judges Graded</th>
+<th class="px-stack-md py-4 font-label-bold text-label-sm text-on-surface-variant uppercase">Trend</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100">
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-stack-md py-4 font-bold text-deep-navy">#1</td>
+<td class="px-stack-md py-4 font-label-bold text-on-surface">Team 1: Quantum Mechanics</td>
+<td class="px-stack-md py-4 text-on-surface">NaN</td>
+<td class="px-stack-md py-4 text-on-surface">1 / 4</td>
+<td class="px-stack-md py-4"><span class="material-symbols-outlined text-green-600">trending_up</span></td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-stack-md py-4 font-bold text-on-surface-variant">#2</td>
+<td class="px-stack-md py-4 font-label-bold text-on-surface">Team 4: Solar Cyclists</td>
+<td class="px-stack-md py-4 text-on-surface">8.5</td>
+<td class="px-stack-md py-4 text-on-surface">2 / 4</td>
+<td class="px-stack-md py-4"><span class="material-symbols-outlined text-outline">horizontal_rule</span></td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-stack-md py-4 font-bold text-on-surface-variant">#3</td>
+<td class="px-stack-md py-4 font-label-bold text-on-surface">Team 2: Bridge Builders</td>
+<td class="px-stack-md py-4 text-on-surface">7.2</td>
+<td class="px-stack-md py-4 text-on-surface">0 / 4</td>
+<td class="px-stack-md py-4"><span class="material-symbols-outlined text-error">trending_down</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Room Overview Grid -->
+<section class="space-y-stack-md">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-deep-navy">meeting_room</span>
+<h3 class="font-headline-md text-headline-md text-deep-navy">Room Overview</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<!-- Room 2170 Card -->
+<div class="glass-card rounded-xl p-stack-md border-t-4 border-t-deep-navy flex flex-col h-full">
+<div class="flex justify-between items-start mb-stack-sm">
+<div>
+<h4 class="font-headline-md text-headline-md text-deep-navy">Room 2170</h4>
+<p class="font-label-sm text-on-surface-variant">Judges: Alice Johnson, Dr. Peters</p>
+</div>
+<span class="bg-green-100 text-green-800 text-[10px] px-2 py-1 rounded-full font-bold uppercase">Active</span>
+</div>
+<div class="space-y-base mt-auto">
+<!-- Team 2 Entry -->
+<div class="bg-gray-50 p-stack-sm rounded border border-gray-200 flex flex-col gap-base">
+<div class="flex justify-between">
+<span class="font-label-bold text-on-surface">Team 2</span>
+<span class="text-label-sm text-on-surface-variant">10:15 AM - 10:30 AM</span>
+</div>
+<div class="flex gap-base">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-error/10 text-error border border-error/20 rounded uppercase">No File</span>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-gray-200 text-on-surface-variant border border-gray-300 rounded uppercase">Not Graded</span>
+</div>
+</div>
+<!-- Team 1 Entry -->
+<div class="bg-gray-50 p-stack-sm rounded border border-deep-navy/10 flex flex-col gap-base">
+<div class="flex justify-between">
+<span class="font-label-bold text-on-surface">Team 1</span>
+<span class="text-label-sm text-on-surface-variant">10:00 AM - 10:15 AM</span>
+</div>
+<div class="flex gap-base">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-blue-100 text-blue-800 border border-blue-200 rounded uppercase">File Submitted</span>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-electric-gold text-deep-navy border border-electric-gold rounded uppercase">Graded</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Room 2172 Card -->
+<div class="glass-card rounded-xl p-stack-md border-t-4 border-t-gray-300 flex flex-col h-full">
+<div class="flex justify-between items-start mb-stack-sm">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface-variant">Room 2172</h4>
+<p class="font-label-sm text-on-surface-variant">Judges: Bob Lee, Sarah Chen</p>
+</div>
+<span class="bg-gray-100 text-gray-500 text-[10px] px-2 py-1 rounded-full font-bold uppercase">Pending</span>
+</div>
+<div class="space-y-base mt-auto">
+<!-- Team 3 Entry -->
+<div class="bg-gray-50 p-stack-sm rounded border border-gray-200 flex flex-col gap-base">
+<div class="flex justify-between">
+<span class="font-label-bold text-on-surface">Team 3</span>
+<span class="text-label-sm text-on-surface-variant">10:00 AM - 10:15 AM</span>
+</div>
+<div class="flex gap-base">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-error/10 text-error border border-error/20 rounded uppercase">No File</span>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-gray-200 text-on-surface-variant border border-gray-300 rounded uppercase">Not Graded</span>
+</div>
+</div>
+<!-- Placeholder for upcoming -->
+<div class="p-stack-sm rounded border border-dashed border-gray-300 flex items-center justify-center min-h-[60px]">
+<span class="text-label-sm text-outline italic">Waiting for next slot...</span>
+</div>
+</div>
+</div>
+</div>
+</section><section class="space-y-stack-md">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-deep-navy">event_note</span>
+<h3 class="font-headline-md text-headline-md text-deep-navy">Other Events</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md">
+<div class="bg-deep-navy p-stack-md rounded-xl border border-white/10 flex flex-col gap-stack-sm">
+<h4 class="font-headline-md text-headline-md text-pure-white">UTHSDC</h4>
+<p class="font-label-sm text-primary-fixed opacity-75">2026-11-07</p>
+<button class="w-full mt-auto border-2 border-electric-gold text-electric-gold px-stack-md py-2 font-label-bold rounded-lg hover:bg-electric-gold hover:text-deep-navy transition-all duration-300">
+        Set Active
+      </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-deep-navy border-t border-electric-gold/20 w-full">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center px-margin-desktop py-stack-md gap-stack-md">
+<div class="text-label-bold font-label-bold text-electric-gold">
+        HiSkule Outreach
+      </div>
+<div class="text-label-sm font-label-sm text-on-primary-fixed text-center">
+        © 2024 HiSkule Engineering Outreach. Engineered for the future.
+      </div>
+<div class="flex space-x-stack-md">
+<a class="text-label-sm font-label-sm text-primary-fixed hover:text-electric-gold transition-colors" href="#">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-primary-fixed hover:text-electric-gold transition-colors" href="#">Terms of Service</a>
+<a class="text-label-sm font-label-sm text-primary-fixed hover:text-electric-gold transition-colors" href="#">University Relations</a>
+</div>
+</div>
+</footer>
+<script>
+    // Simple mock interaction for the "Deactivate" button
+    const deactivateBtn = document.querySelector('button.text-error');
+    if(deactivateBtn) {
+      deactivateBtn.addEventListener('click', () => {
+        if(confirm('Are you sure you want to end the live monitoring for UTHS DC? This action cannot be undone.')) {
+          alert('Event deactivated. Returning to standby mode.');
+          window.location.reload();
+        }
+      });
+    }
+  </script>
+
+
+</body></html>

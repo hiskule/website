@@ -3,7 +3,7 @@ import "./hero.css";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../shared/config/routes";
 import { eventsData } from "../../../data/events";
-import MiniEventCard from "../../mini_event_card/MiniEventCard";
+import MiniEventCard from "../../../components/mini_event_card/MiniEventCard";
 const Hero: React.FC = () => {
   const navigate = useNavigate();
 

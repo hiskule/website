@@ -1,8 +1,8 @@
 import React from 'react';
 import './Team.css';
-import TeamCard from '../../components/team_page/team_card/team_card';
-import Card from '../../components/team_page/card/card';
-import PopUp from '../../components/team_page/card_pop/card_pop';
+import TeamCard from './components/team_card';
+import Card from './components/card';
+import PopUp from './components/card_pop';
 import { teamData, cardData } from '../../data/team';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../shared/config/routes';

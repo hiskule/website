@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hi-Skule™ | Portal Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#fbb79d",
+                        "surface-bright": "#f9f9f9",
+                        "background": "#f9f9f9",
+                        "primary-fixed": "#e1e0ff",
+                        "primary-container": "#151544",
+                        "subtle-gray": "#F4F4F9",
+                        "surface-container-highest": "#e2e2e2",
+                        "secondary-fixed": "#ffe17a",
+                        "pure-white": "#FFFFFF",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#554500",
+                        "on-primary-fixed": "#151544",
+                        "ink-black": "#05051A",
+                        "inverse-primary": "#c1c2fa",
+                        "primary-fixed-dim": "#c1c2fa",
+                        "on-secondary-fixed": "#231b00",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f9f9f9",
+                        "deep-navy": "#0B0B3B",
+                        "surface-tint": "#595a8b",
+                        "on-surface": "#1a1c1c",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#414272",
+                        "primary": "#000000",
+                        "on-tertiary-fixed-variant": "#6a3a27",
+                        "on-primary-container": "#7e7fb4",
+                        "inverse-surface": "#2f3131",
+                        "surface-container": "#eeeeee",
+                        "error": "#ba1a1a",
+                        "on-background": "#1a1c1c",
+                        "on-surface-variant": "#47464f",
+                        "on-secondary-container": "#705b00",
+                        "tertiary-container": "#341003",
+                        "surface-dim": "#dadada",
+                        "on-error-container": "#93000a",
+                        "electric-gold": "#F6CC13",
+                        "tertiary-fixed": "#ffdbce",
+                        "outline": "#777680",
+                        "on-tertiary-container": "#b0765f",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#ecc300",
+                        "outline-variant": "#c8c5d0",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container-low": "#f3f3f4",
+                        "on-tertiary-fixed": "#341003",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "inverse-on-surface": "#f0f1f1",
+                        "secondary-container": "#fed320",
+                        "secondary": "#715c00",
+                        "surface-variant": "#e2e2e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "stack-sm": "12px",
+                        "stack-lg": "48px",
+                        "base": "8px",
+                        "stack-md": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f9f9f9; /* background */
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .content-card {
+            background: #ffffff;
+            border: 1px solid #e2e2e2;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .eng-grid-bg {
+            background-image: linear-gradient(rgba(11, 11, 59, 0.03) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(11, 11, 59, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen eng-grid-bg">
+<!-- TopNavBar -->
+<nav class="bg-deep-navy border-b-2 border-electric-gold sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-electric-gold" style="font-variation-settings: 'FILL' 1;">construction</span>
+<span class="text-headline-md font-headline-md font-extrabold text-pure-white tracking-tighter">Hi-Skule™</span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white/80 hover:text-electric-gold transition-colors duration-200" href="#">HOME</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white/80 hover:text-electric-gold transition-colors duration-200" href="#">EVENTS</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white/80 hover:text-electric-gold transition-colors duration-200" href="#">TEAM</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white/80 hover:text-electric-gold transition-colors duration-200" href="#">MENTORSHIP</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-pure-white/80 hover:text-electric-gold transition-colors duration-200" href="#">CONTACT US</a>
+<a class="text-label-sm font-label-sm uppercase tracking-wider text-electric-gold border-b-2 border-electric-gold pb-1 font-bold" href="#">PORTAL</a>
+</div>
+<button class="bg-electric-gold text-deep-navy font-label-bold text-label-bold px-6 py-2 rounded hover:bg-pure-white transition-all duration-200 uppercase">
+                LOGOUT
+            </button>
+</div>
+</nav>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Header Section -->
+<header class="mb-stack-lg animate-in fade-in slide-in-from-bottom-4 duration-700">
+<h1 class="font-headline-lg text-headline-lg md:text-display-lg text-deep-navy mb-2">Portal Dashboard</h1>
+<div class="flex items-center gap-stack-sm">
+<p class="text-on-surface-variant text-body-lg">Welcome, <span class="font-bold text-deep-navy">team1_uthsdc_26</span></p>
+<span class="bg-deep-navy text-electric-gold px-3 py-1 text-label-sm font-label-bold rounded-full border border-electric-gold/30">TEAM</span>
+</div>
+</header>
+<!-- Main Submission Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Submit Your Project Section -->
+<section class="lg:col-span-8 space-y-stack-md">
+<div class="content-card p-stack-md md:p-stack-lg rounded-xl overflow-hidden relative group">
+<div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px] text-deep-navy">rocket_launch</span>
+</div>
+<div class="relative z-10">
+<h2 class="font-headline-md text-headline-md text-deep-navy mb-2">Submit Your Project</h2>
+<p class="text-body-md text-on-surface-variant mb-stack-md">Upload your presentation link and any notes for the judges to review before the final presentation.</p>
+<div class="space-y-stack-md bg-subtle-gray p-stack-md rounded-lg border border-surface-container-highest">
+<div>
+<label class="block text-label-bold text-on-surface-variant uppercase tracking-widest mb-2">Presentation:</label>
+<a class="flex items-center gap-2 text-deep-navy font-bold hover:text-electric-gold transition-colors group/link" href="#">
+<span class="material-symbols-outlined">link</span>
+                                    View Project
+                                    <span class="material-symbols-outlined text-sm opacity-0 group-hover/link:opacity-100 transition-opacity">open_in_new</span>
+</a>
+</div>
+<div>
+<label class="block text-label-bold text-on-surface-variant uppercase tracking-widest mb-2">Comments:</label>
+<p class="text-body-md italic text-on-surface">"insane world"</p>
+</div>
+<div class="pt-stack-sm">
+<button class="w-full py-4 bg-deep-navy text-pure-white font-label-bold border-2 border-deep-navy hover:bg-white hover:text-deep-navy transition-all duration-300 rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">edit_note</span>
+                                    UPDATE SUBMISSION
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Extra Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="content-card p-stack-md rounded-lg flex items-center gap-4">
+<div class="w-12 h-12 bg-deep-navy/5 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-deep-navy">timer</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase">Deadline</p>
+<p class="font-bold text-deep-navy">24h 12m Remaining</p>
+</div>
+</div>
+<div class="content-card p-stack-md rounded-lg flex items-center gap-4">
+<div class="w-12 h-12 bg-deep-navy/5 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-deep-navy">description</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase">Format</p>
+<p class="font-bold text-deep-navy">PDF, PPTX, or Video Link</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Judge Feedback Section -->
+<section class="lg:col-span-4 space-y-stack-md">
+<div class="flex items-center justify-between mb-2">
+<h2 class="font-headline-md text-headline-md text-deep-navy">Judge Feedback</h2>
+<span class="material-symbols-outlined text-on-surface-variant">info</span>
+</div>
+<!-- Feedback Card -->
+<div class="content-card rounded-xl border-l-4 border-deep-navy overflow-hidden transition-all hover:translate-x-1">
+<div class="p-stack-md border-b border-surface-container-highest flex justify-between items-center bg-subtle-gray">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-deep-navy flex items-center justify-center">
+<span class="material-symbols-outlined text-electric-gold text-sm" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<span class="font-headline-md text-headline-md text-deep-navy">Judge 1</span>
+</div>
+<div class="bg-deep-navy border border-deep-navy px-3 py-1 rounded text-electric-gold font-bold text-label-bold">
+                            15 pts
+                        </div>
+</div>
+<div class="p-stack-md space-y-stack-sm">
+<!-- Score Row 1 -->
+<div>
+<div class="flex justify-between text-label-sm mb-1">
+<span class="text-on-surface-variant">Engineering Design Process</span>
+<span class="font-bold text-deep-navy">10 / 10</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-deep-navy w-[100%]"></div>
+</div>
+</div>
+<!-- Score Row 2 -->
+<div>
+<div class="flex justify-between text-label-sm mb-1">
+<span class="text-on-surface-variant">Aesthetics/Realism</span>
+<span class="font-bold text-deep-navy">2 / 5</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-deep-navy w-[40%]"></div>
+</div>
+</div>
+<!-- Score Row 3 -->
+<div>
+<div class="flex justify-between text-label-sm mb-1">
+<span class="text-on-surface-variant">Coolness/uniqueness</span>
+<span class="font-bold text-deep-navy">2 / 5</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-deep-navy w-[40%]"></div>
+</div>
+</div>
+<!-- Score Row 4 -->
+<div>
+<div class="flex justify-between text-label-sm mb-1">
+<span class="text-on-surface-variant">Presentation</span>
+<span class="font-bold text-deep-navy">1 / 5</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-deep-navy w-[20%]"></div>
+</div>
+</div>
+<!-- Comment Box -->
+<div class="mt-stack-md pt-stack-md border-t border-surface-container-highest">
+<label class="text-label-sm text-on-surface-variant uppercase tracking-widest mb-2 block">Constructive Feedback:</label>
+<div class="bg-subtle-gray p-4 rounded-lg border border-surface-container-highest">
+<p class="italic text-on-surface text-body-md leading-relaxed">
+                                    "lmao leetcode"
+                                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Second Judge Placeholder / Empty State -->
+<div class="content-card rounded-xl border-dashed border-2 border-surface-container-highest p-stack-md text-center opacity-70">
+<span class="material-symbols-outlined text-4xl mb-2 text-on-surface-variant">hourglass_empty</span>
+<p class="text-label-bold uppercase text-on-surface-variant">Awaiting Judge 2</p>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-deep-navy border-t border-deep-navy mt-stack-lg">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-stack-md w-full max-w-container-max mx-auto gap-4">
+<div class="flex items-center gap-4">
+<span class="text-label-bold font-label-bold text-electric-gold uppercase">HiSkule Engineering</span>
+<span class="text-label-sm font-label-sm text-pure-white/60">© 2024 HiSkule Engineering Outreach. Engineered for the future.</span>
+</div>
+<div class="flex gap-6">
+<a class="text-label-sm font-label-sm text-pure-white/60 hover:text-electric-gold transition-colors" href="#">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-pure-white/60 hover:text-electric-gold transition-colors" href="#">Terms of Service</a>
+<a class="text-label-sm font-label-sm text-pure-white/60 hover:text-electric-gold transition-colors" href="#">University Relations</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for score bars
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.h-full.bg-deep-navy');
+            bars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.transition = 'width 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+    </script>
+</body></html>

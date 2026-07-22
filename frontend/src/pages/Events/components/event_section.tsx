@@ -1,5 +1,5 @@
 import React from "react";
-import Carousel from "../carousel/carousel";
+import Carousel from "../../../components/carousel/carousel";
 
 interface Props {
   title: string;

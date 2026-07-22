@@ -1,6 +1,6 @@
 import React from "react";
 import "./about.css";
-import Carousel from "../../carousel/carousel";
+import Carousel from "../../../components/carousel/carousel";
 import * as MentorPics from "../../../assets/random_mentor_pic";
 
 const About: React.FC = () => {

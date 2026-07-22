@@ -1,7 +1,7 @@
 import React from "react";
 import "./Contact.css";
-import FloatingImages from "../../components/contact_page/floating_image/floating_image";
-import SocialBubbles from "../../components/contact_page/socialbubble/socialbubble";
+import FloatingImages from "./components/floating_image";
+import SocialBubbles from "./components/socialbubble";
 
 const Contact: React.FC = () => {
   return (
