@@ -1,0 +1,70 @@
+.inactive-events-section {
+  width: 100%;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.inactive-events-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 1.5rem 0;
+}
+
+.inactive-slider-container {
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.slick-slide > div {
+  padding: 0 10px; /* Add gap between slider cards */
+}
+
+.inactive-event-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.inactive-event-card:hover {
+  border-color: rgba(246, 204, 19, 0.3);
+  transform: translateY(-2px);
+}
+
+.inactive-event-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.inactive-event-date {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.activate-btn {
+  background: transparent;
+  color: #10b981;
+  border: 2px solid #10b981;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: auto;
+  transition: all 0.2s ease;
+}
+
+.activate-btn:hover {
+  background: #10b981;
+  color: #fff;
+}

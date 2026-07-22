@@ -582,13 +582,28 @@ app.get("/rooms", async (req, res) => {
 
     const rooms = await Room.findAll({
       where: { competitionId },
-      include: [{ model: Judge, attributes: ['name'] }]
+      include: [
+        { model: Judge, attributes: ['name'] },
+        { 
+          model: Team, 
+          attributes: ['id', 'team_number', 'start_time', 'end_time', 'presentation_link'],
+          include: [{ model: Score, attributes: ['id'] }]
+        }
+      ]
     });
 
     const roomsData = rooms.map(r => ({
       id: r.id,
       room: r.name,
-      judges: r.Judges.length > 0 ? r.Judges.map(j => j.name) : ["NO JUDGE"]
+      judges: r.Judges.length > 0 ? r.Judges.map(j => ({ name: j.name })) : [{ name: "NO JUDGE" }],
+      teams: r.Teams.map(t => ({
+        id: t.id,
+        team_number: t.team_number,
+        start_time: t.start_time,
+        end_time: t.end_time,
+        presentation_link: t.presentation_link,
+        isGraded: t.Scores && t.Scores.length >= (r.Judges.length > 0 ? r.Judges.length : 1) // Just a rough estimate of graded status
+      }))
     }));
 
     res.status(200).json(roomsData);
