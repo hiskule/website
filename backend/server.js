@@ -89,6 +89,78 @@ app.post("/reset-db", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /seed-db:
+ *   post:
+ *     summary: Seed the database with competitions.json data
+ *     tags: [Global]
+ *     responses:
+ *       200:
+ *         description: Database successfully seeded!
+ *       500:
+ *         description: Internal server error
+ */
+app.post("/seed-db", async (req, res) => {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const competitionsPath = path.resolve(__dirname, 'data/competitions.json');
+    
+    if (!fs.existsSync(competitionsPath)) {
+      return res.status(404).json({ error: "competitions.json file not found on server" });
+    }
+    
+    const competitionsData = JSON.parse(fs.readFileSync(competitionsPath, 'utf-8'));
+
+    for (const compData of competitionsData) {
+      const comp = await Competition.create({
+        name: compData.name,
+        isActive: compData.isActive || false,
+        date: compData.date || new Date(),
+        categories: compData.categories || []
+      });
+
+      const uniqueRooms = new Set();
+      (compData.judges || []).forEach(j => { if (j.room) uniqueRooms.add(j.room); });
+      (compData.teams || []).forEach(t => { if (t.room) uniqueRooms.add(t.room); });
+
+      const roomMap = {};
+      for (const roomName of uniqueRooms) {
+        const room = await Room.create({ name: roomName, competitionId: comp.id });
+        roomMap[roomName] = room.id;
+      }
+
+      for (const j of (compData.judges || [])) {
+        await Judge.create({
+          name: j.name,
+          roomId: roomMap[j.room] || null,
+          username: j.username,
+          password: j.password,
+          competitionId: comp.id
+        });
+      }
+
+      for (const t of (compData.teams || [])) {
+        await Team.create({
+          team_number: t.team_number,
+          roomId: roomMap[t.room] || null,
+          start_time: t.start_time,
+          end_time: t.end_time,
+          username: t.username,
+          password: t.password,
+          competitionId: comp.id
+        });
+      }
+    }
+
+    res.json({ message: "Successfully seeded database with complete logistics!" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ============================================================================
 // #################### AUTHENTICATION ENDPOINTS ####################
 // ============================================================================
