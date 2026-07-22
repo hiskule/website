@@ -4,7 +4,8 @@ export const ROUTES = {
   team: '/team',
   mentor: '/mentor',
   contact: '/contact',
-  judging: '/UTHSDC',
+  portal: '/portal',
+  adminDashboard: '/master',
 } as const
 
 export const PRIMARY_NAVIGATION = [
@@ -12,5 +13,6 @@ export const PRIMARY_NAVIGATION = [
   { label: 'TEAM', path: ROUTES.team },
   { label: 'MENTORSHIP', path: ROUTES.mentor },
   { label: 'CONTACT US', path: ROUTES.contact },
+  { label: 'MASTER', path: ROUTES.adminDashboard },
+  { label: 'PORTAL', path: ROUTES.portal },
 ] as const
-

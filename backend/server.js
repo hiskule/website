@@ -126,6 +126,11 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
+    // Master Admin Intercept
+    if (username === "admin" && password === process.env.ADMIN_PASSWORD) {
+      return res.json({ role: "admin", user: { username: "admin" } });
+    }
+
     let user = await Judge.findOne({ where: { username, password }, attributes: { exclude: ['password'] } });
     let role = "judge";
 

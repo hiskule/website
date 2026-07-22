@@ -1,0 +1,17 @@
+.master-dashboard-container {
+  padding: 2rem 5%;
+  min-height: calc(100vh - 80px);
+  background-color: var(--color-subtle-gray, #F4F4F9);
+}
+
+.master-dashboard-title {
+  color: var(--color-deep-navy, #0B0B3B);
+  font-size: 2.5rem;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.master-dashboard-welcome {
+  color: var(--color-ink-black, #05051A);
+  margin-bottom: 2rem;
+}
