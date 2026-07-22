@@ -4,7 +4,20 @@
 
 .events-hero-wrapper {
   background-color: var(--color-deep-navy);
-  padding: var(--spacing-stack-lg) 0 0 0;
+  padding: var(--spacing-stack-md) 0 0 0;
+}
+
+.events-header {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--spacing-margin-mobile) var(--spacing-stack-lg);
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .events-header {
+    padding: var(--spacing-stack-md) var(--spacing-margin-desktop) var(--spacing-stack-lg);
+  }
 }
 
 .events-upcoming-wrapper {

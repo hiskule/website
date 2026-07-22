@@ -1,7 +1,7 @@
 .hero-section {
   background-color: var(--color-deep-navy);
   color: var(--color-pure-white);
-  padding: var(--spacing-stack-lg) var(--spacing-margin-mobile);
+  padding: var(--spacing-stack-md) var(--spacing-margin-mobile) var(--spacing-stack-lg) var(--spacing-margin-mobile);
   min-height: 80vh;
   display: flex;
   align-items: center;
@@ -11,7 +11,7 @@
 
 @media (min-width: 768px) {
   .hero-section {
-    padding: var(--spacing-stack-lg) var(--spacing-margin-desktop);
+    padding: var(--spacing-stack-md) var(--spacing-margin-desktop) var(--spacing-stack-lg) var(--spacing-margin-desktop);
   }
 }
 

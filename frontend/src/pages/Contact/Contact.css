@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-stack-lg) var(--spacing-margin-mobile);
+  padding: var(--spacing-stack-md) var(--spacing-margin-mobile) var(--spacing-stack-lg);
 }
 
 .contact-floating-wrap {

@@ -1,13 +1,13 @@
 .team-page-container {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: var(--spacing-stack-lg) var(--spacing-margin-mobile);
+  padding: var(--spacing-stack-md) var(--spacing-margin-mobile) var(--spacing-stack-lg);
   min-height: 80vh;
 }
 
 @media (min-width: 768px) {
   .team-page-container {
-    padding: var(--spacing-stack-lg) var(--spacing-margin-desktop);
+    padding: var(--spacing-stack-md) var(--spacing-margin-desktop) var(--spacing-stack-lg);
   }
 }
 
