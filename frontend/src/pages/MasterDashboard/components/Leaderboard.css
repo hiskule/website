@@ -1,57 +1,72 @@
-.leaderboard-container {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 1.5rem;
-  backdrop-filter: blur(10px);
-  margin-bottom: 2rem;
+.leaderboard-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-stack-md);
+  margin-bottom: var(--spacing-stack-lg);
 }
 
 .leaderboard-header {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 0 1rem 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--spacing-base);
+}
+
+.leaderboard-header h3 {
+  color: var(--color-deep-navy);
+  margin: 0;
+}
+
+.leaderboard-table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--spacing-stack-sm);
 }
 
 .leaderboard-table {
   width: 100%;
+  text-align: left;
   border-collapse: collapse;
 }
 
-.leaderboard-table th,
-.leaderboard-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+.leaderboard-table thead tr {
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f9fafb;
 }
 
 .leaderboard-table th {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
+  padding: 1rem var(--spacing-stack-md);
+  color: var(--color-on-surface-variant);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  font-family: var(--font-family-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.leaderboard-table tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s;
+}
+
+.leaderboard-table tbody tr:hover {
+  background-color: #f9fafb;
 }
 
 .leaderboard-table td {
-  color: #fff;
-  font-weight: 500;
+  padding: 1rem var(--spacing-stack-md);
+  color: var(--color-on-surface);
 }
 
-.leaderboard-table tr:last-child td {
-  border-bottom: none;
+.rank-col {
+  color: var(--color-deep-navy) !important;
+  font-weight: 700;
 }
 
-.leaderboard-rank {
-  font-weight: 800;
-  color: #F6CC13;
+.team-col {
+  font-weight: 700;
 }
 
 .leaderboard-empty {
-  color: rgba(255, 255, 255, 0.5);
-  font-style: italic;
-  margin-top: 1rem;
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-on-surface-variant);
 }

@@ -117,7 +117,7 @@ export default function JudgeView() {
       });
 
       if (!res.ok) throw new Error('Failed to submit scores');
-      setMessage('✅ Scores saved successfully!');
+      setMessage('Scores saved successfully!');
       
       // Close modal after delay
       setTimeout(() => {
@@ -126,7 +126,7 @@ export default function JudgeView() {
       }, 1500);
       
     } catch (err) {
-      setMessage('❌ Failed to save scores');
+      setMessage('Failed to save scores');
     } finally {
       setSubmitting(false);
     }
@@ -134,33 +134,57 @@ export default function JudgeView() {
 
   return (
     <div className="judge-view-container">
-      <div className="judge-header">
-        <div className="judge-header-info">
-          <h3>Your Schedule</h3>
-          <span className="room-badge">{roomName ? `Room: ${roomName}` : 'No Room Assigned'}</span>
+      <div className="judge-hero-header">
+        <div className="judge-hero-bg-pattern"></div>
+        <div className="judge-hero-content">
+          <header className="judge-header-flex">
+            <h1 className="text-display-lg judge-portal-title">Portal Dashboard</h1>
+            <div className="judge-welcome-row">
+              <p className="text-body-lg judge-welcome-text">
+                Welcome, <strong>{user?.name || user?.username}</strong>
+              </p>
+              <span className="judge-role-badge">JUDGE</span>
+            </div>
+          </header>
         </div>
-        <p className="judge-subtitle">Select a team below to view materials and submit your evaluation.</p>
       </div>
 
-      <div className="team-schedule-grid">
-        {schedule.length === 0 ? (
-          <div className="empty-schedule">No teams assigned to this room yet.</div>
-        ) : (
-          schedule.map((team) => (
-            <div key={team.id} className="schedule-card" onClick={() => openScoring(team)}>
-              <div className="schedule-time">
-                {team.start_time} - {team.end_time}
-              </div>
-              <div className="schedule-team-name">
-                Team {team.team_number}
-              </div>
-              <div className="schedule-actions">
-                <button className="grade-btn">Evaluate</button>
+      <main className="judge-main-content">
+        <section className="judge-schedule-section">
+          <div className="judge-schedule-header">
+            <div className="judge-schedule-title-row">
+              <h2 className="text-headline-lg">Your Schedule</h2>
+              <div className="judge-room-badge">
+                <span className="text-label-bold">Room: {roomName || 'Unassigned'}</span>
               </div>
             </div>
-          ))
-        )}
-      </div>
+            <p className="judge-schedule-subtitle">
+              Select a team below to view submitted technical materials, presentation deck, and submit your final evaluation.
+            </p>
+          </div>
+
+          <div className="team-schedule-grid">
+            {schedule.length === 0 ? (
+              <div className="empty-schedule text-label-bold">No teams assigned to this room yet.</div>
+            ) : (
+              schedule.map((team) => (
+                <div key={team.id} className="bento-card schedule-card" onClick={() => openScoring(team)}>
+                  <div className="schedule-card-top">
+                    <div className="schedule-time-badge">
+                      {team.start_time} - {team.end_time}
+                    </div>
+                  </div>
+                  <div className="schedule-card-mid">
+                    <h3 className="text-headline-md team-name-title">Team {team.team_number}</h3>
+                    <p className="text-label-sm team-category">Pending Evaluation</p>
+                  </div>
+                  <button className="grade-btn">Evaluate</button>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+      </main>
 
       {activeTeam && (
         <div className="scoring-modal-overlay" onClick={() => setActiveTeam(null)}>

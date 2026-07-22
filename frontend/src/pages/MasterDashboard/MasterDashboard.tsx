@@ -54,11 +54,15 @@ export default function MasterDashboard() {
 
   return (
     <div className="master-dashboard-container">
-      <div className="master-header-section">
-        <h1 className="master-dashboard-title">Master Dashboard</h1>
-        <p className="master-dashboard-welcome">
-          Welcome back, <strong>{user?.name || user?.username}</strong>. Live event monitoring is active.
-        </p>
+      <div className="hero-header">
+        <header className="hero-header-content">
+          <div className="hero-header-text">
+            <h1 className="text-display-lg">Master Dashboard</h1>
+            <p className="text-body-lg hero-subtitle">
+              Welcome back, <strong>{user?.name || user?.username}</strong>. Live event monitoring is active.
+            </p>
+          </div>
+        </header>
       </div>
 
       {loading ? (

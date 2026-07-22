@@ -56,29 +56,39 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
 
   return (
     <div className="active-event-overview">
-      <div className="active-event-header">
-        <div className="active-event-info">
-          <span className="active-badge">Live Now</span>
-          <h2 className="active-event-name">{competition.name}</h2>
-          <span className="active-event-date">{competition.date}</span>
+      <section className="glass-card ae-card">
+        <div className="ae-header-row">
+          <div className="ae-info-col">
+            <div className="ae-badge-row">
+              <span className="ae-pulse-container">
+                <span className="status-pulse ae-pulse-bg"></span>
+                <span className="ae-pulse-dot"></span>
+              </span>
+              <span className="ae-badge-text">LIVE NOW</span>
+            </div>
+            <h2 className="text-headline-lg ae-title">{competition.name}</h2>
+            <p className="text-label-sm ae-date">Competition Date: {competition.date}</p>
+          </div>
+          <button className="ae-deactivate-btn" onClick={handleDeactivate}>
+            Deactivate Event
+          </button>
         </div>
-        <button className="deactivate-btn" onClick={handleDeactivate}>
-          Deactivate Event
-        </button>
-      </div>
+      </section>
 
       <Leaderboard competitionId={competition.id} />
 
-      <h3 style={{ color: '#fff', marginBottom: '1.5rem', fontSize: '1.5rem' }}>Room Overview</h3>
+      <div className="ae-section-title">
+        <h3 className="text-headline-md">Room Overview</h3>
+      </div>
       {loading ? (
-        <div style={{ color: 'rgba(255,255,255,0.7)' }}>Loading rooms...</div>
+        <div style={{ color: 'var(--color-ink-black)', padding: '1rem' }}>Loading rooms...</div>
       ) : (
         <div className="rooms-grid">
           {rooms.map(room => (
             <RoomCard key={room.id} room={room} />
           ))}
           {rooms.length === 0 && (
-            <p style={{ color: 'rgba(255,255,255,0.5)' }}>No rooms configured for this event.</p>
+            <p style={{ color: 'var(--color-on-surface-variant)', padding: '1rem' }}>No rooms configured for this event.</p>
           )}
         </div>
       )}

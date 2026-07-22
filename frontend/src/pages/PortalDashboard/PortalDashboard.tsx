@@ -20,13 +20,7 @@ export default function PortalDashboard() {
 
   return (
     <div className="portal-dashboard-container">
-      <div className="portal-header-section">
-        <h1 className="portal-dashboard-title">Portal Dashboard</h1>
-        <p className="portal-dashboard-welcome">
-          Welcome, <strong>{user?.name || user?.username}</strong> 
-          <span className="role-badge">{role.toUpperCase()}</span>
-        </p>
-      </div>
+
       
       {role === 'judge' && <JudgeView />}
       {role === 'team' && <TeamView />}

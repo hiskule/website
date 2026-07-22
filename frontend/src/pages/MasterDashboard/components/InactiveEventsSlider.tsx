@@ -50,15 +50,17 @@ export const InactiveEventsSlider: React.FC<InactiveEventsSliderProps> = ({ comp
   };
 
   return (
-    <div className="inactive-events-section">
-      <h3 className="inactive-events-title">Other Events</h3>
+    <section className="inactive-events-section">
+      <div className="inactive-events-header">
+        <h3 className="text-headline-md">Other Events</h3>
+      </div>
       <div className="inactive-slider-container">
         <Slider {...settings}>
           {competitions.map(comp => (
-            <div key={comp.id}>
+            <div key={comp.id} className="inactive-slide-wrapper">
               <div className="inactive-event-card">
-                <h4 className="inactive-event-name">{comp.name}</h4>
-                <p className="inactive-event-date">{comp.date}</p>
+                <h4 className="text-headline-md inactive-event-name">{comp.name}</h4>
+                <p className="text-label-sm inactive-event-date">{comp.date}</p>
                 <button 
                   className="activate-btn"
                   onClick={() => handleActivate(comp.id)}
@@ -70,6 +72,6 @@ export const InactiveEventsSlider: React.FC<InactiveEventsSliderProps> = ({ comp
           ))}
         </Slider>
       </div>
-    </div>
+    </section>
   );
 };

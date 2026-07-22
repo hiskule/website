@@ -1,49 +1,68 @@
 .master-dashboard-container {
-  padding: 1.5rem 5% 4rem;
   min-height: calc(100vh - 80px);
-  background: linear-gradient(135deg, #0B0B3B 0%, #1a1a5c 50%, #05051A 100%);
-  color: #fff;
+  background-color: #f3f4f6;
+  color: var(--color-ink-black);
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.master-header-section {
+.hero-header {
+  background-color: var(--color-deep-navy);
+  color: var(--color-pure-white);
   width: 100%;
-  max-width: 1200px;
-  margin-bottom: 2rem;
+  padding-top: var(--spacing-stack-lg);
+  padding-bottom: 96px; /* pb-24 */
+  padding-left: var(--spacing-margin-mobile);
+  padding-right: var(--spacing-margin-mobile);
+}
+
+@media (min-width: 768px) {
+  .hero-header {
+    padding-left: var(--spacing-margin-desktop);
+    padding-right: var(--spacing-margin-desktop);
+  }
+}
+
+.hero-header-content {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-stack-sm);
   animation: slideUpFade 0.6s ease-out;
 }
 
-.master-dashboard-title {
-  font-size: 3rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
-  background: linear-gradient(90deg, #fff, #a7f3d0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -0.5px;
+.hero-header-text h1 {
+  margin: 0 0 var(--spacing-base) 0;
+  color: var(--color-pure-white);
 }
 
-.master-dashboard-welcome {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.hero-subtitle {
+  color: #c1c2fa; /* on-primary-fixed */
   margin: 0;
 }
-
-.master-dashboard-welcome strong {
-  color: #fff;
-  font-weight: 600;
+.hero-subtitle strong {
+  color: var(--color-pure-white);
+  font-weight: 700;
 }
 
 .master-content-wrapper {
-  width: 100%;
-  max-width: 1200px;
+  max-width: var(--container-max);
+  margin: -64px auto 0; /* -mt-16 */
+  padding-left: var(--spacing-margin-mobile);
+  padding-right: var(--spacing-margin-mobile);
+  padding-bottom: var(--spacing-stack-lg);
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-stack-lg);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .master-content-wrapper {
+    padding-left: var(--spacing-margin-desktop);
+    padding-right: var(--spacing-margin-desktop);
+  }
 }
 
 .no-active-event {
