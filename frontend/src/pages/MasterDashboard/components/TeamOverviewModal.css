@@ -1,0 +1,101 @@
+.team-modal-section {
+  margin-bottom: 24px;
+}
+
+.team-modal-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.team-modal-section-title {
+  margin: 0;
+  color: var(--color-deep-navy);
+}
+
+.team-modal-edit-btn {
+  background: transparent;
+  color: var(--color-primary);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.team-modal-link {
+  color: var(--color-primary);
+}
+
+.team-modal-empty-text {
+  margin: 0;
+  color: var(--color-on-surface-variant);
+}
+
+.team-modal-rubrics-title {
+  margin: 0 0 16px 0;
+  color: var(--color-deep-navy);
+}
+
+.team-modal-scores-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.team-modal-score-card {
+  border: 1px solid var(--color-outline);
+  padding: 16px;
+  border-radius: 8px;
+  color: var(--color-deep-navy);
+}
+
+.team-modal-judge-name {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+}
+
+.team-modal-score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 24px;
+  row-gap: 8px;
+  margin-bottom: 16px;
+}
+
+.team-modal-score-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.team-modal-score-category {
+  font-size: 14px;
+}
+
+.team-modal-score-value {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.team-modal-feedback-box {
+  background: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.team-modal-feedback-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.team-modal-feedback-text {
+  margin: 0;
+  font-style: italic;
+  color: var(--color-on-surface-variant);
+  font-size: 16px;
+}

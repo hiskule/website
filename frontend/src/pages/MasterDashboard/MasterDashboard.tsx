@@ -50,7 +50,12 @@ export default function MasterDashboard() {
   if (role !== 'admin') return null;
 
   const activeEvent = competitions.find(c => c.isActive);
-  const inactiveEvents = competitions.filter(c => !c.isActive);
+  
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const futureEvents = competitions.filter(c => !c.isActive && new Date(c.date) >= today);
+  const pastEvents = competitions.filter(c => !c.isActive && new Date(c.date) < today);
 
   return (
     <div className="master-dashboard-container">
@@ -82,7 +87,13 @@ export default function MasterDashboard() {
           )}
 
           <InactiveEventsSlider 
-            competitions={inactiveEvents} 
+            title="Future Events"
+            competitions={futureEvents} 
+            onActivate={fetchCompetitions} 
+          />
+          <InactiveEventsSlider 
+            title="Past Events"
+            competitions={pastEvents} 
             onActivate={fetchCompetitions} 
           />
         </div>

@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Designapalooza 2027",
+    "isActive": false,
+    "date": "2027-02-01",
+    "categories": [
+      {
+        "name": "User Interface",
+        "description": "How intuitive and visually appealing is the UI?",
+        "max_score": 10
+      },
+      {
+        "name": "Accessibility",
+        "description": "Does the design accommodate users with disabilities?",
+        "max_score": 5
+      },
+      {
+        "name": "Innovation",
+        "description": "Is this a fresh take on the problem?",
+        "max_score": 5
+      }
+    ],
+    "judges": [
+      { "name": "Charlie Davis", "room": "A100", "username": "charlie_designapalooza_26", "password": "password123" }
+    ],
+    "teams": [
+      { "team_number": 1, "room": "A100", "start_time": "09:00 AM", "end_time": "09:30 AM", "username": "team1_designapalooza_26", "password": "password123" },
+      { "team_number": 2, "room": "A100", "start_time": "09:30 AM", "end_time": "10:00 AM", "username": "team2_designapalooza_26", "password": "password123" }
+    ]
+  }
+]

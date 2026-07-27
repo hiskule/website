@@ -110,6 +110,23 @@
   color: var(--color-pure-white);
 }
 
+.ae-export-btn {
+  background-color: var(--color-deep-navy);
+  color: var(--color-pure-white);
+  border: none;
+  padding: var(--spacing-stack-sm) var(--spacing-stack-md);
+  border-radius: var(--spacing-base);
+  font-family: var(--font-family-primary);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.ae-export-btn:hover {
+  opacity: 0.9;
+}
+
 .ae-section-title {
   display: flex;
   align-items: center;

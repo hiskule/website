@@ -42,7 +42,7 @@
 }
 
 .inactive-event-date {
-  color: var(--color-primary-fixed); /* #e1e0ff */
+  color: var(--color-pure-white);
   opacity: 0.75;
   margin: 0;
 }

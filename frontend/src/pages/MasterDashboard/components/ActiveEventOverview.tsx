@@ -73,6 +73,10 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
     }
   };
 
+  const handleExportCSV = () => {
+    window.location.href = `${API_URL}/leaderboard/export?competitionId=${competition.id}`;
+  };
+
   return (
     <div className="active-event-overview">
       <section className="glass-card ae-card">
@@ -88,9 +92,17 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
             <h2 className="text-headline-lg ae-title">{competition.name}</h2>
             <p className="text-label-sm ae-date">Competition Date: {competition.date}</p>
           </div>
-          <button className="ae-deactivate-btn" onClick={handleDeactivate}>
-            Deactivate Event
-          </button>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+            <button 
+              onClick={handleExportCSV}
+              className="ae-export-btn"
+            >
+              Export Results to CSV
+            </button>
+            <button className="ae-deactivate-btn" onClick={handleDeactivate}>
+              Deactivate Event
+            </button>
+          </div>
         </div>
       </section>
 
@@ -122,7 +134,13 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
       ) : (
         <div className="rooms-grid">
           {rooms.map(room => (
-            <RoomCard key={room.id} room={room} />
+            <RoomCard 
+              key={room.id} 
+              room={room} 
+              allRooms={rooms} 
+              onUpdate={fetchRooms}
+              competitionId={competition.id}
+            />
           ))}
           {rooms.length === 0 && (
             <p style={{ color: 'var(--color-on-surface-variant)', padding: '1rem' }}>No rooms configured for this event.</p>

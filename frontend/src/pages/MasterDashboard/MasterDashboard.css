@@ -66,16 +66,17 @@
 }
 
 .no-active-event {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  background-color: var(--color-pure-white);
+  border: 2px dashed #d1d5db;
   border-radius: 12px;
   padding: 4rem 2rem;
   text-align: center;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-on-surface-variant);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .no-active-event h2 {
-  color: #fff;
+  color: var(--color-deep-navy);
   margin: 0 0 1rem 0;
 }
 

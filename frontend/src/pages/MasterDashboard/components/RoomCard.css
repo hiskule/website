@@ -28,7 +28,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-base);
-  margin-top: auto;
 }
 
 .room-team-item {
@@ -102,4 +101,125 @@
 .room-empty-state span {
   color: var(--color-outline);
   font-style: italic;
+}
+
+/* Judge Management Modal Styles */
+.judge-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.judge-modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: var(--color-on-surface);
+}
+
+.judge-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.judge-modal-header h3 {
+  margin: 0;
+  color: var(--color-deep-navy);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--color-deep-navy);
+}
+
+.judge-list-section, .add-judge-section {
+  margin-bottom: 24px;
+}
+
+.judge-list-section h4, .add-judge-section h4 {
+  margin: 0 0 12px 0;
+  color: var(--color-deep-navy);
+}
+
+.judge-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.judge-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--color-outline);
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.judge-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.judge-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.room-select {
+  padding: 4px;
+  border: 1px solid var(--color-outline);
+  border-radius: 4px;
+}
+
+.remove-btn {
+  background: #dc2626; /* red */
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-judge-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.add-judge-form input {
+  padding: 8px;
+  border: 1px solid var(--color-outline);
+  border-radius: 4px;
+}
+
+.submit-btn {
+  background: var(--color-deep-navy);
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

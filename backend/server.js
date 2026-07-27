@@ -5,6 +5,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const { sequelize, Competition, Team, Judge, Room, Score, dbError } = require("./models/index.js");
+const { getLeaderboardData } = require("./utils/leaderboardLogic.js");
 
 // Load environment variables
 dotenv.config();
@@ -114,11 +115,11 @@ app.post("/seed-db", async (req, res) => {
     const path = require('path');
     const filename = req.query.filename || 'uthsdc-2026.json';
     const competitionsPath = path.resolve(__dirname, 'data', filename);
-    
+
     if (!fs.existsSync(competitionsPath)) {
       return res.status(404).json({ error: `${filename} file not found on server` });
     }
-    
+
     const competitionsData = JSON.parse(fs.readFileSync(competitionsPath, 'utf-8'));
 
     for (const compData of competitionsData) {
@@ -252,7 +253,9 @@ app.post("/login", async (req, res) => {
  */
 app.get("/competitions", async (req, res) => {
   try {
-    const comps = await Competition.findAll();
+    const comps = await Competition.findAll({
+      order: [['date', 'ASC']]
+    });
     res.json(comps);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -365,7 +368,7 @@ app.post("/competitions/:id/activate", async (req, res) => {
 
     // Set all others to false
     await Competition.update({ isActive: false }, { where: {} });
-    
+
     // Set this one to true
     await comp.update({ isActive: true });
 
@@ -550,7 +553,7 @@ app.post("/teams/:teamId/submission", async (req, res) => {
     const { link, comments } = req.body;
 
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
-    
+
     const team = await Team.findOne({ where: { id: teamId, competitionId } });
     if (!team) return res.status(404).json({ error: "Team not found" });
 
@@ -596,7 +599,7 @@ app.get("/teams/:teamId/scores", async (req, res) => {
   try {
     const { teamId } = req.params;
     const { competitionId } = req.query;
-    
+
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
 
     // Ensure the team is in this competition
@@ -635,6 +638,56 @@ app.get("/teams/:teamId/scores", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
+// ============================================================================
+// #################### JUDGE MANAGEMENT ENDPOINTS ####################
+// ============================================================================
+
+app.post("/judges", async (req, res) => {
+  try {
+    const { name, username, password, roomId, competitionId } = req.body;
+    if (!name || !username || !password || !roomId || !competitionId) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+    const existing = await Judge.findOne({ where: { username } });
+    if (existing) {
+      return res.status(400).json({ error: "Username already exists" });
+    }
+    const judge = await Judge.create({ name, username, password, roomId, competitionId });
+    res.json(judge);
+  } catch (error) {
+    console.error("Error creating judge:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.put("/judges/:id/room", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { roomId } = req.body;
+    if (!roomId) return res.status(400).json({ error: "roomId is required" });
+    const judge = await Judge.findByPk(id);
+    if (!judge) return res.status(404).json({ error: "Judge not found" });
+    await judge.update({ roomId });
+    res.json({ message: "Judge room updated", judge });
+  } catch (error) {
+    console.error("Error updating judge room:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.delete("/judges/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const judge = await Judge.findByPk(id);
+    if (!judge) return res.status(404).json({ error: "Judge not found" });
+    await judge.destroy();
+    res.json({ message: "Judge deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting judge:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.get("/rooms", async (req, res) => {
   try {
     const { competitionId } = req.query;
@@ -643,19 +696,20 @@ app.get("/rooms", async (req, res) => {
     const rooms = await Room.findAll({
       where: { competitionId },
       include: [
-        { model: Judge, attributes: ['name'] },
-        { 
-          model: Team, 
+        { model: Judge, attributes: ['id', 'name', 'username'] },
+        {
+          model: Team,
           attributes: ['id', 'team_number', 'start_time', 'end_time', 'presentation_link'],
           include: [{ model: Score, attributes: ['id'] }]
         }
-      ]
+      ],
+      order: [[Team, 'start_time', 'ASC']]
     });
 
     const roomsData = rooms.map(r => ({
       id: r.id,
       room: r.name,
-      judges: r.Judges.length > 0 ? r.Judges.map(j => ({ name: j.name })) : [{ name: "NO JUDGE" }],
+      judges: r.Judges.map(j => ({ id: j.id, name: j.name, username: j.username })),
       teams: r.Teams.map(t => ({
         id: t.id,
         team_number: t.team_number,
@@ -899,7 +953,51 @@ app.get("/scores", async (req, res) => {
   }
 });
 
+// ============================================================================
+// #################### LEADERBOARD ENDPOINTS ####################
+// ============================================================================
 
+app.get("/leaderboard", async (req, res) => {
+  try {
+    const { competitionId } = req.query;
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+
+    const sortedLeaderboard = await getLeaderboardData(competitionId);
+    res.json(sortedLeaderboard);
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/leaderboard/export", async (req, res) => {
+  try {
+    const { competitionId } = req.query;
+    if (!competitionId) return res.status(400).json({ error: "competitionId required" });
+
+    // Fetch the competition for the title
+    const competition = await Competition.findByPk(competitionId);
+    if (!competition) return res.status(404).json({ error: "Competition not found" });
+
+    const sortedLeaderboard = await getLeaderboardData(competitionId);
+    
+    // Create CSV String - Pure tabular data without metadata rows for clean parsing
+    let csv = "Rank,Team,Total Score,Judges Graded\n";
+    
+    sortedLeaderboard.forEach((team, index) => {
+      csv += `${index + 1},Team ${team.team_number},${team.total_score},${team.judges_counted}\n`;
+    });
+
+    const safeFileName = competition.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename="${safeFileName}_results.csv"`);
+    res.status(200).send(csv);
+  } catch (error) {
+    console.error("Error exporting leaderboard:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 sequelize.sync().then(() => {
