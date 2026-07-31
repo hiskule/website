@@ -111,6 +111,21 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
     }
   };
 
+  const totalTeams = room.teams?.length || 0;
+  const gradedTeams = room.teams?.filter(t => t.isGraded).length || 0;
+  const progressPercent = totalTeams > 0 ? Math.round((gradedTeams / totalTeams) * 100) : 0;
+
+  let progressColor = '#EF4444'; // Red for low progress
+  if (progressPercent >= 100) {
+    progressColor = '#10B981'; // Green for complete
+  } else if (progressPercent >= 66) {
+    progressColor = 'var(--color-electric-gold)'; // Yellow for near complete
+  } else if (progressPercent >= 33) {
+    progressColor = '#F59E0B'; // Orange for midway
+  } else if (progressPercent === 0) {
+    progressColor = 'var(--color-outline-variant)'; // Grey for 0
+  }
+
   return (
     <div className="glass-card room-card">
       <div className="room-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -124,10 +139,23 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          style={{ background: 'transparent', border: '1px solid var(--color-outline)', color: 'var(--color-on-surface)', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}
+          className="room-manage-judges-btn"
         >
           Manage Judges
         </button>
+      </div>
+
+      <div className="room-progress-container">
+        <div className="room-progress-header">
+          <span className="text-label-sm room-progress-title">Judging Progress</span>
+          <span className="text-label-sm room-progress-text">{gradedTeams}/{totalTeams} Teams Graded</span>
+        </div>
+        <div className="room-progress-track">
+          <div 
+            className="room-progress-fill" 
+            style={{ width: `${progressPercent}%`, backgroundColor: progressColor }} 
+          />
+        </div>
       </div>
       
       <div className="room-teams-list">

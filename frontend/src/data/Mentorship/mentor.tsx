@@ -1,34 +1,10 @@
-// mentorSections.ts (or inside same file)
-import * as mentorPic from '../assets/random_mentor_pic'
-import {mentor} from '../assets/coffeehouse'
-import {first} from '../assets/UTHSDC'
+import type { MentorSection } from './mentorTypes';
+import { mentorEvents } from './mentorEvents';
+import * as mentorPic from '../../assets/random_mentor_pic'
+import { mentor } from '../../assets/coffeehouse'
 
-
-type ButtonType = {
-  label: string;
-  link?: string; 
-};
-
-type ImageType = {
-  src: string;
-  type: "horizontal" | "vertical";
-  position: "left" | "right";
-};
-
-type MentorSection = {
-  header: string;
-  text: string;
-  buttons: ButtonType[];
-  image?: ImageType;
-};
-// Define your section data
-const mentorSections: MentorSection[] = [
-  {
-    header: "Designapalooza 2T6 MENTOR SIGN UP",
-    text: `Want to be a mentor for <strong>Hi-Skule™</strong>’s most technical event of the year? Sign up as a Designapalooza Mentor and help us run this event smoothly!`,
-    buttons: [{ label: "SIGN UP ON GOOGLE FORMS", link: '' }],
-    image: { src: first, type: "horizontal", position: "left" }
-  },
+// These cards will always be displayed at the bottom of the mentorship page
+const permanentSections: MentorSection[] = [
   {
     header: "MENTOR MAILING LIST SIGN UP",
     text: `Become a mentor today and have the opportunity to guide young students who are curious about pursuing a career in STEM. By signing up to be a <strong>Hi-Skule™</strong> mentor you’ll be notified when volunteer signup is available for all <strong>Hi-Skule™</strong> Mentorship Events.`,
@@ -48,6 +24,12 @@ const mentorSections: MentorSection[] = [
     image: { src: mentorPic.tenth, type: "vertical", position: "right" }
   }
 ];
+
+// Automatically filter out any events that are marked as inactive
+const activeEvents = mentorEvents.filter(event => event.isActive);
+
+// Merge the active events to appear at the top, followed by the permanent cards
+const mentorSections: MentorSection[] = [...activeEvents, ...permanentSections];
 
 export default mentorSections;
 

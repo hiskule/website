@@ -123,6 +123,12 @@ app.post("/seed-db", async (req, res) => {
     const competitionsData = JSON.parse(fs.readFileSync(competitionsPath, 'utf-8'));
 
     for (const compData of competitionsData) {
+      // Check if event already exists. If so, wipe it clean (CASCADE handles deleting old teams/judges/scores).
+      const existingComp = await Competition.findOne({ where: { name: compData.name } });
+      if (existingComp) {
+        await existingComp.destroy();
+      }
+
       const comp = await Competition.create({
         name: compData.name,
         isActive: compData.isActive || false,

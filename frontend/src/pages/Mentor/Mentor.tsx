@@ -1,7 +1,7 @@
 import React from 'react';
 import './Mentor.css';
 import { team } from '../../assets/coffeehouse';
-import mentorSections from '../../data/mentor';
+import mentorSections from '../../data/Mentorship/mentor';
 import SectionComponent from './components/Sections';
 
 const Mentor: React.FC = () => {

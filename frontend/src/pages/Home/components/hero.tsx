@@ -6,6 +6,7 @@ import { eventsData } from "../../../data/events";
 import MiniEventCard from "../../../components/mini_event_card/MiniEventCard";
 const Hero: React.FC = () => {
   const navigate = useNavigate();
+  const upcomingEvent = eventsData.find(e => e.isUpcoming) || eventsData[0];
 
   return (
     <section className="hero-section">
@@ -41,7 +42,7 @@ const Hero: React.FC = () => {
         {/* Right Column: Visual Frame */}
         <div className="hero-visual">
           <MiniEventCard 
-            event={eventsData[0]} 
+            event={upcomingEvent} 
             className="hero-animated-card"
             onButtonClick={() => navigate(ROUTES.events)}
           />

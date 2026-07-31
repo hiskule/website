@@ -30,9 +30,10 @@ const Event: React.FC = () => {
           <div className="events-featured-next">
             <h2 className="events-section-title">UPCOMING EVENT</h2>
             <MiniEventCard 
-              event={eventsData[0]} 
+              event={eventsData.find(e => e.isUpcoming) || eventsData[0]} 
               onButtonClick={() => {
-                if (eventsData[0].link) window.open(eventsData[0].link, "_blank");
+                const upcoming = eventsData.find(e => e.isUpcoming) || eventsData[0];
+                if (upcoming.link) window.open(upcoming.link, "_blank");
               }}
             />
           </div>
