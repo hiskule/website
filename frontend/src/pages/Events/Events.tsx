@@ -7,7 +7,7 @@ import EventPopupModal from '../../components/event_popup/EventPopupModal';
 
 const Event: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
-  
+
   return (
     <div className="events-page-wrapper">
       {/* Page Hero - Navy */}
@@ -20,9 +20,6 @@ const Event: React.FC = () => {
                 Explore upcoming workshops, campus tours, and outreach events hosted by the University of Toronto. Join our community of curious minds.
               </p>
             </div>
-            <div className="events-year-badge">
-              <span>Academic Year 2026-2027</span>
-            </div>
           </div>
         </div>
       </section>
@@ -32,8 +29,8 @@ const Event: React.FC = () => {
         <div className="container-kinetic">
           <div className="events-featured-next">
             <h2 className="events-section-title">UPCOMING EVENT</h2>
-            <MiniEventCard 
-              event={eventsData.find(e => e.isUpcoming) || eventsData[0]} 
+            <MiniEventCard
+              event={eventsData.find(e => e.isUpcoming) || eventsData[0]}
               onLearnMore={() => {
                 const upcoming = eventsData.find(e => e.isUpcoming) || eventsData[0];
                 setSelectedEvent(upcoming);
@@ -57,9 +54,9 @@ const Event: React.FC = () => {
           </div>
           <div className="events-grid">
             {eventsData.map((event, index) => (
-              <EventsSection 
-                key={index} 
-                {...event} 
+              <EventsSection
+                key={index}
+                {...event}
                 onLearnMore={() => setSelectedEvent(event)}
               />
             ))}
@@ -67,10 +64,10 @@ const Event: React.FC = () => {
         </div>
       </section>
 
-      <EventPopupModal 
-        isOpen={selectedEvent !== null} 
-        onClose={() => setSelectedEvent(null)} 
-        event={selectedEvent} 
+      <EventPopupModal
+        isOpen={selectedEvent !== null}
+        onClose={() => setSelectedEvent(null)}
+        event={selectedEvent}
       />
     </div>
   );

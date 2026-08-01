@@ -338,9 +338,6 @@
 }
 
 /* Schedule Column */
-.event-popup-schedule-col {
-  /* empty, structure handled by grid */
-}
 
 .schedule-sticky {
   position: sticky;
