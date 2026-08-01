@@ -5,13 +5,16 @@
   --color-pure-white: #FFFFFF;
   --color-subtle-gray: #F4F4F9;
   --color-ink-black: #05051A;
+  --color-on-surface: var(--color-ink-black);
   --color-on-surface-variant: #47464f;
   --color-outline: #777680;
   --color-outline-variant: #c8c5d0;
+  --color-surface-variant: #e2e2e2;
+  --color-error: #d32f2f;
 
   /* Typography Scale */
   --font-family-primary: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  
+
   /* Spacing Tokens */
   --spacing-base: 8px;
   --spacing-stack-sm: 12px;
@@ -128,6 +131,29 @@ img {
   color: var(--color-deep-navy);
 }
 
+.btn-secondary-outline {
+  background-color: transparent;
+  color: var(--color-deep-navy);
+  border: 2px solid var(--color-deep-navy);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-secondary-outline:hover {
+  background-color: var(--color-deep-navy);
+  color: var(--color-pure-white);
+}
+
 .container-kinetic {
   max-width: var(--container-max);
   margin: 0 auto;
@@ -172,8 +198,8 @@ img {
 }
 
 .eng-grid-bg {
-  background-image: linear-gradient(rgba(11, 11, 59, 0.03) 1px, transparent 1px), 
-                    linear-gradient(90deg, rgba(11, 11, 59, 0.03) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(11, 11, 59, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 11, 59, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -182,8 +208,15 @@ img {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .5;
+  }
 }
 
 .text-headline-lg {
@@ -230,5 +263,3 @@ img {
   line-height: 24px;
   font-weight: 400;
 }
-
-

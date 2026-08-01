@@ -7,7 +7,7 @@ import TeamView from './components/TeamView';
 import './PortalDashboard.css';
 
 export default function PortalDashboard() {
-  const { role, user } = useAuth();
+  const { role } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

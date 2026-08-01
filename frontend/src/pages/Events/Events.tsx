@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Events.css';
 import EventsSection from './components/event_section';
-import { eventsData } from '../../data/events';
+import { eventsData, type EventData } from '../../data/events';
 import MiniEventCard from '../../components/mini_event_card/MiniEventCard';
+import EventPopupModal from '../../components/event_popup/EventPopupModal';
 
 const Event: React.FC = () => {
+  const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
+  
   return (
     <div className="events-page-wrapper">
       {/* Page Hero - Navy */}
@@ -31,6 +34,10 @@ const Event: React.FC = () => {
             <h2 className="events-section-title">UPCOMING EVENT</h2>
             <MiniEventCard 
               event={eventsData.find(e => e.isUpcoming) || eventsData[0]} 
+              onLearnMore={() => {
+                const upcoming = eventsData.find(e => e.isUpcoming) || eventsData[0];
+                setSelectedEvent(upcoming);
+              }}
               onButtonClick={() => {
                 const upcoming = eventsData.find(e => e.isUpcoming) || eventsData[0];
                 if (upcoming.link) window.open(upcoming.link, "_blank");
@@ -50,11 +57,21 @@ const Event: React.FC = () => {
           </div>
           <div className="events-grid">
             {eventsData.map((event, index) => (
-              <EventsSection key={index} {...event} />
+              <EventsSection 
+                key={index} 
+                {...event} 
+                onLearnMore={() => setSelectedEvent(event)}
+              />
             ))}
           </div>
         </div>
       </section>
+
+      <EventPopupModal 
+        isOpen={selectedEvent !== null} 
+        onClose={() => setSelectedEvent(null)} 
+        event={selectedEvent} 
+      />
     </div>
   );
 };

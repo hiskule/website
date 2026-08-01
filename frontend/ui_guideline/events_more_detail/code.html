@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mentorship Coffeehouse | Hi-Skule™</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e2e2e2",
+            "primary": "#000000",
+            "surface-container-highest": "#e2e2e2",
+            "inverse-primary": "#c1c2fa",
+            "tertiary": "#000000",
+            "on-surface-variant": "#47464f",
+            "secondary": "#715c00",
+            "on-secondary-fixed-variant": "#554500",
+            "subtle-gray": "#F4F4F9",
+            "outline": "#777680",
+            "pure-white": "#FFFFFF",
+            "on-primary": "#ffffff",
+            "surface-tint": "#595a8b",
+            "background": "#f9f9f9",
+            "on-secondary": "#ffffff",
+            "on-primary-fixed-variant": "#414272",
+            "electric-gold": "#F6CC13",
+            "secondary-fixed": "#ffe17a",
+            "tertiary-fixed-dim": "#fbb79d",
+            "on-background": "#1a1c1c",
+            "on-secondary-container": "#705b00",
+            "surface-container-high": "#e8e8e8",
+            "error": "#ba1a1a",
+            "primary-fixed": "#e1e0ff",
+            "deep-navy": "#0B0B3B",
+            "primary-container": "#151544",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed": "#151544",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-container": "#7e7fb4",
+            "inverse-on-surface": "#f0f1f1",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed": "#341003",
+            "outline-variant": "#c8c5d0",
+            "on-tertiary-fixed-variant": "#6a3a27",
+            "inverse-surface": "#2f3131",
+            "secondary-fixed-dim": "#ecc300",
+            "surface-dim": "#dadada",
+            "ink-black": "#05051A",
+            "secondary-container": "#fed320",
+            "surface-container": "#eeeeee",
+            "primary-fixed-dim": "#c1c2fa",
+            "surface-bright": "#f9f9f9",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#341003",
+            "surface": "#f9f9f9",
+            "on-tertiary-container": "#b0765f",
+            "on-surface": "#1a1c1c",
+            "surface-container-low": "#f3f3f4",
+            "tertiary-fixed": "#ffdbce",
+            "on-error": "#ffffff",
+            "on-secondary-fixed": "#231b00"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin-mobile": "16px",
+            "margin-desktop": "48px",
+            "gutter": "24px",
+            "container-max": "1200px",
+            "base": "8px",
+            "stack-md": "24px",
+            "stack-lg": "48px",
+            "stack-sm": "12px"
+          },
+          "fontFamily": {
+            "headline-lg-mobile": ["Inter"],
+            "label-sm": ["Inter"],
+            "display-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "label-bold": ["Inter"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+            "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+            "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+            "headline-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #0B0B3B;
+      border-radius: 10px;
+    }
+    .ghost-border {
+      border: 1px solid rgba(11, 11, 59, 0.1);
+    }
+    .academic-kinetic {
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body class="bg-subtle-gray text-on-surface font-body-md selection:bg-electric-gold selection:text-deep-navy">
+<!-- TopNavBar Implementation -->
+<header class="bg-deep-navy fixed top-0 w-full z-50 border-b-2 border-electric-gold">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="text-headline-md font-headline-md font-extrabold text-pure-white">Hi-Skule™</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-pure-white hover:text-electric-gold transition-colors duration-200 text-label-sm font-label-sm uppercase tracking-wider" href="#">HOME</a>
+<a class="text-electric-gold border-b-2 border-electric-gold pb-1 font-bold text-label-sm font-label-sm uppercase tracking-wider" href="#">EVENTS</a>
+<a class="text-pure-white hover:text-electric-gold transition-colors duration-200 text-label-sm font-label-sm uppercase tracking-wider" href="#">TEAM</a>
+<a class="text-pure-white hover:text-electric-gold transition-colors duration-200 text-label-sm font-label-sm uppercase tracking-wider" href="#">MENTORSHIP</a>
+<a class="text-pure-white hover:text-electric-gold transition-colors duration-200 text-label-sm font-label-sm uppercase tracking-wider" href="#">CONTACT US</a>
+<a class="text-pure-white hover:text-electric-gold transition-colors duration-200 text-label-sm font-label-sm uppercase tracking-wider" href="#">PORTAL</a>
+</nav>
+<button class="bg-electric-gold text-deep-navy px-6 py-2 font-label-bold text-label-bold hover:bg-pure-white hover:text-deep-navy transition-all active:scale-95">
+        LOGOUT
+      </button>
+</div>
+</header>
+<main class="pt-24 pb-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Event Container Card -->
+<div class="bg-pure-white shadow-none border-2 border-surface-variant overflow-hidden">
+<!-- Hero Section -->
+<div class="relative overflow-hidden bg-deep-navy">
+<div class="grid grid-cols-1 lg:grid-cols-2 items-center">
+<div class="p-8 md:p-12 z-10">
+<div class="flex items-center gap-2 text-electric-gold mb-4">
+<span class="h-px w-8 bg-electric-gold"></span>
+<span class="text-label-bold uppercase tracking-widest">Featured Event</span>
+</div>
+<h1 class="text-pure-white font-headline-lg text-headline-lg md:text-[56px] leading-tight mb-6">
+        MENTORSHIP <br/> COFFEEHOUSE
+      </h1>
+<p class="text-surface-variant text-body-lg max-w-md mb-8">
+        Join us for an afternoon of networking, learning, and community building with UofT Engineering's finest.
+      </p>
+</div>
+<div class="relative h-[300px] md:h-full min-h-[400px] overflow-hidden">
+<img alt="University of Toronto Engineering Outreach Event Photos" class="absolute inset-0 w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkb7pjNpYxfPCJ1drBhW-CD51YM2NnyQpEy4SWfcJg1OKMuwTjMPgVVFppaEfH6TEnqztVZPaXl9sxgH2WsHz8_XgxHpEKdhNVqWykKu9cGRrrXKNH9NJ75qmQNxqT3NgQ0dXRLKrabKFwDO48O4kAbKtqJzIzu94uRbpgOEs09xaEPlNAkK-kkugbVkH4jtawugDSFTwfd2eF7HoZsjmIeQXDnhuue-3_aLQaxnxDrtLzks92l9Tt"/>
+<div class="absolute inset-0 bg-gradient-to-r from-deep-navy to-transparent lg:block hidden"></div>
+</div>
+</div>
+</div>
+<!-- Content Grid -->
+<div class="p-8 md:p-12 bg-pure-white">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<!-- Left: Core Details -->
+<div class="lg:col-span-2 space-y-12">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-surface-variant pb-12">
+<section class="space-y-2">
+<h3 class="text-deep-navy font-label-bold text-label-bold flex items-center gap-2 opacity-60">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span> WHEN
+          </h3>
+<p class="text-on-surface font-headline-md">Saturday, Sept 20th</p>
+<p class="text-on-surface-variant">1:00 PM – 4:00 PM</p>
+</section>
+<section class="space-y-2">
+<h3 class="text-deep-navy font-label-bold text-label-bold flex items-center gap-2 opacity-60">
+<span class="material-symbols-outlined text-[18px]">location_on</span> WHERE
+          </h3>
+<p class="text-on-surface font-headline-md">Bahen Centre</p>
+<a class="text-deep-navy underline hover:text-electric-gold transition-colors text-body-md" href="#">40 St George St, Toronto</a>
+</section>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<section class="space-y-4">
+<h3 class="text-deep-navy font-label-bold text-label-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-electric-gold">group</span> ELIGIBILITY
+          </h3>
+<div class="bg-subtle-gray p-4 border-l-4 border-electric-gold">
+<p class="text-on-surface font-bold">High School Students</p>
+<p class="text-on-surface-variant text-label-sm">Open to Grades 9-12</p>
+</div>
+</section>
+<section class="space-y-4">
+<h3 class="text-deep-navy font-label-bold text-label-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-electric-gold">star</span> HIGHLIGHTS
+          </h3>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-electric-gold text-sm">check_circle</span> Meet UofT Professors
+            </li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-electric-gold text-sm">check_circle</span> Engineering Challenges
+            </li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-electric-gold text-sm">check_circle</span> Free Refreshments
+            </li>
+</ul>
+</section>
+</div>
+</div>
+<!-- Right: Integrated Schedule -->
+<div class="lg:col-span-1">
+<div class="sticky top-32">
+<h2 class="text-deep-navy font-headline-md mb-6 flex items-center gap-2">
+<span class="w-2 h-6 bg-electric-gold"></span> Schedule
+        </h2>
+<div class="space-y-0">
+<div class="relative pl-8 pb-8 border-l-2 border-surface-variant">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-electric-gold"></div>
+<span class="text-label-bold text-electric-gold block">1:00 PM</span>
+<span class="text-on-surface font-bold">Registration</span>
+</div>
+<div class="relative pl-8 pb-8 border-l-2 border-surface-variant">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-deep-navy"></div>
+<span class="text-label-bold text-electric-gold block">1:30 PM</span>
+<span class="text-on-surface font-bold">Design Showcase</span>
+</div>
+<div class="relative pl-8 pb-8 border-l-2 border-surface-variant">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-deep-navy"></div>
+<span class="text-label-bold text-electric-gold block">2:30 PM</span>
+<span class="text-on-surface font-bold">Professor Q&amp;A</span>
+</div>
+<div class="relative pl-8">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-deep-navy"></div>
+<span class="text-label-bold text-electric-gold block">3:30 PM</span>
+<span class="text-on-surface font-bold">Networking</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Transactional Footer -->
+<div class="bg-subtle-gray border-t border-surface-variant p-8 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<span class="text-label-sm text-on-surface-variant uppercase tracking-widest">Registration Deadline</span>
+<div class="flex items-center gap-2 text-error font-bold">
+<span class="material-symbols-outlined">alarm</span>
+<span>September 15th, 11:59 PM</span>
+</div>
+</div>
+</div>
+<button class="w-full md:w-auto bg-deep-navy text-pure-white px-16 py-5 font-label-bold text-label-bold uppercase tracking-widest hover:bg-electric-gold hover:text-deep-navy transition-all transform active:scale-95 shadow-lg">
+    Sign Up Now
+  </button>
+</div>
+</div>
+</main>
+<!-- Footer Section -->
+<footer class="bg-deep-navy text-pure-white mt-stack-lg border-t border-primary-container">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-base w-full max-w-container-max mx-auto gap-4">
+<div class="text-label-bold font-label-bold text-electric-gold">
+        HiSkule Engineering Outreach
+      </div>
+<div class="text-label-sm font-label-sm text-surface-variant flex gap-6">
+<a class="hover:text-electric-gold transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-electric-gold transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-electric-gold transition-colors" href="#">University Relations</a>
+</div>
+<p class="text-label-sm font-label-sm text-surface-variant">
+        © 2024 Engineered for the future.
+      </p>
+</div>
+</footer>
+<script>
+    // Micro-interaction for smooth scrolling or hover effects
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Simple intersection observer for reveal effects
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+          entry.target.classList.remove('opacity-0', 'translate-y-4');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(el => {
+      el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+      observer.observe(el);
+    });
+  </script>
+</body></html>

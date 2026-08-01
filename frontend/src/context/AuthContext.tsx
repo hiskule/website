@@ -10,6 +10,8 @@ export interface User {
   room?: string;
   team_number?: number;
   competitionId?: number;
+  presentation_link?: string;
+  team_comments?: string;
 }
 
 interface AuthContextType {

@@ -7,9 +7,11 @@ interface Props {
   description: string;
   images: string[];
   link?: string;
+  isUpcoming?: boolean;
+  onLearnMore?: () => void;
 }
 
-const EventsSection: React.FC<Props> = ({ title, time, description, images, link }) => {
+const EventsSection: React.FC<Props> = ({ title, time, description, images, link, isUpcoming, onLearnMore }) => {
   return (
     <article className="event-card">
       <div className="event-info-col">
@@ -19,14 +21,24 @@ const EventsSection: React.FC<Props> = ({ title, time, description, images, link
         <h3 className="event-title">{title}</h3>
         <div className="event-desc" dangerouslySetInnerHTML={{ __html: description }} />
 
-        {link && (
-          <div style={{ marginTop: "16px" }}>
-            <button
-              className="btn-primary-gold"
-              onClick={() => window.open(link, "_blank")}
-            >
-              REGISTER NOW →
-            </button>
+        {isUpcoming && (
+          <div style={{ marginTop: "16px", display: 'flex', gap: '12px' }}>
+            {onLearnMore && (
+              <button
+                className="btn-secondary-outline"
+                onClick={onLearnMore}
+              >
+                Learn More
+              </button>
+            )}
+            {link && (
+              <button
+                className="btn-primary-gold"
+                onClick={() => window.open(link, "_blank")}
+              >
+                REGISTER NOW →
+              </button>
+            )}
           </div>
         )}
       </div>

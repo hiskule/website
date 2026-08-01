@@ -1,12 +1,15 @@
-import React from "react";
-import "./hero.css";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../shared/config/routes";
-import { eventsData } from "../../../data/events";
+import { eventsData, type EventData } from "../../../data/events";
 import MiniEventCard from "../../../components/mini_event_card/MiniEventCard";
+import EventPopupModal from "../../../components/event_popup/EventPopupModal";
+import "./hero.css";
+
 const Hero: React.FC = () => {
   const navigate = useNavigate();
   const upcomingEvent = eventsData.find(e => e.isUpcoming) || eventsData[0];
+  const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
 
   return (
     <section className="hero-section">
@@ -44,14 +47,19 @@ const Hero: React.FC = () => {
           <MiniEventCard 
             event={upcomingEvent} 
             className="hero-animated-card"
-            onButtonClick={() => navigate(ROUTES.events)}
+            onLearnMore={() => setSelectedEvent(upcomingEvent)}
+            onButtonClick={() => upcomingEvent.link && window.open(upcomingEvent.link, '_blank')}
           />
         </div>
       </div>
+
+      <EventPopupModal 
+        isOpen={selectedEvent !== null} 
+        onClose={() => setSelectedEvent(null)} 
+        event={selectedEvent} 
+      />
     </section>
   );
 };
 
 export default Hero;
-
-

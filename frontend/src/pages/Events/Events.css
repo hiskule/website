@@ -228,3 +228,13 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.bg-navy .btn-secondary-outline {
+  color: var(--color-pure-white);
+  border-color: var(--color-pure-white);
+}
+
+.bg-navy .btn-secondary-outline:hover {
+  background-color: var(--color-pure-white);
+  color: var(--color-deep-navy);
+}
