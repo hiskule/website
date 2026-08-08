@@ -423,6 +423,8 @@ app.post("/competitions/deactivate-all", verifyAdmin, async (req, res) => {
  *   delete:
  *     summary: Delete a competition and all its associated data
  *     tags: [Competitions]
+ *     security:
+ *       - apiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -437,7 +439,7 @@ app.post("/competitions/deactivate-all", verifyAdmin, async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.delete("/competitions/:id", verifyAdmin, async (req, res) => {
+app.delete("/competitions/:id", verifySystemToken, async (req, res) => {
   try {
     const { id } = req.params;
     const comp = await Competition.findByPk(id);
