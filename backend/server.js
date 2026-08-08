@@ -95,6 +95,8 @@ app.get("/", (req, res) => {
  *   post:
  *     summary: Seed the database with JSON data
  *     tags: [Global]
+ *     security:
+ *       - apiKeyAuth: []
  *     parameters:
  *       - in: query
  *         name: filename
