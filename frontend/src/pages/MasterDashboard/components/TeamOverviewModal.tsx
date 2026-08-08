@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './RoomCard.css';
 import './TeamOverviewModal.css';
+import { request } from '../../../shared/api/http';
 
 interface Team {
   id: number;
@@ -22,24 +23,19 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
   const [teamScores, setTeamScores] = useState<any[]>([]);
   const [loadingScores, setLoadingScores] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
   useEffect(() => {
     const fetchScores = async () => {
       setLoadingScores(true);
       try {
-        const res = await fetch(`${API_URL}/teams/${team.id}/scores?competitionId=${competitionId}`);
-        if (res.ok) {
-          const data = await res.json();
-          const parsedData = data.map((d: any) => {
-            let parsed = d.scores;
-            if (typeof parsed === 'string') {
-              try { parsed = JSON.parse(parsed); } catch(e) { parsed = {}; }
-            }
-            return { ...d, scores: parsed };
-          });
-          setTeamScores(parsedData);
-        }
+        const data = await request<any[]>(`/teams/${team.id}/scores?competitionId=${competitionId}`);
+        const parsedData = data.map((d: any) => {
+          let parsed = d.scores;
+          if (typeof parsed === 'string') {
+            try { parsed = JSON.parse(parsed); } catch(e) { parsed = {}; }
+          }
+          return { ...d, scores: parsed };
+        });
+        setTeamScores(parsedData);
       } catch (err) {
         console.error(err);
       } finally {
@@ -48,28 +44,22 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
     };
 
     fetchScores();
-  }, [team.id, competitionId, API_URL]);
+  }, [team.id, competitionId]);
 
   const handleForceUpload = async () => {
     const link = window.prompt("Enter the presentation link (Google Drive/Slides) for this team:");
     if (!link) return;
 
     try {
-      const res = await fetch(`${API_URL}/teams/${team.id}/submission?competitionId=${competitionId}`, {
+      await request(`/teams/${team.id}/submission?competitionId=${competitionId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ link, comments: "Admin force upload" })
       });
-      if (res.ok) {
-        onUpdate();
-        onClose();
-      } else {
-        const data = await res.json();
-        alert(`Error: ${data.error}`);
-      }
-    } catch (err) {
+      onUpdate();
+      onClose();
+    } catch (err: any) {
       console.error(err);
-      alert("Failed to force upload presentation");
+      alert(`Error: ${err.message || "Failed to force upload presentation"}`);
     }
   };
 

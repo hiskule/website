@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './RoomCard.css';
 import { TeamOverviewModal } from './TeamOverviewModal';
+import { request } from '../../../shared/api/http';
 
 interface Team {
   id: number;
@@ -42,17 +43,14 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
   // Team Details Modal State
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
   const handleCreateJudge = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/judges`, {
+      await request('/judges', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: newJudgeName,
           username: newJudgeUsername,
@@ -62,18 +60,13 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
         })
       });
 
-      if (res.ok) {
-        setNewJudgeName('');
-        setNewJudgeUsername('');
-        setNewJudgePassword('');
-        if (onUpdate) onUpdate();
-      } else {
-        const data = await res.json();
-        setError(data.error || "Failed to create judge");
-      }
-    } catch (err) {
+      setNewJudgeName('');
+      setNewJudgeUsername('');
+      setNewJudgePassword('');
+      if (onUpdate) onUpdate();
+    } catch (err: any) {
       console.error(err);
-      setError("An unexpected error occurred.");
+      setError(err.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
     }
@@ -82,32 +75,25 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
   const handleRemoveJudge = async (judgeId: number) => {
     if (!window.confirm("Are you sure you want to permanently delete this judge?")) return;
     try {
-      const res = await fetch(`${API_URL}/judges/${judgeId}`, { method: 'DELETE' });
-      if (res.ok) {
-        if (onUpdate) onUpdate();
-      } else {
-        alert("Failed to delete judge.");
-      }
+      await request(`/judges/${judgeId}`, { method: 'DELETE' });
+      if (onUpdate) onUpdate();
     } catch (err) {
       console.error(err);
+      alert("Failed to delete judge.");
     }
   };
 
   const handleMoveJudge = async (judgeId: number, newRoomId: number) => {
     if (newRoomId === room.id) return; // No change
     try {
-      const res = await fetch(`${API_URL}/judges/${judgeId}/room`, {
+      await request(`/judges/${judgeId}/room`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ roomId: newRoomId })
       });
-      if (res.ok) {
-        if (onUpdate) onUpdate();
-      } else {
-        alert("Failed to move judge.");
-      }
+      if (onUpdate) onUpdate();
     } catch (err) {
       console.error(err);
+      alert("Failed to move judge.");
     }
   };
 

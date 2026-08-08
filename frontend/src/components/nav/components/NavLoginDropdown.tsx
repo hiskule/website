@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, type Role, type User } from '../../../context/AuthContext';
 import { ROUTES } from '../../../shared/config/routes';
+import { request } from '../../../shared/api/http';
 import './NavLoginDropdown.css';
 
 interface NavLoginDropdownProps {
@@ -22,20 +23,12 @@ export default function NavLoginDropdown({ onClose }: NavLoginDropdownProps) {
     setLoading(true);
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-      const response = await fetch(`${API_URL}/login`, {
+      const data = await request<any>('/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to login');
-      }
-
-      login(data.role as Role, data.user as User);
+      login(data.role as Role, data.user as User, data.token);
       
       onClose();
 

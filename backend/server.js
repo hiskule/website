@@ -6,6 +6,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const { sequelize, Competition, Team, Judge, Room, Score, dbError } = require("./models/index.js");
 const { getLeaderboardData } = require("./utils/leaderboardLogic.js");
+const { verifyAdmin, verifyJudge, verifyTeam, verifySystemToken, JWT_SECRET } = require("./middleware/auth.js");
+const jwt = require('jsonwebtoken');
 
 // Load environment variables
 dotenv.config();
@@ -41,6 +43,25 @@ if (process.env.NODE_ENV !== "production") {
           description: "Live server",
         },
       ],
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+          apiKeyAuth: {
+            type: "apiKey",
+            in: "header",
+            name: "x-api-key",
+          },
+        },
+      },
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
     },
     apis: ["./server.js"],
   };
@@ -70,28 +91,6 @@ app.get("/", (req, res) => {
 
 /**
  * @swagger
- * /reset-db:
- *   post:
- *     summary: DANGER! Wipes and recreates the entire database
- *     tags: [Global]
- *     responses:
- *       200:
- *         description: Database completely wiped and recreated successfully!
- *       500:
- *         description: Internal server error
- */
-app.post("/reset-db", async (req, res) => {
-  try {
-    // force: true drops all tables and recreates them
-    await sequelize.sync({ force: true });
-    res.json({ message: "Database completely wiped and recreated successfully!" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-/**
- * @swagger
  * /seed-db:
  *   post:
  *     summary: Seed the database with JSON data
@@ -109,7 +108,7 @@ app.post("/reset-db", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.post("/seed-db", async (req, res) => {
+app.post("/seed-db", verifySystemToken, async (req, res) => {
   try {
     const fs = require('fs');
     const path = require('path');
@@ -169,7 +168,16 @@ app.post("/seed-db", async (req, res) => {
       }
     }
 
-    res.json({ message: "Successfully seeded database with complete logistics!" });
+    const details = competitionsData.map(c => ({
+      event_name: c.name,
+      total_judges_seeded: (c.judges || []).length,
+      total_teams_seeded: (c.teams || []).length
+    }));
+
+    res.json({ 
+      message: `Successfully seeded ${competitionsData.length} event(s) from ${filename}!`,
+      details 
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
@@ -215,7 +223,8 @@ app.post("/login", async (req, res) => {
 
     // Master Admin Intercept
     if (username === "admin" && password === process.env.ADMIN_PASSWORD) {
-      return res.json({ role: "admin", user: { username: "admin" } });
+      const token = jwt.sign({ role: "admin", username: "admin" }, JWT_SECRET, { expiresIn: '24h' });
+      return res.json({ role: "admin", user: { username: "admin" }, token });
     }
 
     let user = await Judge.findOne({ where: { username, password }, attributes: { exclude: ['password'] } });
@@ -235,7 +244,8 @@ app.post("/login", async (req, res) => {
       return res.status(403).json({ error: "This competition is currently closed." });
     }
 
-    return res.json({ role, user });
+    const token = jwt.sign({ id: user.id, role, username: user.username }, JWT_SECRET, { expiresIn: '24h' });
+    return res.json({ role, user, token });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -326,7 +336,7 @@ app.get("/competitions/:id", async (req, res) => {
  *       404:
  *         description: Competition not found
  */
-app.put("/competitions/:id/release-feedback", async (req, res) => {
+app.put("/competitions/:id/release-feedback", verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { feedbackReleased } = req.body;
@@ -366,7 +376,7 @@ app.put("/competitions/:id/release-feedback", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.post("/competitions/:id/activate", async (req, res) => {
+app.post("/competitions/:id/activate", verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const comp = await Competition.findByPk(id);
@@ -396,7 +406,7 @@ app.post("/competitions/:id/activate", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.post("/competitions/deactivate-all", async (req, res) => {
+app.post("/competitions/deactivate-all", verifyAdmin, async (req, res) => {
   try {
     await Competition.update({ isActive: false }, { where: {} });
     res.json({ message: "All competitions have been deactivated. Logins are now closed." });
@@ -428,7 +438,7 @@ app.post("/competitions/deactivate-all", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.get("/judgeDropdown", async (req, res) => {
+app.get("/judgeDropdown", verifyAdmin, async (req, res) => {
   try {
     const { competitionId } = req.query;
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
@@ -468,7 +478,7 @@ app.get("/judgeDropdown", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.get("/judges/:judgeId/schedule", async (req, res) => {
+app.get("/judges/:judgeId/schedule", verifyJudge, async (req, res) => {
   try {
     const { judgeId } = req.params;
     const { competitionId } = req.query;
@@ -552,7 +562,7 @@ app.get("/judges/:judgeId/schedule", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.post("/teams/:teamId/submission", async (req, res) => {
+app.post("/teams/:teamId/submission", verifyTeam, async (req, res) => {
   try {
     const { teamId } = req.params;
     const { competitionId } = req.query;
@@ -601,7 +611,7 @@ app.post("/teams/:teamId/submission", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.get("/teams/:teamId/scores", async (req, res) => {
+app.get("/teams/:teamId/scores", verifyTeam, async (req, res) => {
   try {
     const { teamId } = req.params;
     const { competitionId } = req.query;
@@ -648,7 +658,7 @@ app.get("/teams/:teamId/scores", async (req, res) => {
 // #################### JUDGE MANAGEMENT ENDPOINTS ####################
 // ============================================================================
 
-app.post("/judges", async (req, res) => {
+app.post("/judges", verifyAdmin, async (req, res) => {
   try {
     const { name, username, password, roomId, competitionId } = req.body;
     if (!name || !username || !password || !roomId || !competitionId) {
@@ -666,7 +676,7 @@ app.post("/judges", async (req, res) => {
   }
 });
 
-app.put("/judges/:id/room", async (req, res) => {
+app.put("/judges/:id/room", verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { roomId } = req.body;
@@ -681,7 +691,7 @@ app.put("/judges/:id/room", async (req, res) => {
   }
 });
 
-app.delete("/judges/:id", async (req, res) => {
+app.delete("/judges/:id", verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const judge = await Judge.findByPk(id);
@@ -694,7 +704,7 @@ app.delete("/judges/:id", async (req, res) => {
   }
 });
 
-app.get("/rooms", async (req, res) => {
+app.get("/rooms", verifyAdmin, async (req, res) => {
   try {
     const { competitionId } = req.query;
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
@@ -760,7 +770,7 @@ app.get("/rooms", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.get("/rooms/:roomId/teams", async (req, res) => {
+app.get("/rooms/:roomId/teams", verifyAdmin, async (req, res) => {
   try {
     const { roomId } = req.params;
     const { competitionId } = req.query;
@@ -818,7 +828,7 @@ app.get("/rooms/:roomId/teams", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.post("/judge", async (req, res) => {
+app.post("/judge", verifyJudge, async (req, res) => {
   const { competitionId, judgeId, teamId, scores, feedback } = req.body;
 
   if (!competitionId || !judgeId || !teamId || !scores) {
@@ -888,7 +898,7 @@ app.post("/judge", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.get("/scores/:judgeId/:teamId", async (req, res) => {
+app.get("/scores/:judgeId/:teamId", verifyJudge, async (req, res) => {
   const { judgeId, teamId } = req.params;
   const { competitionId } = req.query;
 
@@ -928,7 +938,7 @@ app.get("/scores/:judgeId/:teamId", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-app.get("/scores", async (req, res) => {
+app.get("/scores", verifyAdmin, async (req, res) => {
   try {
     const { competitionId } = req.query;
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
@@ -963,7 +973,7 @@ app.get("/scores", async (req, res) => {
 // #################### LEADERBOARD ENDPOINTS ####################
 // ============================================================================
 
-app.get("/leaderboard", async (req, res) => {
+app.get("/leaderboard", verifyAdmin, async (req, res) => {
   try {
     const { competitionId } = req.query;
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
@@ -976,7 +986,7 @@ app.get("/leaderboard", async (req, res) => {
   }
 });
 
-app.get("/leaderboard/export", async (req, res) => {
+app.get("/leaderboard/export", verifyAdmin, async (req, res) => {
   try {
     const { competitionId } = req.query;
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });

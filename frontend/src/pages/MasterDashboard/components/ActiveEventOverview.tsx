@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RoomCard } from './RoomCard';
 import { Leaderboard } from './Leaderboard';
+import { request } from '../../../shared/api/http';
 import './ActiveEventOverview.css';
 
 interface Competition {
@@ -20,8 +21,6 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
   const [loading, setLoading] = useState(true);
   const [feedbackReleased, setFeedbackReleased] = useState(!!competition.feedbackReleased);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
   useEffect(() => {
     fetchRooms();
     setFeedbackReleased(!!competition.feedbackReleased);
@@ -29,11 +28,8 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
 
   const fetchRooms = async () => {
     try {
-      const res = await fetch(`${API_URL}/rooms?competitionId=${competition.id}`);
-      if (res.ok) {
-        const data = await res.json();
-        setRooms(data);
-      }
+      const data = await request<any[]>(`/rooms?competitionId=${competition.id}`);
+      setRooms(data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -46,12 +42,10 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
     if (!isConfirmed) return;
 
     try {
-      const res = await fetch(`${API_URL}/competitions/deactivate-all`, {
+      await request('/competitions/deactivate-all', {
         method: 'POST'
       });
-      if (res.ok) {
-        onDeactivate();
-      }
+      onDeactivate();
     } catch (err) {
       console.error('Error deactivating:', err);
     }
@@ -59,22 +53,42 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
 
   const handleToggleFeedback = async () => {
     try {
-      const res = await fetch(`${API_URL}/competitions/${competition.id}/release-feedback`, {
+      const data = await request<any>(`/competitions/${competition.id}/release-feedback`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ feedbackReleased: !feedbackReleased })
       });
-      if (res.ok) {
-        const data = await res.json();
-        setFeedbackReleased(data.feedbackReleased);
-      }
+      setFeedbackReleased(data.feedbackReleased);
     } catch (err) {
       console.error('Error toggling feedback release:', err);
     }
   };
 
-  const handleExportCSV = () => {
-    window.location.href = `${API_URL}/leaderboard/export?competitionId=${competition.id}`;
+  const handleExportCSV = async () => {
+    try {
+      const token = localStorage.getItem('hiskule_token');
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_URL}/leaderboard/export?competitionId=${competition.id}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error('Failed to export CSV');
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const cd = res.headers.get('Content-Disposition');
+      let filename = "results.csv";
+      if (cd && cd.includes('filename="')) {
+        filename = cd.split('filename="')[1].split('"')[0];
+      }
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to export results.");
+    }
   };
 
   return (

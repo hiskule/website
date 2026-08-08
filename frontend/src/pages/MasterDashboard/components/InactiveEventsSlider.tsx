@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
+import { request } from '../../../shared/api/http';
 import './InactiveEventsSlider.css';
 
 interface Competition {
@@ -15,8 +16,6 @@ interface InactiveEventsSliderProps {
 }
 
 export const InactiveEventsSlider: React.FC<InactiveEventsSliderProps> = ({ competitions, onActivate, title = "Other Events" }) => {
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
   if (competitions.length === 0) return null;
 
   const handleActivate = async (comp: Competition) => {
@@ -24,12 +23,10 @@ export const InactiveEventsSlider: React.FC<InactiveEventsSliderProps> = ({ comp
     if (!isConfirmed) return;
 
     try {
-      const res = await fetch(`${API_URL}/competitions/${comp.id}/activate`, {
+      await request(`/competitions/${comp.id}/activate`, {
         method: 'POST'
       });
-      if (res.ok) {
-        onActivate(comp.id);
-      }
+      onActivate(comp.id);
     } catch (err) {
       console.error('Error activating competition:', err);
     }

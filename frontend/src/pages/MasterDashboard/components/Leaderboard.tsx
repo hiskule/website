@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { request } from '../../../shared/api/http';
 import './Leaderboard.css';
 
 interface LeaderboardProps {
@@ -15,19 +16,14 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ competitionId }) => {
   const [leaderboard, setLeaderboard] = useState<TeamScore[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
   useEffect(() => {
     fetchLeaderboard();
   }, [competitionId]);
 
   const fetchLeaderboard = async () => {
     try {
-      const res = await fetch(`${API_URL}/leaderboard?competitionId=${competitionId}`);
-      if (res.ok) {
-        const sorted: TeamScore[] = await res.json();
-        setLeaderboard(sorted);
-      }
+      const sorted = await request<TeamScore[]>(`/leaderboard?competitionId=${competitionId}`);
+      setLeaderboard(sorted);
     } catch (err) {
       console.error(err);
     } finally {

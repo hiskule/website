@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
+import { request } from '../../../shared/api/http';
 import './JudgeView.css';
 
 interface TeamSchedule {
@@ -36,7 +37,6 @@ export default function JudgeView() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   useEffect(() => {
     fetchSchedule();
@@ -46,12 +46,9 @@ export default function JudgeView() {
   const fetchSchedule = async () => {
     if (!user?.id || !user?.competitionId) return;
     try {
-      const res = await fetch(`${API_URL}/judges/${user.id}/schedule?competitionId=${user.competitionId}`);
-      if (res.ok) {
-        const data = await res.json();
-        setSchedule(data.schedule || []);
-        setRoomName(data.room || '');
-      }
+      const data = await request<any>(`/judges/${user.id}/schedule?competitionId=${user.competitionId}`);
+      setSchedule(data.schedule || []);
+      setRoomName(data.room || '');
     } catch (err) {
       console.error(err);
     }
@@ -60,11 +57,8 @@ export default function JudgeView() {
   const fetchRubric = async () => {
     if (!user?.competitionId) return;
     try {
-      const res = await fetch(`${API_URL}/competitions/${user.competitionId}`);
-      if (res.ok) {
-        const data: Competition = await res.json();
-        setRubric(data.categories || []);
-      }
+      const data = await request<Competition>(`/competitions/${user.competitionId}`);
+      setRubric(data.categories || []);
     } catch (err) {
       console.error(err);
     }
@@ -98,9 +92,8 @@ export default function JudgeView() {
     setSubmitting(true);
     setMessage('');
     try {
-      const res = await fetch(`${API_URL}/judge`, {
+      await request('/judge', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           competitionId: user.competitionId,
           judgeId: user.id,
@@ -110,7 +103,6 @@ export default function JudgeView() {
         })
       });
 
-      if (!res.ok) throw new Error('Failed to submit scores');
       setMessage('Scores saved successfully!');
       
       // Refresh schedule to update badges

@@ -17,7 +17,8 @@ export interface User {
 interface AuthContextType {
   role: Role;
   user: User | null;
-  login: (role: Role, user: User) => void;
+  token: string | null;
+  login: (role: Role, user: User, token?: string) => void;
   logout: () => void;
 }
 
@@ -26,20 +27,27 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [role, setRole] = useState<Role>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   // Load from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem('hiskule_user');
     const storedRole = localStorage.getItem('hiskule_role') as Role;
+    const storedToken = localStorage.getItem('hiskule_token');
     if (storedUser && storedRole) {
       setUser(JSON.parse(storedUser));
       setRole(storedRole);
+      if (storedToken) setToken(storedToken);
     }
   }, []);
 
-  const login = (newRole: Role, newUser: User) => {
+  const login = (newRole: Role, newUser: User, newToken?: string) => {
     setRole(newRole);
     setUser(newUser);
+    if (newToken) {
+      setToken(newToken);
+      localStorage.setItem('hiskule_token', newToken);
+    }
     if (newRole) localStorage.setItem('hiskule_role', newRole);
     localStorage.setItem('hiskule_user', JSON.stringify(newUser));
   };
@@ -47,12 +55,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = () => {
     setRole(null);
     setUser(null);
+    setToken(null);
     localStorage.removeItem('hiskule_role');
     localStorage.removeItem('hiskule_user');
+    localStorage.removeItem('hiskule_token');
   };
 
   return (
-    <AuthContext.Provider value={{ role, user, login, logout }}>
+    <AuthContext.Provider value={{ role, user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

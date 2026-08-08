@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
+import { request } from '../../../shared/api/http';
 import './TeamView.css';
 
 interface ScoreResponse {
@@ -29,8 +30,6 @@ export default function TeamView() {
   // Track if we should show the form or the "already submitted" view
   const [isEditing, setIsEditing] = useState(!user?.presentation_link);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
   useEffect(() => {
     fetchScores();
     fetchRubric();
@@ -39,12 +38,9 @@ export default function TeamView() {
   const fetchRubric = async () => {
     if (!user?.competitionId) return;
     try {
-      const res = await fetch(`${API_URL}/competitions/${user.competitionId}`);
-      if (res.ok) {
-        const data = await res.json();
-        setRubric(data.categories || []);
-        setFeedbackReleased(!!data.feedbackReleased);
-      }
+      const data = await request<any>(`/competitions/${user.competitionId}`);
+      setRubric(data.categories || []);
+      setFeedbackReleased(!!data.feedbackReleased);
     } catch (err) {
       console.error(err);
     }
@@ -53,11 +49,8 @@ export default function TeamView() {
   const fetchScores = async () => {
     if (!user?.id || !user?.competitionId) return;
     try {
-      const response = await fetch(`${API_URL}/teams/${user.id}/scores?competitionId=${user.competitionId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setScores(data);
-      }
+      const data = await request<ScoreResponse[]>(`/teams/${user.id}/scores?competitionId=${user.competitionId}`);
+      setScores(data);
     } catch (error) {
       console.error('Failed to fetch scores:', error);
     }
@@ -70,13 +63,11 @@ export default function TeamView() {
     setLoading(true);
     setMessage('');
     try {
-      const response = await fetch(`${API_URL}/teams/${user.id}/submission?competitionId=${user.competitionId}`, {
+      await request(`/teams/${user.id}/submission?competitionId=${user.competitionId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ link, comments })
       });
 
-      if (!response.ok) throw new Error('Submission failed');
       setMessage('Submission successful!');
       setTimeout(() => {
         setIsEditing(false);
@@ -212,6 +203,10 @@ export default function TeamView() {
                 <p className="text-label-bold">Awaiting Judge Feedback</p>
               </div>
             )
+          ) : scores.length === 0 ? (
+            <div className="content-card empty-feedback-card">
+              <p className="text-label-bold">No judges have submitted scores for your team yet.</p>
+            </div>
           ) : (
             <div className="team-feedback-list">
               {scores.map((score, index) => {

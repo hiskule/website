@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { ROUTES } from '../../shared/config/routes';
 import { ActiveEventOverview } from './components/ActiveEventOverview';
 import { InactiveEventsSlider } from './components/InactiveEventsSlider';
+import { request } from '../../shared/api/http';
 import './MasterDashboard.css';
 
 interface Competition {
@@ -25,8 +26,6 @@ export default function MasterDashboard() {
     }
   }, [role, navigate]);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
   useEffect(() => {
     if (role === 'admin') {
       fetchCompetitions();
@@ -35,11 +34,8 @@ export default function MasterDashboard() {
 
   const fetchCompetitions = async () => {
     try {
-      const res = await fetch(`${API_URL}/competitions`);
-      if (res.ok) {
-        const data = await res.json();
-        setCompetitions(data);
-      }
+      const data = await request<Competition[]>('/competitions');
+      setCompetitions(data);
     } catch (err) {
       console.error(err);
     } finally {
