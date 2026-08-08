@@ -417,6 +417,39 @@ app.post("/competitions/deactivate-all", verifyAdmin, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /competitions/{id}:
+ *   delete:
+ *     summary: Delete a competition and all its associated data
+ *     tags: [Competitions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Competition successfully deleted
+ *       404:
+ *         description: Competition not found
+ *       500:
+ *         description: Internal server error
+ */
+app.delete("/competitions/:id", verifyAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comp = await Competition.findByPk(id);
+    if (!comp) return res.status(404).json({ error: "Competition not found" });
+
+    await comp.destroy();
+    res.json({ message: `Competition ${comp.name} deleted successfully` });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // ============================================================================
 // #################### JUDGE ENDPOINTS ####################
 // ============================================================================
