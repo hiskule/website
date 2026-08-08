@@ -1018,6 +1018,6 @@ app.get("/leaderboard/export", verifyAdmin, async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-sequelize.sync().then(() => {
+sequelize.sync({ alter: true }).then(() => {
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
