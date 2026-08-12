@@ -1,4 +1,3 @@
-import React from 'react';
 import './MentorshipCoffeehouse.css';
 
 const MentorshipCoffeehouse = () => {

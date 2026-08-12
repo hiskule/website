@@ -139,8 +139,8 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
               </div>
             </div>
 
-            {/* DISABLED RN: Right Column: Integrated Schedule */}
-            {false && details?.itinerary && details.itinerary.length > 0 && (
+            {/* DISABLED RN: Right Column: Integrated Schedule
+            {details?.itinerary && details.itinerary.length > 0 && (
               <div className="event-popup-schedule-col">
                 <div className="schedule-sticky">
                   <h2 className="schedule-header">
@@ -158,6 +158,7 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
                 </div>
               </div>
             )}
+            */}
           </div>
         </div>
 
