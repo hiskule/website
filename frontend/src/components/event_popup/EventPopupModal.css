@@ -114,12 +114,12 @@
 
 .event-popup-hero-right {
   position: relative;
-  min-height: 300px;
+  min-height: 250px;
   overflow: hidden;
 }
 @media (min-width: 768px) {
   .event-popup-hero-right {
-    min-height: 400px;
+    min-height: 300px;
   }
 }
 
@@ -184,24 +184,19 @@
 
 /* Content Grid */
 .event-popup-content-new {
-  padding: 32px;
+  padding: 24px;
   background-color: var(--color-pure-white);
 }
 @media (min-width: 768px) {
   .event-popup-content-new {
-    padding: 48px;
+    padding: 32px;
   }
 }
 
 .event-popup-grid-new {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
-}
-@media (min-width: 1024px) {
-  .event-popup-grid-new {
-    grid-template-columns: 2fr 1fr;
-  }
+  gap: 32px;
 }
 
 .event-popup-details-col {

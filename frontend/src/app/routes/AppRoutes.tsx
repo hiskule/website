@@ -11,6 +11,7 @@ const MasterDashboard = lazy(() => import('../../pages/MasterDashboard/MasterDas
 const PortalDashboard = lazy(() => import('../../pages/PortalDashboard/PortalDashboard'))
 const MentorPage = lazy(() => import('../../pages/Mentor/Mentor'))
 const TeamPage = lazy(() => import('../../pages/Team/Team'))
+const MentorshipCoffeehousePage = lazy(() => import('../../pages/MentorshipCoffeehouse/MentorshipCoffeehouse'))
 
 export function AppRoutes() {
   return (
@@ -24,6 +25,10 @@ export function AppRoutes() {
           <Route path={ROUTES.contact} element={<ContactPage />} />
           <Route path={ROUTES.portal} element={<PortalDashboard />} />
           <Route path={ROUTES.adminDashboard} element={<MasterDashboard />} />
+          <Route 
+            path="/mentorship-coffeehouse" 
+            element={<MentorshipCoffeehousePage />} 
+          />
           <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
         </Route>
       </Routes>

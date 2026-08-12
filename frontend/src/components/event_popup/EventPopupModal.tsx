@@ -10,7 +10,7 @@ interface EventPopupModalProps {
 
 const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpen }) => {
   const popupRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -20,11 +20,11 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
         onClose();
       }
     };
-    
+
     document.addEventListener('keydown', handleEscape);
     document.addEventListener('mousedown', handleClickOutside);
     document.body.style.overflow = 'hidden';
-    
+
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.removeEventListener('mousedown', handleClickOutside);
@@ -33,7 +33,7 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
   }, [onClose]);
 
   if (!isOpen || !event) return null;
-  
+
   const { details } = event;
 
   // Insert a break after the first word for multi-line title effect, 
@@ -47,34 +47,34 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
   return (
     <div className="event-popup-overlay">
       <div className="event-popup-container-new" ref={popupRef}>
-        
+
         {/* Hero Section */}
         <div className="event-popup-hero-new">
           <button className="event-popup-close-btn" onClick={onClose}>
             <span className="material-symbols-outlined">close</span>
           </button>
-          
+
           <div className="event-popup-hero-content">
             <div className="event-popup-hero-left">
               <div className="event-popup-hero-label">
                 <span className="event-popup-hero-line"></span>
                 <span>Featured Event</span>
               </div>
-              <h1 
-                className="event-popup-hero-title-new" 
-                dangerouslySetInnerHTML={{ __html: formatTitle(event.title) }} 
+              <h1
+                className="event-popup-hero-title-new"
+                dangerouslySetInnerHTML={{ __html: formatTitle(event.title) }}
               />
               <p className="event-popup-hero-desc">{event.description}</p>
             </div>
-            
+
             <div className="event-popup-hero-right">
               <div className="event-popup-hero-collage">
                 {event.images.slice(0, 4).map((img, idx) => (
-                  <img 
+                  <img
                     key={idx}
-                    className="event-popup-hero-img-item" 
-                    src={img} 
-                    alt={`${event.title} image ${idx + 1}`} 
+                    className="event-popup-hero-img-item"
+                    src={img}
+                    alt={`${event.title} image ${idx + 1}`}
                   />
                 ))}
               </div>
@@ -86,7 +86,7 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
         {/* Content Grid */}
         <div className="event-popup-content-new">
           <div className="event-popup-grid-new">
-            
+
             {/* Left Column: Core Details */}
             <div className="event-popup-details-col">
               <div className="event-popup-info-row-top">
@@ -97,7 +97,7 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
                   <p className="event-popup-text-main">{details?.date}</p>
                   <p className="event-popup-text-sub">{details?.timeframe}</p>
                 </section>
-                
+
                 <section className="event-popup-info-section">
                   <h3 className="event-popup-section-header">
                     <span className="material-symbols-outlined text-icon">location_on</span> WHERE
@@ -110,7 +110,7 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
                   )}
                 </section>
               </div>
-              
+
               <div className="event-popup-info-row-bottom">
                 <section className="event-popup-info-section">
                   <h3 className="event-popup-section-header-solid">
@@ -122,7 +122,7 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
                     ))}
                   </div>
                 </section>
-                
+
                 <section className="event-popup-info-section">
                   <h3 className="event-popup-section-header-solid">
                     <span className="material-symbols-outlined text-electric-gold text-icon">star</span> HIGHLIGHTS
@@ -130,7 +130,7 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
                   <ul className="event-popup-highlights-new">
                     {details?.highlights?.map((h, i) => (
                       <li key={i}>
-                        <span className="material-symbols-outlined text-electric-gold highlight-check">check_circle</span> 
+                        <span className="material-symbols-outlined text-electric-gold highlight-check">check_circle</span>
                         {h}
                       </li>
                     ))}
@@ -139,8 +139,8 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
               </div>
             </div>
 
-            {/* Right Column: Integrated Schedule */}
-            {details?.itinerary && details.itinerary.length > 0 && (
+            {/* DISABLED RN: Right Column: Integrated Schedule */}
+            {false && details?.itinerary && details.itinerary.length > 0 && (
               <div className="event-popup-schedule-col">
                 <div className="schedule-sticky">
                   <h2 className="schedule-header">

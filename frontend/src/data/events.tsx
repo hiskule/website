@@ -33,12 +33,12 @@ export const eventsData: EventData[] = [
     description:
       "The Mentorship Coffeehouse is an amazing opportunity for high-school students to learn more about UofT Engineering design teams, Skule spirit, hear from professors and current students, participate in some fun engineering activities, and all around, learn more about engineering!",
     images: [coffee.first, coffee.second, coffee.third, coffee.fourth, coffee.fifth],
-    link: 'https://www.google.com/maps/place/Bahen+Centre+for+Information+Technology/@43.6598045,-79.3998729,17z/data=!3m1!4b1!4m6!3m5!1s0x882b34c75165c957:0x6459384147b4b67b!8m2!3d43.6598045!4d-79.397298!16zL20vMDd0Yzh3?entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D',
+    link: '/mentorship-coffeehouse',
     isUpcoming: ACTIVE_EVENT_ID === "COFFEEHOUSE",
     details: {
       location: { building: "Bahen Centre for Information Technology", address: "40 St George St, Toronto", mapUrl: "https://maps.app.goo.gl/vKR88yst5JwwiCdv9" },
       date: "Saturday, September 26th",
-      timeframe: "10:00 AM - 5:00 PM",
+      timeframe: "10:00 AM - 3:00 PM",
       requirements: [
         "<strong>Who is it for?</strong> High School Students (Grades 9-12)",
         "<strong>Prerequisites:</strong> No prior coding or engineering experience required",
