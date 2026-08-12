@@ -1,6 +1,6 @@
 import React from 'react';
 import './Mentor.css';
-import { team } from '../../assets/coffeehouse';
+import { coffeehouseImages } from '../../assets/coffeehouse';
 import mentorSections from '../../data/Mentorship/mentor';
 import SectionComponent from './components/Sections';
 
@@ -16,7 +16,7 @@ const Mentor: React.FC = () => {
           </p>
         </div>
         <div>
-          <img className="mentor-hero-img" src={team} alt="Hi-Skule™ Mentors Team" />
+          <img className="mentor-hero-img" src={coffeehouseImages.groups[0]} alt="Hi-Skule™ Mentors Team" />
         </div>
       </div>
 

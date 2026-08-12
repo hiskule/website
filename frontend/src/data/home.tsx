@@ -1,6 +1,6 @@
 
 import {mentor} from '../assets/designapalooza'
-import {team} from '../assets/coffeehouse'
+import { coffeehouseImages } from '../assets/coffeehouse'
 import {event1, event2} from '../assets/conference'
 
 
@@ -8,7 +8,7 @@ export const aboutUsSection = [
   {
     id: "about",
     content: " <strong>Hi-Skule™</strong> is an engineering outreach and mentorship club at the University of Toronto. We organize design challenges and networking events for high school students interested in engineering at UofT. We understand that choosing programs and universities is tough (we’ve been there as well!), so we aim to provide accurate and thorough information about engineering at UofT. ",
-    imageSrc: team,
+    imageSrc: coffeehouseImages.groups[0],
   },
   {
     id: "team",

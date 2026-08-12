@@ -1,7 +1,6 @@
 import type { MentorSection } from './mentorTypes';
 import { mentorEvents } from './mentorEvents';
 import * as mentorPic from '../../assets/random_mentor_pic'
-import { mentor } from '../../assets/coffeehouse'
 
 // These cards will always be displayed at the bottom of the mentorship page
 const permanentSections: MentorSection[] = [
@@ -9,7 +8,7 @@ const permanentSections: MentorSection[] = [
     header: "MENTOR MAILING LIST SIGN UP",
     text: `Become a mentor today and have the opportunity to guide young students who are curious about pursuing a career in STEM. By signing up to be a <strong>Hi-Skule™</strong> mentor you’ll be notified when volunteer signup is available for all <strong>Hi-Skule™</strong> Mentorship Events.`,
     buttons: [{ label: "JOIN MAILING LIST", link: 'https://docs.google.com/forms/d/e/1FAIpQLSdB_hGkubv-qBG_U-rmObEm7uk4VeSl2HQcyfzGuSGy_QVZTg/viewform' }],
-    image: { src: mentor, type: "horizontal", position: "right" }
+    image: { src: mentorPic.third, type: "horizontal", position: "right" }
   },
   {
     header: "First Year Executive & Volunteer Pool",

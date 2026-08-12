@@ -1,12 +1,16 @@
-import first from './1.webp'
-import second from './2.webp'
-import third from './3.webp'
-import fourth from './4.webp'
-import fifth from './5.webp'
-import team from './team.webp'
-import mentor from './mentor.webp'
-import event1 from './mentorship_coffeehouse_1.webp'
-import event2 from './mentorship_coffeehouse_2.webp'
+import event1 from './coffeehouse-event-1.webp';
+import group1 from './coffeehouse-group-1.webp';
+import group2 from './coffeehouse-group-2.webp';
+import mentor1 from './coffeehouse-mentor-1.webp';
+import mentor2 from './coffeehouse-mentor-2.webp';
+import mentor3 from './coffeehouse-mentor-3.webp';
+import student1 from './coffeehouse-student-1.webp';
+import student2 from './coffeehouse-student-2.webp';
+import student3 from './coffeehouse-student-3.webp';
 
-
-export {first, second, third, fourth, fifth, team, mentor, event1, event2};
+export const coffeehouseImages = {
+  events: [event1],
+  students: [student1, student2, student3],
+  mentors: [mentor1, mentor2, mentor3],
+  groups: [group1, group2]
+};

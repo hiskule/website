@@ -32,7 +32,18 @@ export const eventsData: EventData[] = [
     time: "September 26th",
     description:
       "The Mentorship Coffeehouse is an amazing opportunity for high-school students to learn more about UofT Engineering design teams, Skule spirit, hear from professors and current students, participate in some fun engineering activities, and all around, learn more about engineering!",
-    images: [coffee.first, coffee.second, coffee.third, coffee.fourth, coffee.fifth],
+    images: [
+      // Top 4 curated specifically for the popup modal grid
+      coffee.coffeehouseImages.groups[0], 
+      coffee.coffeehouseImages.events[0], 
+      coffee.coffeehouseImages.students[0], 
+      coffee.coffeehouseImages.mentors[0],
+      // The rest of the photos to fill out the rolling carousel automatically
+      ...coffee.coffeehouseImages.groups.slice(1),
+      ...coffee.coffeehouseImages.events.slice(1),
+      ...coffee.coffeehouseImages.students.slice(1),
+      ...coffee.coffeehouseImages.mentors.slice(1),
+    ],
     link: '/mentorship-coffeehouse',
     isUpcoming: ACTIVE_EVENT_ID === "COFFEEHOUSE",
     details: {
