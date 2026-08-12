@@ -8,7 +8,7 @@ const permanentSections: MentorSection[] = [
   {
     header: "MENTOR MAILING LIST SIGN UP",
     text: `Become a mentor today and have the opportunity to guide young students who are curious about pursuing a career in STEM. By signing up to be a <strong>Hi-Skule™</strong> mentor you’ll be notified when volunteer signup is available for all <strong>Hi-Skule™</strong> Mentorship Events.`,
-    buttons: [{ label: "JOIN MAILING LIST", link: '' }],
+    buttons: [{ label: "JOIN MAILING LIST", link: 'https://docs.google.com/forms/d/e/1FAIpQLSdB_hGkubv-qBG_U-rmObEm7uk4VeSl2HQcyfzGuSGy_QVZTg/viewform' }],
     image: { src: mentor, type: "horizontal", position: "right" }
   },
   {

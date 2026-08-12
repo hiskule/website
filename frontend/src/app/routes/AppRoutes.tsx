@@ -11,7 +11,7 @@ const MasterDashboard = lazy(() => import('../../pages/MasterDashboard/MasterDas
 const PortalDashboard = lazy(() => import('../../pages/PortalDashboard/PortalDashboard'))
 const MentorPage = lazy(() => import('../../pages/Mentor/Mentor'))
 const TeamPage = lazy(() => import('../../pages/Team/Team'))
-const MentorshipCoffeehousePage = lazy(() => import('../../pages/MentorshipCoffeehouse/MentorshipCoffeehouse'))
+const MentorshipCoffeehousePage = lazy(() => import('../../pages/Events/events-redirect/MentorshipCoffeehouse/MentorshipCoffeehouse'))
 
 export function AppRoutes() {
   return (
