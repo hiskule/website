@@ -36,7 +36,7 @@ export const eventsData: EventData[] = [
     link: '/mentorship-coffeehouse',
     isUpcoming: ACTIVE_EVENT_ID === "COFFEEHOUSE",
     details: {
-      location: { building: "Bahen Centre for Information Technology", address: "40 St George St, Toronto", mapUrl: "https://maps.app.goo.gl/vKR88yst5JwwiCdv9" },
+      location: { building: "Galbraith Building Room 202", address: "35 St George St, Toronto", mapUrl: 'https://www.google.com/maps/place/43°39\'35.6"N+79°23\'46.9"W/@43.6597922,-79.3963609,19z/data=!4m4!3m3!8m2!3d43.6598889!4d-79.3963611?entry=ttu&g_ep=EgoyMDI2MDgxMC4wIKXMDSoASAFQAw%3D%3D' },
       date: "Saturday, September 26th",
       timeframe: "10:00 AM - 3:00 PM",
       requirements: [

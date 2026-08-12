@@ -1,0 +1,1 @@
+import{j as e}from"./index-C80iBAJ4.js";const o=()=>e.jsx("div",{className:"coffeehouse-container",children:e.jsx("iframe",{title:"Mentorship Coffeehouse Ticketing",src:"https://www.zeffy.com/en-CA/embed/ticketing/mentorship-coffeehouse-2t6",allow:"payment"})});export{o as default};
