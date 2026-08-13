@@ -29,14 +29,14 @@ export const eventsData: EventData[] = [
   {
     id: "COFFEEHOUSE",
     title: "MENTORSHIP COFFEEHOUSE",
-    time: "September 26th",
+    time: "September 19th",
     description:
       "The Mentorship Coffeehouse is an amazing opportunity for high-school students to learn more about UofT Engineering design teams, Skule spirit, hear from professors and current students, participate in some fun engineering activities, and all around, learn more about engineering!",
     images: [
       // Top 4 curated specifically for the popup modal grid
-      coffee.coffeehouseImages.groups[0], 
-      coffee.coffeehouseImages.events[0], 
-      coffee.coffeehouseImages.students[0], 
+      coffee.coffeehouseImages.groups[0],
+      coffee.coffeehouseImages.events[0],
+      coffee.coffeehouseImages.students[0],
       coffee.coffeehouseImages.mentors[0],
       // The rest of the photos to fill out the rolling carousel automatically
       ...coffee.coffeehouseImages.groups.slice(1),
@@ -48,14 +48,14 @@ export const eventsData: EventData[] = [
     isUpcoming: ACTIVE_EVENT_ID === "COFFEEHOUSE",
     details: {
       location: { building: "Galbraith Building Room 202", address: "35 St George St, Toronto", mapUrl: 'https://www.google.com/maps/place/43°39\'35.6"N+79°23\'46.9"W/@43.6597922,-79.3963609,19z/data=!4m4!3m3!8m2!3d43.6598889!4d-79.3963611?entry=ttu&g_ep=EgoyMDI2MDgxMC4wIKXMDSoASAFQAw%3D%3D' },
-      date: "Saturday, September 26th",
+      date: "Saturday, September 19th",
       timeframe: "10:00 AM - 3:00 PM",
       requirements: [
         "<strong>Who is it for?</strong> High School Students (Grades 9-12)",
         "<strong>Prerequisites:</strong> No prior coding or engineering experience required",
       ],
       highlights: ["Meet UofT Engineering professors", "Interactive engineering challenges", "Free snacks and refreshments"],
-      registrationDeadline: "September 25th at 11:59 PM",
+      registrationDeadline: "September 18th at 11:59 PM",
       itinerary: [
         { time: "10:00 AM", activity: "Registration & Welcome" },
         { time: "11:30 AM", activity: "Design Team Showcase" },
@@ -86,8 +86,8 @@ export const eventsData: EventData[] = [
     isUpcoming: ACTIVE_EVENT_ID === "UTHSDC",
     details: {
       location: { building: "Myhal Centre for Engineering Innovation & Entrepreneurship", address: "55 St George St, Toronto", mapUrl: "https://goo.gl/maps/sample2" },
-      date: "Saturday, November 14th",
-      timeframe: "9:00 AM - 5:00 PM",
+      date: "TBD",
+      timeframe: "TBD",
       requirements: [
         "<strong>Who is it for?</strong> High School Students (Grades 9-12)",
         "<strong>Prerequisites:</strong> No prior coding or engineering experience required",
@@ -128,8 +128,8 @@ export const eventsData: EventData[] = [
     isUpcoming: ACTIVE_EVENT_ID === "DESIGNAPALOOZA",
     details: {
       location: { building: "Bahen Centre for Information Technology", address: "40 St George St, Toronto", mapUrl: "https://goo.gl/maps/sample" },
-      date: "Saturday, February 21st",
-      timeframe: "10:00 AM - 4:00 PM",
+      date: "TBD",
+      timeframe: "TBD",
       requirements: [
         "<strong>Who is it for?</strong> High School Students (Grades 9-12)",
         "<strong>Prerequisites:</strong> No prior experience required",
@@ -157,8 +157,8 @@ export const eventsData: EventData[] = [
     isUpcoming: ACTIVE_EVENT_ID === "PREFROSH",
     details: {
       location: { building: "Front Campus (King's College Circle)", address: "King's College Cir, Toronto", mapUrl: "https://goo.gl/maps/sample3" },
-      date: "Late August",
-      timeframe: "1:00 PM - 5:00 PM",
+      date: "TBD",
+      timeframe: "TBD",
       requirements: [
         "<strong>Who is it for?</strong> Incoming UofT Engineering First-Year Students"
       ],
