@@ -26,7 +26,7 @@ export const mentorEvents: MentorSection[] = [
     header: "DESIGNAPALOOZA MENTOR SIGN UP",
     text: `Want to be a mentor for <strong>Hi-Skule™</strong>’s most technical event of the year? Lead hands-on workshops across different engineering fields and help high school students tackle real-world challenges at Designapalooza!`,
     buttons: [{ label: "SIGN UP ON GOOGLE FORMS", link: '' }],
-    image: { src: design.first, type: "horizontal", position: "left" },
+    image: { src: design.designapaloozaImages.mentors[0], type: "horizontal", position: "left" },
     isActive: ACTIVE_EVENT_ID === "DESIGNAPALOOZA",
   },
   {

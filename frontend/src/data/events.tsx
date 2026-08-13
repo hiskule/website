@@ -39,6 +39,7 @@ export const eventsData: EventData[] = [
       coffee.coffeehouseImages.students[0], 
       coffee.coffeehouseImages.mentors[0],
       // The rest of the photos to fill out the rolling carousel automatically
+      ...coffee.coffeehouseImages.groups.slice(1),
       ...coffee.coffeehouseImages.events.slice(1),
       ...coffee.coffeehouseImages.students.slice(1),
       ...coffee.coffeehouseImages.mentors.slice(1),
@@ -76,7 +77,7 @@ export const eventsData: EventData[] = [
       DC.uthsdcImages.events[1],
       DC.uthsdcImages.students[0],
       // The rest of the photos for the carousel automatically
-      ...DC.uthsdcImages.groups[0],
+      DC.uthsdcImages.groups[0],
       ...DC.uthsdcImages.mentors.slice(1),
       ...DC.uthsdcImages.events.slice(2),
       ...DC.uthsdcImages.students.slice(1)
@@ -111,7 +112,18 @@ export const eventsData: EventData[] = [
     time: "WINTER",
     description:
       "Designapalooza gives high school students the chance to spend a day at U of T’s Faculty of Applied Science & Engineering, taking part in hands-on workshops across different engineering fields—like building wind turbines in Mechanical Engineering or programming Arduino circuits in Electrical & Computer Engineering. Led by U of T design teams, students can learn new skills, tackle real-world challenges, and see how engineering can make an impact.",
-    images: [design.first, design.second, design.third, design.forth, design.fifth, design.sixth],
+    images: [
+      // Top 4 curated for popup modal grid
+      design.designapaloozaImages.groups[0],
+      design.designapaloozaImages.events[0],
+      design.designapaloozaImages.mentors[0],
+      design.designapaloozaImages.students[0],
+      // The rest of the photos for the carousel automatically
+      ...design.designapaloozaImages.groups.slice(1),
+      ...design.designapaloozaImages.events.slice(1),
+      ...design.designapaloozaImages.mentors.slice(1),
+      ...design.designapaloozaImages.students.slice(1)
+    ],
     link: '',
     isUpcoming: ACTIVE_EVENT_ID === "DESIGNAPALOOZA",
     details: {
