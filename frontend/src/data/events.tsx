@@ -39,7 +39,6 @@ export const eventsData: EventData[] = [
       coffee.coffeehouseImages.students[0], 
       coffee.coffeehouseImages.mentors[0],
       // The rest of the photos to fill out the rolling carousel automatically
-      ...coffee.coffeehouseImages.groups.slice(1),
       ...coffee.coffeehouseImages.events.slice(1),
       ...coffee.coffeehouseImages.students.slice(1),
       ...coffee.coffeehouseImages.mentors.slice(1),
@@ -70,7 +69,18 @@ export const eventsData: EventData[] = [
     time: "LATE FALL",
     description:
       "The University of Toronto High School Design Competition (UTHSDC) is an exciting challenge where students take on a real-world engineering problem, brainstorm and refine solutions, and present their designs in a friendly competition. Along the way, they’ll apply the Engineering Design Process, build problem-solving skills, and bring creative ideas to life with guidance from experienced mentors.",
-    images: [DC.first, DC.second, DC.third, DC.fourth, DC.fifth, DC.sixth, DC.seventh],
+    images: [
+      // Top 4 curated for the popup modal grid (as requested)
+      DC.uthsdcImages.mentors[0],
+      DC.uthsdcImages.events[0],
+      DC.uthsdcImages.events[1],
+      DC.uthsdcImages.students[0],
+      // The rest of the photos for the carousel automatically
+      ...DC.uthsdcImages.groups[0],
+      ...DC.uthsdcImages.mentors.slice(1),
+      ...DC.uthsdcImages.events.slice(2),
+      ...DC.uthsdcImages.students.slice(1)
+    ],
     link: '',
     isUpcoming: ACTIVE_EVENT_ID === "UTHSDC",
     details: {

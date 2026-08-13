@@ -1,3 +1,4 @@
+import Team from './Team.webp'
 import Abby from './Abby.webp'
 import Ashlee from './Ashlee.webp'
 import Chris from './Chris.webp'
@@ -12,4 +13,4 @@ import Tristan from './Tristan.webp'
 import Anna from './Anna.webp'
 import Roderick from './Roderick.webp'
 
-export {Abby, Ashlee, Chris, Ivan, Justin, Melanie, RyanX, RyanG, Saniya, Tej, Tristan, Anna, Roderick}
+export {Team, Abby, Ashlee, Chris, Ivan, Justin, Melanie, RyanX, RyanG, Saniya, Tej, Tristan, Anna, Roderick}
