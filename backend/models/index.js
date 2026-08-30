@@ -13,6 +13,12 @@ try {
     {
       host: process.env.DB_HOST,
       dialect: "mysql",
+      pool: {
+        max: 30,
+        min: 5,
+        acquire: 30000,
+        idle: 10000,
+      },
     }
   );
 
