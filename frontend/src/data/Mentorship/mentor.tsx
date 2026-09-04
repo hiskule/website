@@ -7,13 +7,13 @@ const permanentSections: MentorSection[] = [
   {
     header: "MENTOR MAILING LIST SIGN UP",
     text: `Become a mentor today and have the opportunity to guide young students who are curious about pursuing a career in STEM. By signing up to be a <strong>Hi-Skule™</strong> mentor you’ll be notified when volunteer signup is available for all <strong>Hi-Skule™</strong> Mentorship Events.`,
-    buttons: [{ label: "JOIN MAILING LIST", link: 'https://docs.google.com/forms/d/e/1FAIpQLSdB_hGkubv-qBG_U-rmObEm7uk4VeSl2HQcyfzGuSGy_QVZTg/viewform' }],
+    buttons: [{ label: "JOIN MAILING LIST", link: 'https://forms.gle/DhYcQmjgwq1a42Bs6' }],
     image: { src: mentorPic.third, type: "horizontal", position: "right" }
   },
   {
     header: "First Year Executive & Volunteer Pool",
     text: `Ready to make an impact right from your first year? Join the <strong>Hi-Skule™</strong> volunteer pool today! Help recruit mentors and inspire the next generation of engineers.`,
-    buttons: [{ label: "VOLUNTEER SIGN UP", link: '' }],
+    buttons: [{ label: "VOLUNTEER SIGN UP", link: 'https://forms.gle/7AFNFGf2M69DbZBHA' }],
     image: { src: mentorPic.eighth, type: "vertical", position: "left" }
   },
   {

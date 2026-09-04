@@ -11,7 +11,7 @@ export const mentorEvents: MentorSection[] = [
   {
     header: "MENTORSHIP COFFEEHOUSE MENTOR SIGN UP",
     text: `The Mentorship Coffeehouse is an amazing opportunity to connect with high-school students, share your experiences on UofT Engineering design teams, and help them participate in fun engineering activities. Sign up as a mentor to inspire the next generation!`,
-    buttons: [{ label: "SIGN UP ON GOOGLE FORMS", link: '' }],
+    buttons: [{ label: "SIGN UP ON GOOGLE FORMS", link: 'https://forms.gle/ATN2kT46e1pmsLP68' }],
     image: { src: coffee.coffeehouseImages.mentors[0], type: "horizontal", position: "left" },
     isActive: ACTIVE_EVENT_ID === "COFFEEHOUSE", 
   },
