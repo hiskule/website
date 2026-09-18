@@ -49,8 +49,7 @@ const Footer: React.FC = () => {
           </div>
           <p className="footer-contact-text">
             Inquiries for events can be sent to: <a className="footer-mail-link" href="mailto:info@hiskule.skule.ca">info@hiskule.skule.ca</a>
-          </p>
-          <p className="footer-contact-text">
+            <br />
             Inquiries of the website can be sent to: <a className="footer-mail-link" href="mailto:webmaster@hiskule.skule.ca">webmaster@hiskule.skule.ca</a>
           </p>
         </div>
