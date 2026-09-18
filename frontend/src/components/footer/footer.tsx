@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
             </a>
             <a
               className="footer-social-link"
-              href="mailto:hiskule@skule.ca"
+              href="mailto:info@hiskule.skule.ca"
               aria-label="Email"
             >
               <FaEnvelope size={32} />
