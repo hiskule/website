@@ -7,7 +7,7 @@ const socials = [
   { icon: <FaInstagram />, link: "https://www.instagram.com/hiskule/", desc: "Follow us on Instagram" },
   { icon: <FaDiscord />, link: "https://discord.gg/YsKmdBKRwD", desc: "Join our Discord server" },
   { icon: <SiLinktree />, link: "https://linktr.ee/Hi_SKULE", desc: "All our links in one place" },
-  { icon: <FaEnvelope />, link: "mailto:hiskule@skule.ca", desc: "Send us an email" }
+  { icon: <FaEnvelope />, link: "mailto:info@hiskule.skule.ca", desc: "Send us an email" }
 ];
 
 const SocialBubbles: React.FC = () => {
