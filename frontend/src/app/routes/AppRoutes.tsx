@@ -12,6 +12,7 @@ const PortalDashboard = lazy(() => import('../../pages/PortalDashboard/PortalDas
 const MentorPage = lazy(() => import('../../pages/Mentor/Mentor'))
 const TeamPage = lazy(() => import('../../pages/Team/Team'))
 const MentorshipCoffeehousePage = lazy(() => import('../../pages/Events/events-redirect/MentorshipCoffeehouse/MentorshipCoffeehouse'))
+const UTHSDCPage = lazy(() => import('../../pages/Events/events-redirect/UTHSDC/UTHSDC'))
 
 export function AppRoutes() {
   return (
@@ -28,6 +29,10 @@ export function AppRoutes() {
           <Route 
             path="/mentorship-coffeehouse" 
             element={<MentorshipCoffeehousePage />} 
+          />
+          <Route 
+            path="/uthsdc" 
+            element={<UTHSDCPage />} 
           />
           <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
         </Route>

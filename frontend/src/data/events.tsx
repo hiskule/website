@@ -82,7 +82,7 @@ export const eventsData: EventData[] = [
       ...DC.uthsdcImages.events.slice(2),
       ...DC.uthsdcImages.students.slice(1)
     ],
-    link: '',
+    link: '/uthsdc',
     isUpcoming: ACTIVE_EVENT_ID === "UTHSDC",
     details: {
       location: { building: "Myhal Centre for Engineering Innovation & Entrepreneurship", address: "55 St George St, Toronto", mapUrl: "https://goo.gl/maps/sample2" },

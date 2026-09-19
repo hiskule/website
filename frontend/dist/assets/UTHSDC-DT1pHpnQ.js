@@ -1,0 +1,1 @@
+import{j as t}from"./index-CG8uPV2F.js";const i=()=>t.jsx("div",{className:"uthsdc-container",children:t.jsx("iframe",{title:"UTHSDC Ticketing",src:"https://www.zeffy.com/en-CA/ticketing/university-of-toronto-high-school-design-competition-2t6",allow:"payment"})});export{i as default};
