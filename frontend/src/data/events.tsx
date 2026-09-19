@@ -67,13 +67,13 @@ export const eventsData: EventData[] = [
   {
     id: "UTHSDC",
     title: "UNIVERSITY OF TORONTO HIGH SCHOOL DESIGN COMPETITION (UTHSDC)",
-    time: "LATE FALL",
+    time: "November 7th",
     description:
       "The University of Toronto High School Design Competition (UTHSDC) is an exciting challenge where students take on a real-world engineering problem, brainstorm and refine solutions, and present their designs in a friendly competition. Along the way, they’ll apply the Engineering Design Process, build problem-solving skills, and bring creative ideas to life with guidance from experienced mentors.",
     images: [
       // Top 4 curated for the popup modal grid (as requested)
-      DC.uthsdcImages.mentors[0],
       DC.uthsdcImages.events[0],
+      DC.uthsdcImages.mentors[0],
       DC.uthsdcImages.events[1],
       DC.uthsdcImages.students[0],
       // The rest of the photos for the carousel automatically
@@ -85,16 +85,16 @@ export const eventsData: EventData[] = [
     link: '/uthsdc',
     isUpcoming: ACTIVE_EVENT_ID === "UTHSDC",
     details: {
-      location: { building: "Myhal Centre for Engineering Innovation & Entrepreneurship", address: "55 St George St, Toronto", mapUrl: "https://goo.gl/maps/sample2" },
-      date: "TBD",
-      timeframe: "TBD",
+      location: { building: "Medical Sciences Building", address: "1 King's College Circle, Toronto", mapUrl: "https://maps.app.goo.gl/7sAQnnvuTTBrawKg8" },
+      date: "November 7th",
+      timeframe: "9:00 AM - 6:00 PM",
       requirements: [
         "<strong>Who is it for?</strong> High School Students (Grades 9-12)",
         "<strong>Prerequisites:</strong> No prior coding or engineering experience required",
-        "<strong>Team Size:</strong> Sign up solo or in teams of up to 4"
+        "<strong>Team Size:</strong> Sign up solo or in teams of up to 5"
       ],
       highlights: ["Tackle real-world engineering problems", "Guidance from UofT mentors", "Prizes for winning designs", "Free pizza lunch"],
-      registrationDeadline: "November 5th at 11:59 PM",
+      registrationDeadline: "November 6th at 11:59 PM",
       itinerary: [
         { time: "9:00 AM", activity: "Check-in & Breakfast" },
         { time: "10:00 AM", activity: "Opening Ceremonies & Problem Reveal" },
