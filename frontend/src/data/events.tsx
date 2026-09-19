@@ -86,7 +86,7 @@ export const eventsData: EventData[] = [
     isUpcoming: ACTIVE_EVENT_ID === "UTHSDC",
     details: {
       location: { building: "Medical Sciences Building", address: "1 King's College Circle, Toronto", mapUrl: "https://maps.app.goo.gl/7sAQnnvuTTBrawKg8" },
-      date: "November 7th",
+      date: "Saturday, November 7th",
       timeframe: "9:00 AM - 6:00 PM",
       requirements: [
         "<strong>Who is it for?</strong> High School Students (Grades 9-12)",
