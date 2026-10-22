@@ -274,7 +274,14 @@ app.get("/competitions", async (req, res) => {
     const comps = await Competition.findAll({
       order: [['date', 'ASC']]
     });
-    res.json(comps);
+    const parsedComps = comps.map(c => {
+      const json = c.toJSON();
+      if (typeof json.categories === 'string') {
+        try { json.categories = JSON.parse(json.categories); } catch (e) { json.categories = []; }
+      }
+      return json;
+    });
+    res.json(parsedComps);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
@@ -305,7 +312,11 @@ app.get("/competitions/:id", async (req, res) => {
     const { id } = req.params;
     const comp = await Competition.findByPk(id);
     if (!comp) return res.status(404).json({ error: "Competition not found" });
-    res.json(comp);
+    const json = comp.toJSON();
+    if (typeof json.categories === 'string') {
+      try { json.categories = JSON.parse(json.categories); } catch (e) { json.categories = []; }
+    }
+    res.json(json);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
@@ -544,6 +555,14 @@ app.get("/judges/:judgeId/schedule", verifyJudge, async (req, res) => {
     const scheduleWithGrades = teams.map(t => {
       const json = t.toJSON();
       json.isGraded = json.Scores && json.Scores.length > 0;
+      if (json.Scores) {
+        json.Scores = json.Scores.map(s => {
+          if (typeof s.scores === 'string') {
+            try { s.scores = JSON.parse(s.scores); } catch (e) { s.scores = {}; }
+          }
+          return s;
+        });
+      }
       return json;
     });
 
@@ -664,7 +683,15 @@ app.get("/teams/:teamId/scores", verifyTeam, async (req, res) => {
       include: [{ model: Judge, attributes: ['name'] }]
     });
 
-    res.json(scores);
+    const parsedScores = scores.map(s => {
+      const json = s.toJSON();
+      if (typeof json.scores === 'string') {
+        try { json.scores = JSON.parse(json.scores); } catch (e) { json.scores = {}; }
+      }
+      return json;
+    });
+
+    res.json(parsedScores);
   } catch (error) {
     console.error("Error fetching team scores:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -952,7 +979,12 @@ app.get("/scores/:judgeId/:teamId", verifyJudge, async (req, res) => {
 
   if (!score) return res.json({ previousScores: null });
 
-  res.json({ previousScores: score });
+  const scoreJson = score.toJSON();
+  if (typeof scoreJson.scores === 'string') {
+    try { scoreJson.scores = JSON.parse(scoreJson.scores); } catch (e) { scoreJson.scores = {}; }
+  }
+
+  res.json({ previousScores: scoreJson });
 });
 
 /**

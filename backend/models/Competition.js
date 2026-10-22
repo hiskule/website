@@ -13,6 +13,29 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.JSON, // E.g., ["Design", "Presentation", "Execution"]
       allowNull: false,
       defaultValue: [],
+      get() {
+        const raw = this.getDataValue('categories');
+        if (!raw) return [];
+        if (typeof raw === 'string') {
+          try {
+            return JSON.parse(raw);
+          } catch (e) {
+            return [];
+          }
+        }
+        return raw;
+      },
+      set(val) {
+        if (typeof val === 'string') {
+          try {
+            this.setDataValue('categories', JSON.parse(val));
+          } catch (e) {
+            this.setDataValue('categories', val);
+          }
+        } else {
+          this.setDataValue('categories', val);
+        }
+      }
     },
     isActive: {
       type: DataTypes.BOOLEAN,
