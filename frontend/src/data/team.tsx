@@ -75,7 +75,7 @@ export const cardData = [
     name: 'Suha Ashraf',
     role: 'Marketing Coordinator',
     bio: "Suha is the marketing coordinator whose excited to have a year full of great engagement and lots of fun reels. She's excited to connect with other students interested in engineering and see what projects come out of the year!",
-    emaillink: 'mailto:socialmedia@hiskule.skule.ca',
+    emaillink: 'mailto:marketing@hiskule.skule.ca',
     link: 'http://www.linkedin.com/in/suhaashraf',
     img: pic.Suha
   },
