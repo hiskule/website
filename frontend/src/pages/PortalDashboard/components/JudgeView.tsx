@@ -20,9 +20,9 @@ interface Category {
   max_score: number;
 }
 
-interface Competition {
+interface CompetitionResponse {
   id: number;
-  categories: Category[];
+  categories: Category[] | string;
 }
 
 export default function JudgeView() {
@@ -57,10 +57,15 @@ export default function JudgeView() {
   const fetchRubric = async () => {
     if (!user?.competitionId) return;
     try {
-      const data = await request<Competition>(`/competitions/${user.competitionId}`);
-      setRubric(data.categories || []);
+      const data = await request<CompetitionResponse>(`/competitions/${user.competitionId}`);
+      let cats = data?.categories;
+      if (typeof cats === 'string') {
+        try { cats = JSON.parse(cats); } catch { cats = []; }
+      }
+      setRubric(Array.isArray(cats) ? cats : []);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to fetch rubric:', err);
+      setRubric([]);
     }
   };
 
@@ -72,9 +77,19 @@ export default function JudgeView() {
     const initialScores: Record<string, number> = {};
     const existingScore = (team.Scores && team.Scores.length > 0) ? team.Scores[0] : null;
 
-    rubric.forEach(cat => {
-      initialScores[cat.name] = (existingScore && existingScore.scores) 
-        ? (existingScore.scores[cat.name] || 0) 
+    let existingParsedScores = existingScore ? existingScore.scores : null;
+    if (typeof existingParsedScores === 'string') {
+      try {
+        existingParsedScores = JSON.parse(existingParsedScores);
+      } catch {
+        existingParsedScores = null;
+      }
+    }
+
+    const safeRubric = Array.isArray(rubric) ? rubric : [];
+    safeRubric.forEach(cat => {
+      initialScores[cat.name] = (existingParsedScores && existingParsedScores[cat.name] !== undefined) 
+        ? Number(existingParsedScores[cat.name]) 
         : 0;
     });
     setScores(initialScores);
@@ -217,7 +232,7 @@ export default function JudgeView() {
             <form onSubmit={submitScore} className="scoring-form">
               <div className="rubric-section">
                 <h3 className="section-subtitle">Evaluation Rubric</h3>
-                {rubric.map(cat => (
+                {(Array.isArray(rubric) ? rubric : []).map(cat => (
                   <div key={cat.name} className="rubric-item">
                     <div className="rubric-item-header">
                       <label>{cat.name}</label>

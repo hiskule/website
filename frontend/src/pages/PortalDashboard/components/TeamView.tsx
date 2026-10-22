@@ -39,10 +39,15 @@ export default function TeamView() {
     if (!user?.competitionId) return;
     try {
       const data = await request<any>(`/competitions/${user.competitionId}`);
-      setRubric(data.categories || []);
-      setFeedbackReleased(!!data.feedbackReleased);
+      let cats = data?.categories;
+      if (typeof cats === 'string') {
+        try { cats = JSON.parse(cats); } catch { cats = []; }
+      }
+      setRubric(Array.isArray(cats) ? cats : []);
+      setFeedbackReleased(!!data?.feedbackReleased);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to fetch rubric:', err);
+      setRubric([]);
     }
   };
 
@@ -50,9 +55,20 @@ export default function TeamView() {
     if (!user?.id || !user?.competitionId) return;
     try {
       const data = await request<ScoreResponse[]>(`/teams/${user.id}/scores?competitionId=${user.competitionId}`);
-      setScores(data);
+      const parsedScores = (Array.isArray(data) ? data : []).map(score => {
+        let sc = score.scores;
+        if (typeof sc === 'string') {
+          try { sc = JSON.parse(sc); } catch { sc = {}; }
+        }
+        return {
+          ...score,
+          scores: sc && typeof sc === 'object' ? sc : {}
+        };
+      });
+      setScores(parsedScores);
     } catch (error) {
       console.error('Failed to fetch scores:', error);
+      setScores([]);
     }
   };
 
@@ -166,99 +182,113 @@ export default function TeamView() {
             <h2 className="text-headline-md">Judge Feedback</h2>
           </div>
           
-          {!feedbackReleased ? (
-            rubric.length > 0 ? (
-              <div className="content-card" style={{ borderLeft: '4px solid var(--color-deep-navy)', borderRadius: 'var(--spacing-stack-sm)', overflow: 'hidden' }}>
-                <div className="feedback-card-header" style={{ display: 'block' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <div className="feedback-judge-info">
-                      <span className="text-headline-md judge-name">Evaluation Rubric</span>
-                    </div>
-                    <div className="feedback-total-score">
-                      Max: {rubric.reduce((acc, c) => acc + c.max_score, 0)} pts
-                    </div>
-                  </div>
-                  <p className="text-body-md" style={{ color: 'var(--color-on-surface-variant)', margin: 0, fontSize: '14px' }}>
-                    Your project will be evaluated based on the following criteria. Feedback will appear here once released by the admin.
-                  </p>
-                </div>
-                <div className="feedback-card-body">
-                  <div className="feedback-scores-breakdown" style={{ gap: '16px' }}>
-                    {rubric.map((category, idx) => (
-                      <div key={category.name} className="feedback-category-row" style={{ borderBottom: idx === rubric.length - 1 ? 'none' : '1px solid var(--color-outline-variant)', paddingBottom: idx === rubric.length - 1 ? '0' : '16px' }}>
-                        <div className="feedback-category-text">
-                          <span style={{ fontWeight: 600, color: 'var(--color-deep-navy)' }}>{category.name}</span>
-                          <strong>{category.max_score} pts</strong>
-                        </div>
-                        <p className="text-body-md" style={{ margin: '8px 0 0 0', color: 'var(--color-on-surface-variant)', fontSize: '14px' }}>
-                          {category.description}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="content-card empty-feedback-card">
-                <p className="text-label-bold">Awaiting Judge Feedback</p>
-              </div>
-            )
-          ) : scores.length === 0 ? (
-            <div className="content-card empty-feedback-card">
-              <p className="text-label-bold">No judges have submitted scores for your team yet.</p>
-            </div>
-          ) : (
-            <div className="team-feedback-list">
-              {scores.map((score, index) => {
-                const totalScore = Object.values(score.scores).reduce((a, b) => a + b, 0);
-                const maxScore = rubric.length > 0 ? rubric.reduce((acc, c) => acc + c.max_score, 0) : Object.keys(score.scores).length * 10;
-                
+          {(() => {
+            const safeRubric = Array.isArray(rubric) ? rubric : [];
+            if (!feedbackReleased) {
+              if (safeRubric.length > 0) {
                 return (
-                  <div key={score.id} className="content-card feedback-card">
-                    <div className="feedback-card-header">
-                      <div className="feedback-judge-info">
-                        <span className="text-headline-md judge-name">Judge {index + 1}</span>
-                      </div>
-                      <div className="feedback-total-score">
-                        {totalScore}/{maxScore}
-                      </div>
-                    </div>
-                    
-                    <div className="feedback-card-body">
-                      <div className="feedback-scores-breakdown">
-                        {(rubric.length > 0 ? rubric.map(c => c.name) : Object.keys(score.scores)).map(category => {
-                          const val = score.scores[category] !== undefined ? score.scores[category] : 0;
-                          const max = rubric.find(c => c.name === category)?.max_score || 10;
-                          const percentage = Math.min(100, Math.max(0, (val / max) * 100));
-                          
-                          return (
-                            <div key={category} className="feedback-category-row">
-                              <div className="feedback-category-text">
-                                <span>{category}</span>
-                                <strong>{val} / {max}</strong>
-                              </div>
-                              <div className="feedback-progress-bg">
-                                <div className="feedback-progress-fill" style={{ width: `${percentage}%` }}></div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-
-                      {score.feedback && (
-                        <div className="feedback-comments-box">
-                          <label>Constructive Feedback:</label>
-                          <div className="feedback-comments-inner">
-                            <p>"{score.feedback}"</p>
-                          </div>
+                  <div className="content-card" style={{ borderLeft: '4px solid var(--color-deep-navy)', borderRadius: 'var(--spacing-stack-sm)', overflow: 'hidden' }}>
+                    <div className="feedback-card-header" style={{ display: 'block' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                        <div className="feedback-judge-info">
+                          <span className="text-headline-md judge-name">Evaluation Rubric</span>
                         </div>
-                      )}
+                        <div className="feedback-total-score">
+                          Max: {safeRubric.reduce((acc, c) => acc + (Number(c.max_score) || 0), 0)} pts
+                        </div>
+                      </div>
+                      <p className="text-body-md" style={{ color: 'var(--color-on-surface-variant)', margin: 0, fontSize: '14px' }}>
+                        Your project will be evaluated based on the following criteria. Feedback will appear here once released by the admin.
+                      </p>
+                    </div>
+                    <div className="feedback-card-body">
+                      <div className="feedback-scores-breakdown" style={{ gap: '16px' }}>
+                        {safeRubric.map((category, idx) => (
+                          <div key={category.name} className="feedback-category-row" style={{ borderBottom: idx === safeRubric.length - 1 ? 'none' : '1px solid var(--color-outline-variant)', paddingBottom: idx === safeRubric.length - 1 ? '0' : '16px' }}>
+                            <div className="feedback-category-text">
+                              <span style={{ fontWeight: 600, color: 'var(--color-deep-navy)' }}>{category.name}</span>
+                              <strong>{category.max_score} pts</strong>
+                            </div>
+                            <p className="text-body-md" style={{ margin: '8px 0 0 0', color: 'var(--color-on-surface-variant)', fontSize: '14px' }}>
+                              {category.description}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 );
-              })}
-            </div>
-          )}
+              } else {
+                return (
+                  <div className="content-card empty-feedback-card">
+                    <p className="text-label-bold">Awaiting Judge Feedback</p>
+                  </div>
+                );
+              }
+            }
+
+            if (scores.length === 0) {
+              return (
+                <div className="content-card empty-feedback-card">
+                  <p className="text-label-bold">No judges have submitted scores for your team yet.</p>
+                </div>
+              );
+            }
+
+            return (
+              <div className="team-feedback-list">
+                {scores.map((score, index) => {
+                  const scoreObj = (score.scores && typeof score.scores === 'object') ? score.scores : {};
+                  const totalScore = Object.values(scoreObj).reduce((a, b) => Number(a) + Number(b), 0);
+                  const maxScore = safeRubric.length > 0 ? safeRubric.reduce((acc, c) => acc + (Number(c.max_score) || 0), 0) : Object.keys(scoreObj).length * 10;
+                  
+                  return (
+                    <div key={score.id} className="content-card feedback-card">
+                      <div className="feedback-card-header">
+                        <div className="feedback-judge-info">
+                          <span className="text-headline-md judge-name">Judge {index + 1}</span>
+                        </div>
+                        <div className="feedback-total-score">
+                          {totalScore}/{maxScore}
+                        </div>
+                      </div>
+                      
+                      <div className="feedback-card-body">
+                        <div className="feedback-scores-breakdown">
+                          {(safeRubric.length > 0 ? safeRubric.map(c => c.name) : Object.keys(scoreObj)).map(category => {
+                            const val = scoreObj[category] !== undefined ? Number(scoreObj[category]) : 0;
+                            const max = safeRubric.find(c => c.name === category)?.max_score || 10;
+                            const percentage = Math.min(100, Math.max(0, (val / max) * 100));
+                            
+                            return (
+                              <div key={category} className="feedback-category-row">
+                                <div className="feedback-category-text">
+                                  <span>{category}</span>
+                                  <strong>{val} / {max}</strong>
+                                </div>
+                                <div className="feedback-progress-bg">
+                                  <div className="feedback-progress-fill" style={{ width: `${percentage}%` }}></div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {score.feedback && (
+                          <div className="feedback-comments-box">
+                            <label>Constructive Feedback:</label>
+                            <div className="feedback-comments-inner">
+                              <p>"{score.feedback}"</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })()}
         </section>
       </div>
       </div>
