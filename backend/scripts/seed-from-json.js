@@ -5,8 +5,8 @@ const { Op } = require('sequelize');
 
 async function seedData() {
   try {
-    // Get file from command line arguments, default to competitions.json
-    const fileName = process.argv[2] || 'data/competitions.json';
+    // Get file from command line arguments, default to uthsdc-2026.json
+    const fileName = process.argv[2] || 'data/uthsdc-2026.json';
     console.log(`Loading ${fileName}...`);
     
     // Resolve path from the backend root

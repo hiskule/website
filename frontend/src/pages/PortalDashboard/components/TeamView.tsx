@@ -99,15 +99,11 @@ export default function TeamView() {
   return (
     <div className="team-view-container eng-grid-bg">
       <div className="team-content-wrapper">
-        <header className="team-hero-header" style={{ marginBottom: '16px' }}>
-          <h1 className="text-display-lg" style={{ margin: 0 }}>Portal Dashboard</h1>
-        <div className="team-welcome-row">
-          <p className="text-body-lg">
-            Welcome, <strong>{user?.name || (user?.team_number ? `Team ${user.team_number}` : user?.username)}</strong>
-          </p>
-          <span className="team-role-badge">TEAM</span>
-        </div>
-      </header>
+        <header className="team-hero-header" style={{ marginBottom: '24px' }}>
+          <h1 className="text-display-lg" style={{ margin: 0 }}>
+            Welcome, {user?.team_number ? `Team ${user.team_number}` : (user?.name || 'Team')}
+          </h1>
+        </header>
 
       <div className="team-main-grid">
         <section className="team-submit-section">

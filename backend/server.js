@@ -223,10 +223,13 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Master Admin Intercept
-    if (username === "admin" && password === process.env.ADMIN_PASSWORD) {
-      const token = jwt.sign({ role: "admin", username: "admin" }, JWT_SECRET, { expiresIn: '24h' });
-      return res.json({ role: "admin", user: { username: "admin" }, token });
+    // Master Admin Intercept (supports "admin", "admin1", "admin2", "admin3", etc.)
+    const adminMatch = username.match(/^admin(\d+)?$/i);
+    if (adminMatch && password === process.env.ADMIN_PASSWORD) {
+      const adminNum = adminMatch[1];
+      const displayName = adminNum ? `Admin ${adminNum}` : "Admin";
+      const token = jwt.sign({ role: "admin", username }, JWT_SECRET, { expiresIn: '24h' });
+      return res.json({ role: "admin", user: { username, name: displayName }, token });
     }
 
     let user = await Judge.findOne({ where: { username, password }, attributes: { exclude: ['password'] } });

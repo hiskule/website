@@ -21,7 +21,7 @@
       }
     ],
     "judges": [
-      { "name": "Charlie Davis", "room": "A100", "username": "charlie_designapalooza_26", "password": "password123" }
+      { "name": "Judge 1", "room": "A100", "username": "judge1_designapalooza_27", "password": "password123" }
     ],
     "teams": [
       { "team_number": 1, "room": "A100", "start_time": "09:00 AM", "end_time": "09:30 AM", "username": "team1_designapalooza_26", "password": "password123" },

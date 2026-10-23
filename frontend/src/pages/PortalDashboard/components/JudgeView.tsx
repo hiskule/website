@@ -136,19 +136,17 @@ export default function JudgeView() {
     }
   };
 
+  const judgeNumber = user?.judge_number || (user?.username?.match(/^judge_?(\d+)/i)?.[1]) || user?.id;
+
   return (
     <div className="judge-view-container">
       <div className="judge-hero-header">
         <div className="judge-hero-bg-pattern"></div>
         <div className="judge-hero-content">
           <header className="judge-header-flex">
-            <h1 className="text-display-lg judge-portal-title">Portal Dashboard</h1>
-            <div className="judge-welcome-row">
-              <p className="text-body-lg judge-welcome-text">
-                Welcome, <strong>{user?.name || user?.username}</strong>
-              </p>
-              <span className="judge-role-badge">JUDGE</span>
-            </div>
+            <h1 className="text-display-lg judge-portal-title">
+              Welcome, {judgeNumber ? `Judge ${judgeNumber}` : 'Judge'}
+            </h1>
           </header>
         </div>
       </div>

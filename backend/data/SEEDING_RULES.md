@@ -10,10 +10,13 @@ Every single `username` for a Judge or Team must be **globally unique across all
 **Naming Convention:**
 `[Identifier]_[CompetitionAbbreviation]_[Year]`
 
+> **Privacy Note:** Judges should always be identified by number (`Judge 1`, `Judge 2`, etc.) rather than their personal names.
+
 **Examples:**
-- Judge Alice judging UTHSDC in 2026: `"username": "alice_uthsdc_26"`
+- Judge 1 judging UTHSDC in 2026: `"name": "Judge 1"`, `"username": "judge1_uthsdc_26"`
+- Judge 2 judging UTHSDC in 2026: `"name": "Judge 2"`, `"username": "judge2_uthsdc_26"`
 - Team 5 competing in UTHSDC in 2026: `"username": "team5_uthsdc_26"`
-- Judge Alice judging UTHSDC in 2027: `"username": "alice_uthsdc_27"`
+- Judge 1 judging UTHSDC in 2027: `"name": "Judge 1"`, `"username": "judge1_uthsdc_27"`
 
 ## 2. The `isActive` Flag
 The `Competition` model has an `isActive` boolean flag. This is used by the backend to determine if users belonging to this competition are currently allowed to log in.

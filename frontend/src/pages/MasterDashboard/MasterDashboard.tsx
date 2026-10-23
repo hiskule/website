@@ -58,9 +58,11 @@ export default function MasterDashboard() {
       <div className="hero-header">
         <header className="hero-header-content">
           <div className="hero-header-text">
-            <h1 className="text-display-lg">Master Dashboard</h1>
-            <p className="text-body-lg hero-subtitle">
-              Welcome back, <strong>{user?.name || user?.username}</strong>. Live event monitoring is active.
+            <h1 className="text-display-lg" style={{ margin: '0 0 8px 0' }}>
+              Welcome {user?.name || 'Admin'}
+            </h1>
+            <p className="text-body-lg hero-subtitle" style={{ margin: 0 }}>
+              Live event monitoring is active.
             </p>
           </div>
         </header>
