@@ -161,7 +161,7 @@ export default function JudgeView() {
               </div>
             </div>
             <p className="judge-schedule-subtitle" style={{ maxWidth: '420px', textAlign: 'right', margin: 0, color: 'var(--color-on-surface-variant)', fontSize: '15px' }}>
-              Select a team below to view submitted technical materials, presentation deck, and submit your final evaluation.
+              Select a team below to submit and record your rubric evaluation.
             </p>
           </div>
 
@@ -177,15 +177,10 @@ export default function JudgeView() {
                     </div>
                   </div>
                   <div className="schedule-card-mid">
-                    <h3 className="text-headline-md team-name-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <h3 className="text-headline-md team-name-title">
                       Team {team.team_number}
-                      {team.presentation_link ? (
-                        <span className="status-badge submitted">File Submitted</span>
-                      ) : (
-                        <span className="status-badge missing">No File Submitted</span>
-                      )}
                     </h3>
-                    <div style={{ marginTop: '4px' }}>
+                    <div style={{ marginTop: '6px' }}>
                       {team.isGraded ? (
                         <span className="status-badge evaluated">Evaluated</span>
                       ) : (
@@ -209,22 +204,6 @@ export default function JudgeView() {
             <div className="modal-header">
               <h2>Evaluating Team {activeTeam.team_number}</h2>
               <button className="close-btn" onClick={() => setActiveTeam(null)}>×</button>
-            </div>
-
-            <div className="team-materials">
-              <h3 className="section-subtitle">Team Submission</h3>
-              {activeTeam.presentation_link ? (
-                <a href={activeTeam.presentation_link} target="_blank" rel="noreferrer" className="material-link">
-                  View Presentation
-                </a>
-              ) : (
-                <div className="no-material" style={{ marginBottom: '1rem' }}>No presentation linked yet.</div>
-              )}
-              {activeTeam.team_comments && (
-                <div className="team-notes">
-                  <strong>Team Notes:</strong> {activeTeam.team_comments}
-                </div>
-              )}
             </div>
 
             <form onSubmit={submitScore} className="scoring-form">

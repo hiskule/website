@@ -57,13 +57,13 @@ function verifyTeam(req, res, next) {
   });
 }
 
-// Middleware to protect headless system scripts via API Key
+// Middleware to protect headless system scripts via API Key (or Admin Token)
 function verifySystemToken(req, res, next) {
   const apiKey = req.headers['x-api-key'];
-  if (!apiKey || apiKey !== API_SECRET_KEY) {
-    return res.status(403).json({ error: 'Access denied. Invalid or missing API Key.' });
+  if (apiKey && apiKey === API_SECRET_KEY) {
+    return next();
   }
-  next();
+  verifyAdmin(req, res, next);
 }
 
 module.exports = {

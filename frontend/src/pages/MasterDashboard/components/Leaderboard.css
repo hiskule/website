@@ -7,6 +7,12 @@
 
 .leaderboard-header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leaderboard-header-left {
+  display: flex;
   align-items: center;
   gap: var(--spacing-base);
 }
@@ -14,6 +20,32 @@
 .leaderboard-header h3 {
   color: var(--color-deep-navy);
   margin: 0;
+}
+
+.leaderboard-refresh-btn {
+  background: transparent;
+  border: 1px solid var(--color-outline);
+  color: var(--color-deep-navy);
+  font-family: var(--font-family-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.leaderboard-refresh-btn:hover:not(:disabled) {
+  background-color: var(--color-subtle-gray);
+  border-color: var(--color-deep-navy);
+  color: var(--color-deep-navy);
+}
+
+.leaderboard-refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .leaderboard-table-wrapper {

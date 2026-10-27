@@ -124,11 +124,28 @@ app.post("/seed-db", verifySystemToken, async (req, res) => {
     const competitionsData = JSON.parse(fs.readFileSync(competitionsPath, 'utf-8'));
 
     for (const compData of competitionsData) {
-      // Check if event already exists. If so, wipe it clean (CASCADE handles deleting old teams/judges/scores).
+      // Check if event already exists. If so, wipe it clean (explicit manual cascade for MySQL/MariaDB safety).
       const existingComp = await Competition.findOne({ where: { name: compData.name } });
       if (existingComp) {
+        const oldTeams = await Team.findAll({ where: { competitionId: existingComp.id } });
+        const oldJudges = await Judge.findAll({ where: { competitionId: existingComp.id } });
+        const teamIds = oldTeams.map(t => t.id);
+        const judgeIds = oldJudges.map(j => j.id);
+
+        if (teamIds.length > 0) await Score.destroy({ where: { teamId: teamIds } });
+        if (judgeIds.length > 0) await Score.destroy({ where: { judgeId: judgeIds } });
+
+        await Team.destroy({ where: { competitionId: existingComp.id } });
+        await Judge.destroy({ where: { competitionId: existingComp.id } });
+        await Room.destroy({ where: { competitionId: existingComp.id } });
         await existingComp.destroy();
       }
+
+      // Clean up any lingering judges/teams with matching usernames from this dataset
+      const judgeUsernames = (compData.judges || []).map(j => j.username).filter(Boolean);
+      const teamUsernames = (compData.teams || []).map(t => t.username).filter(Boolean);
+      if (judgeUsernames.length > 0) await Judge.destroy({ where: { username: judgeUsernames } });
+      if (teamUsernames.length > 0) await Team.destroy({ where: { username: teamUsernames } });
 
       const comp = await Competition.create({
         name: compData.name,
@@ -232,25 +249,58 @@ app.post("/login", async (req, res) => {
       return res.json({ role: "admin", user: { username, name: displayName }, token });
     }
 
-    let user = await Judge.findOne({ where: { username, password }, attributes: { exclude: ['password'] } });
+    // 1. Try to find a Judge in an active competition
+    let user = await Judge.findOne({
+      where: { username, password },
+      include: [{
+        model: Competition,
+        where: { isActive: true },
+        required: true
+      }],
+      attributes: { exclude: ['password'] }
+    });
     let role = "judge";
 
+    // 2. Try to find a Team in an active competition
     if (!user) {
-      user = await Team.findOne({ where: { username, password }, attributes: { exclude: ['password'] } });
+      user = await Team.findOne({
+        where: { username, password },
+        include: [{
+          model: Competition,
+          where: { isActive: true },
+          required: true
+        }],
+        attributes: { exclude: ['password'] }
+      });
       role = "team";
     }
 
-    if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
+    // 3. If found in active competition, issue token and log in
+    if (user) {
+      const token = jwt.sign({ id: user.id, role, username: user.username }, JWT_SECRET, { expiresIn: '24h' });
+      return res.json({ role, user, token });
     }
 
-    const comp = await Competition.findByPk(user.competitionId);
-    if (!comp || !comp.isActive) {
+    // 4. If not found in active competition, check if credentials exist in an inactive competition
+    const inactiveJudge = await Judge.findOne({
+      where: { username, password },
+      include: [{ model: Competition, required: false }],
+      attributes: { exclude: ['password'] },
+      order: [['id', 'DESC']]
+    });
+
+    const inactiveTeam = inactiveJudge ? null : await Team.findOne({
+      where: { username, password },
+      include: [{ model: Competition, required: false }],
+      attributes: { exclude: ['password'] },
+      order: [['id', 'DESC']]
+    });
+
+    if (inactiveJudge || inactiveTeam) {
       return res.status(403).json({ error: "This competition is currently closed." });
     }
 
-    const token = jwt.sign({ id: user.id, role, username: user.username }, JWT_SECRET, { expiresIn: '24h' });
-    return res.json({ role, user, token });
+    return res.status(401).json({ error: "Invalid credentials" });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -369,6 +419,135 @@ app.put("/competitions/:id/release-feedback", verifyAdmin, async (req, res) => {
   } catch (error) {
     console.error("Error updating feedback release status:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * @swagger
+ * /competitions/{id}/export-csv:
+ *   get:
+ *     summary: Export competition scores to CSV
+ *     tags: [Competitions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: CSV file download
+ *       404:
+ *         description: Competition not found
+ *       500:
+ *         description: Internal server error
+ */
+app.get("/competitions/:id/export-csv", verifyAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const competition = await Competition.findByPk(id);
+    if (!competition) {
+      return res.status(404).json({ error: "Competition not found" });
+    }
+
+    let categories = competition.categories;
+    if (typeof categories === 'string') {
+      try { categories = JSON.parse(categories); } catch (e) { categories = []; }
+    }
+    if (!Array.isArray(categories)) categories = [];
+
+    // Calculate total max score across all categories if defined
+    let totalMaxPossible = 0;
+    const hasMaxScores = categories.some(c => typeof c === 'object' && c && c.max_score);
+    if (hasMaxScores) {
+      totalMaxPossible = categories.reduce((sum, c) => sum + (typeof c === 'object' && c.max_score ? Number(c.max_score) : 0), 0);
+    }
+
+    // Helper for RFC 4180 CSV escaping
+    const escapeCsv = (val) => {
+      if (val === null || val === undefined) return "";
+      const str = String(val);
+      if (str.includes(",") || str.includes("\"") || str.includes("\n") || str.includes("\r")) {
+        return `"${str.replace(/"/g, '""')}"`;
+      }
+      return str;
+    };
+
+    // Build headers
+    const headers = ["Team Number"];
+    for (const cat of categories) {
+      const catName = typeof cat === 'string' ? cat : cat.name;
+      headers.push(catName);
+    }
+    headers.push("Total Score", "Feedback");
+
+    const teams = await Team.findAll({
+      where: { competitionId: id },
+      include: [
+        { model: Score }
+      ],
+      order: [['team_number', 'ASC']]
+    });
+
+    const csvLines = [headers.map(escapeCsv).join(",")];
+
+    for (const team of teams) {
+      const scores = team.Scores || [];
+
+      if (scores.length === 0) {
+        const row = [
+          `Team ${team.team_number}`,
+          ...categories.map(() => ""),
+          "", // Total Score
+          ""  // Feedback
+        ];
+        csvLines.push(row.map(escapeCsv).join(","));
+      } else {
+        for (const score of scores) {
+          let scoreMap = score.scores;
+          if (typeof scoreMap === 'string') {
+            try { scoreMap = JSON.parse(scoreMap); } catch (e) { scoreMap = {}; }
+          }
+          if (!scoreMap || typeof scoreMap !== 'object') scoreMap = {};
+
+          let totalScore = 0;
+          let hasScores = false;
+          const catValues = categories.map(cat => {
+            const catName = typeof cat === 'string' ? cat : cat.name;
+            const catMax = typeof cat === 'object' && cat && cat.max_score ? cat.max_score : null;
+            const val = scoreMap[catName];
+            if (val !== undefined && val !== null && val !== "" && !isNaN(Number(val))) {
+              totalScore += Number(val);
+              hasScores = true;
+              return catMax ? `${val} / ${catMax}` : `${val}`;
+            }
+            return "";
+          });
+
+          const totalFormatted = hasScores
+            ? (hasMaxScores ? `${totalScore} / ${totalMaxPossible}` : `${totalScore}`)
+            : "";
+
+          const row = [
+            `Team ${team.team_number}`,
+            ...catValues,
+            totalFormatted,
+            score.feedback || ""
+          ];
+          csvLines.push(row.map(escapeCsv).join(","));
+        }
+      }
+    }
+
+    const safeName = competition.name.replace(/[^a-zA-Z0-9_-]/g, "_");
+    const filename = `${safeName}_Scores.csv`;
+
+    res.setHeader("Content-Type", "text/csv; charset=utf-8");
+    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+    return res.status(200).send(csvLines.join("\r\n"));
+  } catch (error) {
+    console.error("Error exporting scores CSV:", error);
+    res.status(500).json({ error: "Failed to export scores CSV" });
   }
 });
 
@@ -919,7 +1098,11 @@ app.post("/judge", verifyJudge, async (req, res) => {
 
   if (existing) {
     await existing.update({ scores, feedback });
-    return res.json({ message: "Scores updated", existing });
+    const scoreJson = existing.toJSON();
+    if (typeof scoreJson.scores === 'string') {
+      try { scoreJson.scores = JSON.parse(scoreJson.scores); } catch (e) { scoreJson.scores = {}; }
+    }
+    return res.json({ message: "Scores updated", score: scoreJson, existing: scoreJson });
   }
 
   // otherwise create a new score entry
@@ -930,7 +1113,12 @@ app.post("/judge", verifyJudge, async (req, res) => {
     feedback
   });
 
-  res.json({ message: "New scores submitted", score });
+  const scoreJson = score.toJSON();
+  if (typeof scoreJson.scores === 'string') {
+    try { scoreJson.scores = JSON.parse(scoreJson.scores); } catch (e) { scoreJson.scores = {}; }
+  }
+
+  res.json({ message: "New scores submitted", score: scoreJson });
 });
 
 /**

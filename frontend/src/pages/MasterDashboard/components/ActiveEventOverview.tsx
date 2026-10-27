@@ -19,12 +19,13 @@ interface ActiveEventOverviewProps {
 export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ competition, onDeactivate }) => {
   const [rooms, setRooms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [feedbackReleased, setFeedbackReleased] = useState(!!competition.feedbackReleased);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
     fetchRooms();
-    setFeedbackReleased(!!competition.feedbackReleased);
-  }, [competition.id, competition.feedbackReleased]);
+  }, [competition.id]);
 
   const fetchRooms = async () => {
     try {
@@ -35,6 +36,11 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDataUpdate = () => {
+    fetchRooms();
+    setRefreshTrigger(prev => prev + 1);
   };
 
   const handleDeactivate = async () => {
@@ -51,23 +57,12 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
     }
   };
 
-  const handleToggleFeedback = async () => {
-    try {
-      const data = await request<any>(`/competitions/${competition.id}/release-feedback`, {
-        method: 'PUT',
-        body: JSON.stringify({ feedbackReleased: !feedbackReleased })
-      });
-      setFeedbackReleased(data.feedbackReleased);
-    } catch (err) {
-      console.error('Error toggling feedback release:', err);
-    }
-  };
-
   const handleExportCSV = async () => {
+    setExporting(true);
     try {
       const token = localStorage.getItem('hiskule_token');
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-      const res = await fetch(`${API_URL}/leaderboard/export?competitionId=${competition.id}`, {
+      const res = await fetch(`${API_URL}/competitions/${competition.id}/export-csv`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!res.ok) throw new Error('Failed to export CSV');
@@ -76,7 +71,7 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
       const a = document.createElement('a');
       a.href = url;
       const cd = res.headers.get('Content-Disposition');
-      let filename = "results.csv";
+      let filename = `${competition.name.replace(/[^a-zA-Z0-9_-]/g, '_')}_Scores.csv`;
       if (cd && cd.includes('filename="')) {
         filename = cd.split('filename="')[1].split('"')[0];
       }
@@ -85,9 +80,11 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to export results.");
+    } catch (err: any) {
+      console.error('Error exporting scores CSV:', err);
+      alert(`Failed to export scores: ${err.message || 'Network error'}`);
+    } finally {
+      setExporting(false);
     }
   };
 
@@ -110,8 +107,9 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
             <button 
               onClick={handleExportCSV}
               className="ae-export-btn"
+              disabled={exporting}
             >
-              Export Results to CSV
+              {exporting ? 'EXPORTING...' : 'EXPORT SCORES (CSV)'}
             </button>
             <button className="ae-deactivate-btn" onClick={handleDeactivate}>
               Deactivate Event
@@ -120,25 +118,11 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
         </div>
       </section>
 
-      <div className="ae-section-title" style={{ marginTop: '32px' }}>
-        <h3 className="text-headline-md">Global Controls</h3>
-      </div>
-      <section className="glass-card global-controls-section">
-        <div>
-          <h4 className="text-headline-sm global-controls-title">Release Feedback</h4>
-          <p className="text-body-sm global-controls-desc">
-            Allow teams to view their evaluation scores and judge feedback on their dashboard.
-          </p>
-        </div>
-        <button 
-          onClick={handleToggleFeedback}
-          className={`global-controls-btn ${feedbackReleased ? 'released' : 'unreleased'}`}
-        >
-          {feedbackReleased ? 'Revoke Feedback' : 'Release Feedback'}
-        </button>
-      </section>
-
-      <Leaderboard competitionId={competition.id} />
+      <Leaderboard 
+        competitionId={competition.id} 
+        refreshTrigger={refreshTrigger}
+        onRefresh={fetchRooms}
+      />
 
       <div className="ae-section-title">
         <h3 className="text-headline-md">Room Overview</h3>
@@ -152,7 +136,7 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
               key={room.id} 
               room={room} 
               allRooms={rooms} 
-              onUpdate={fetchRooms}
+              onUpdate={handleDataUpdate}
               competitionId={competition.id}
             />
           ))}

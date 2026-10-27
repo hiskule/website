@@ -17,7 +17,18 @@ export async function request<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
+    let errorMsg = `Request failed with status ${response.status}`;
+    try {
+      const errData = await response.json();
+      if (errData?.error) {
+        errorMsg = errData.error;
+      } else if (errData?.message) {
+        errorMsg = errData.message;
+      }
+    } catch {
+      // response was not JSON
+    }
+    throw new Error(errorMsg);
   }
 
   return response.json() as Promise<T>;

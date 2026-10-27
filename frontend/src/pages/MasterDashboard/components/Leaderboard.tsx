@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { request } from '../../../shared/api/http';
 import './Leaderboard.css';
 
 interface LeaderboardProps {
   competitionId: number;
+  refreshTrigger?: number;
+  onRefresh?: () => void;
 }
 
 interface TeamScore {
@@ -12,15 +14,13 @@ interface TeamScore {
   judges_counted: number;
 }
 
-export const Leaderboard: React.FC<LeaderboardProps> = ({ competitionId }) => {
+export const Leaderboard: React.FC<LeaderboardProps> = ({ competitionId, refreshTrigger, onRefresh }) => {
   const [leaderboard, setLeaderboard] = useState<TeamScore[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    fetchLeaderboard();
-  }, [competitionId]);
-
-  const fetchLeaderboard = async () => {
+  const fetchLeaderboard = useCallback(async (isManual = false) => {
+    if (isManual) setRefreshing(true);
     try {
       const sorted = await request<TeamScore[]>(`/leaderboard?competitionId=${competitionId}`);
       setLeaderboard(sorted);
@@ -28,7 +28,25 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ competitionId }) => {
       console.error(err);
     } finally {
       setLoading(false);
+      if (isManual) setRefreshing(false);
     }
+  }, [competitionId]);
+
+  useEffect(() => {
+    fetchLeaderboard();
+  }, [competitionId, refreshTrigger, fetchLeaderboard]);
+
+  // Periodic polling every 20 seconds so admin sees live scores from judges automatically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchLeaderboard();
+    }, 20000);
+    return () => clearInterval(interval);
+  }, [fetchLeaderboard]);
+
+  const handleManualRefresh = () => {
+    fetchLeaderboard(true);
+    if (onRefresh) onRefresh();
   };
 
   if (loading) return <div>Loading leaderboard...</div>;
@@ -36,7 +54,17 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ competitionId }) => {
   return (
     <section className="leaderboard-section">
       <div className="leaderboard-header">
-        <h3 className="text-headline-md">Live Leaderboard</h3>
+        <div className="leaderboard-header-left">
+          <h3 className="text-headline-md">Live Leaderboard</h3>
+        </div>
+        <button 
+          onClick={handleManualRefresh} 
+          className="leaderboard-refresh-btn"
+          disabled={refreshing}
+          title="Refresh leaderboard and room status"
+        >
+          {refreshing ? 'Refreshing...' : '↻ Refresh'}
+        </button>
       </div>
 
       <div className="glass-card leaderboard-table-wrapper">

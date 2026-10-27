@@ -1,0 +1,843 @@
+[
+  {
+    "name": "UTHSDC 2026 (Test Run)",
+    "isActive": true,
+    "date": "2026-11-07",
+    "categories": [
+      {
+        "name": "Engineering Design Process",
+        "description": "Did the team use engineering techniques during their design process?",
+        "max_score": 10
+      },
+      {
+        "name": "Aesthetics/Realism",
+        "description": "Is this a practical solution? Is the solution viable?",
+        "max_score": 5
+      },
+      {
+        "name": "Coolness/uniqueness",
+        "description": "Is the solution creative?",
+        "max_score": 5
+      },
+      {
+        "name": "Presentation",
+        "description": "Did the team articulate clearly? Did they respond well to questions?",
+        "max_score": 5
+      }
+    ],
+    "judges": [
+      {
+        "name": "Judge 1",
+        "room": "Room 1",
+        "username": "judge1_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 2",
+        "room": "Room 2",
+        "username": "judge2_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 3",
+        "room": "Room 3",
+        "username": "judge3_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 4",
+        "room": "Room 4",
+        "username": "judge4_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 5",
+        "room": "Room 5",
+        "username": "judge5_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 6",
+        "room": "Room 6",
+        "username": "judge6_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 7",
+        "room": "Room 7",
+        "username": "judge7_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 8",
+        "room": "Room 8",
+        "username": "judge8_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 9",
+        "room": "Room 9",
+        "username": "judge9_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 10",
+        "room": "Room 10",
+        "username": "judge10_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 11",
+        "room": "Room 11",
+        "username": "judge11_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 12",
+        "room": "Room 12",
+        "username": "judge12_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 13",
+        "room": "Room 13",
+        "username": "judge13_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 14",
+        "room": "Room 14",
+        "username": "judge14_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "name": "Judge 15",
+        "room": "Room 15",
+        "username": "judge15_uthsdc_26",
+        "password": "password123"
+      }
+    ],
+    "teams": [
+      {
+        "team_number": 1,
+        "room": "Room 1",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team1_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 2,
+        "room": "Room 1",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team2_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 3,
+        "room": "Room 1",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team3_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 4,
+        "room": "Room 1",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team4_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 5,
+        "room": "Room 1",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team5_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 6,
+        "room": "Room 1",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team6_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 7,
+        "room": "Room 2",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team7_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 8,
+        "room": "Room 2",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team8_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 9,
+        "room": "Room 2",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team9_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 10,
+        "room": "Room 2",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team10_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 11,
+        "room": "Room 2",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team11_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 12,
+        "room": "Room 2",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team12_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 13,
+        "room": "Room 3",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team13_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 14,
+        "room": "Room 3",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team14_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 15,
+        "room": "Room 3",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team15_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 16,
+        "room": "Room 3",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team16_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 17,
+        "room": "Room 3",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team17_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 18,
+        "room": "Room 3",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team18_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 19,
+        "room": "Room 4",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team19_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 20,
+        "room": "Room 4",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team20_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 21,
+        "room": "Room 4",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team21_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 22,
+        "room": "Room 4",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team22_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 23,
+        "room": "Room 4",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team23_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 24,
+        "room": "Room 4",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team24_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 25,
+        "room": "Room 5",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team25_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 26,
+        "room": "Room 5",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team26_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 27,
+        "room": "Room 5",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team27_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 28,
+        "room": "Room 5",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team28_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 29,
+        "room": "Room 5",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team29_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 30,
+        "room": "Room 5",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team30_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 31,
+        "room": "Room 6",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team31_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 32,
+        "room": "Room 6",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team32_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 33,
+        "room": "Room 6",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team33_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 34,
+        "room": "Room 6",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team34_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 35,
+        "room": "Room 6",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team35_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 36,
+        "room": "Room 6",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team36_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 37,
+        "room": "Room 7",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team37_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 38,
+        "room": "Room 7",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team38_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 39,
+        "room": "Room 7",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team39_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 40,
+        "room": "Room 7",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team40_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 41,
+        "room": "Room 7",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team41_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 42,
+        "room": "Room 7",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team42_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 43,
+        "room": "Room 8",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team43_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 44,
+        "room": "Room 8",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team44_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 45,
+        "room": "Room 8",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team45_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 46,
+        "room": "Room 8",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team46_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 47,
+        "room": "Room 8",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team47_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 48,
+        "room": "Room 8",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team48_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 49,
+        "room": "Room 9",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team49_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 50,
+        "room": "Room 9",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team50_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 51,
+        "room": "Room 9",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team51_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 52,
+        "room": "Room 9",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team52_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 53,
+        "room": "Room 9",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team53_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 54,
+        "room": "Room 9",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team54_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 55,
+        "room": "Room 10",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team55_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 56,
+        "room": "Room 10",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team56_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 57,
+        "room": "Room 10",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team57_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 58,
+        "room": "Room 10",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team58_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 59,
+        "room": "Room 10",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team59_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 60,
+        "room": "Room 10",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team60_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 61,
+        "room": "Room 11",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team61_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 62,
+        "room": "Room 11",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team62_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 63,
+        "room": "Room 11",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team63_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 64,
+        "room": "Room 11",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team64_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 65,
+        "room": "Room 11",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team65_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 66,
+        "room": "Room 11",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team66_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 67,
+        "room": "Room 12",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team67_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 68,
+        "room": "Room 12",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team68_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 69,
+        "room": "Room 12",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team69_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 70,
+        "room": "Room 12",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team70_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 71,
+        "room": "Room 12",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team71_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 72,
+        "room": "Room 12",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team72_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 73,
+        "room": "Room 13",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team73_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 74,
+        "room": "Room 13",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team74_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 75,
+        "room": "Room 13",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team75_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 76,
+        "room": "Room 13",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team76_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 77,
+        "room": "Room 13",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team77_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 78,
+        "room": "Room 13",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team78_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 79,
+        "room": "Room 14",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team79_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 80,
+        "room": "Room 14",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team80_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 81,
+        "room": "Room 14",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team81_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 82,
+        "room": "Room 14",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team82_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 83,
+        "room": "Room 14",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team83_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 84,
+        "room": "Room 14",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team84_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 85,
+        "room": "Room 15",
+        "start_time": "10:00 AM",
+        "end_time": "10:15 AM",
+        "username": "team85_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 86,
+        "room": "Room 15",
+        "start_time": "10:15 AM",
+        "end_time": "10:30 AM",
+        "username": "team86_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 87,
+        "room": "Room 15",
+        "start_time": "10:30 AM",
+        "end_time": "10:45 AM",
+        "username": "team87_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 88,
+        "room": "Room 15",
+        "start_time": "10:45 AM",
+        "end_time": "11:00 AM",
+        "username": "team88_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 89,
+        "room": "Room 15",
+        "start_time": "11:00 AM",
+        "end_time": "11:15 AM",
+        "username": "team89_uthsdc_26",
+        "password": "password123"
+      },
+      {
+        "team_number": 90,
+        "room": "Room 15",
+        "start_time": "11:15 AM",
+        "end_time": "11:30 AM",
+        "username": "team90_uthsdc_26",
+        "password": "password123"
+      }
+    ]
+  }
+]
