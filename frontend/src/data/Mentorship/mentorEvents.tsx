@@ -18,7 +18,7 @@ export const mentorEvents: MentorSection[] = [
   {
     header: "UTHSDC MENTOR SIGN UP",
     text: `Join us as a mentor for the University of Toronto High School Design Competition (UTHSDC)! Guide high school students as they take on real-world engineering problems, helping them refine their solutions and build problem-solving skills.`,
-    buttons: [{ label: "SIGN UP ON GOOGLE FORMS", link: '' }],
+    buttons: [{ label: "SIGN UP ON GOOGLE FORMS", link: 'https://forms.gle/yUKpDLsyy1ST2SRJ9' }],
     image: { src: DC.uthsdcImages.mentors[0], type: "horizontal", position: "left" },
     isActive: ACTIVE_EVENT_ID === "UTHSDC", 
   },
