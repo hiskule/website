@@ -112,11 +112,15 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
     progressColor = 'var(--color-outline-variant)'; // Grey for 0
   }
 
+  const formattedRoomName = room.room?.toString().startsWith('Room ')
+    ? room.room
+    : `Room ${room.room}`;
+
   return (
     <div className="glass-card room-card">
       <div className="room-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h4 className="text-headline-md room-card-title">Room {room.room}</h4>
+          <h4 className="text-headline-md room-card-title">{formattedRoomName}</h4>
           <p className="text-label-sm room-judges">
             Judges: {room.judges && room.judges.length > 0 && room.judges[0].name !== "NO JUDGE" 
               ? room.judges.map(j => j.name).join(', ') 
@@ -183,7 +187,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
         <div className="judge-modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div className="judge-modal-content" onClick={e => e.stopPropagation()}>
             <div className="judge-modal-header">
-              <h3>Manage Judges - Room {room.room}</h3>
+              <h3>Manage Judges - {formattedRoomName}</h3>
               <button onClick={() => setIsModalOpen(false)} className="close-btn">&times;</button>
             </div>
             

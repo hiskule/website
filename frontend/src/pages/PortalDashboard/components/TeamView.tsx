@@ -55,7 +55,9 @@ export default function TeamView() {
     if (!user?.id || !user?.competitionId) return;
     try {
       const data = await request<ScoreResponse[]>(`/teams/${user.id}/scores?competitionId=${user.competitionId}`);
-      const parsedScores = (Array.isArray(data) ? data : []).map(score => {
+      const parsedScores = (Array.isArray(data) ? data : [])
+        .filter((score: any) => !score.isPending)
+        .map(score => {
         let sc = score.scores;
         if (typeof sc === 'string') {
           try { sc = JSON.parse(sc); } catch { sc = {}; }

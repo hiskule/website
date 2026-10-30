@@ -3,116 +3,255 @@
     "name": "UTHSDC 2026 (Test Run)",
     "isActive": true,
     "date": "2026-11-07",
-    "categories": [
-      {
-        "name": "Engineering Design Process",
-        "description": "Did the team use engineering techniques during their design process?",
-        "max_score": 10
-      },
-      {
-        "name": "Aesthetics/Realism",
-        "description": "Is this a practical solution? Is the solution viable?",
-        "max_score": 5
-      },
-      {
-        "name": "Coolness/uniqueness",
-        "description": "Is the solution creative?",
-        "max_score": 5
-      },
-      {
-        "name": "Presentation",
-        "description": "Did the team articulate clearly? Did they respond well to questions?",
-        "max_score": 5
-      }
-    ],
+    "categories": {
+      "total_max_score": 25,
+      "document_url": "https://docs.google.com/document/d/1NvvlEQcS68_0QMBbvz1PevYeMskxVpu9amEB5DqTGss/edit?tab=t.szbk87ly4e7#heading=h.jwuuwp511e8s",
+      "sections": [
+        {
+          "id": "design_process",
+          "name": "Engineering Design Process",
+          "max_score": 10,
+          "criteria": [
+            {
+              "id": "1.1",
+              "name": "Service Environment & Stakeholder Identification",
+              "max_score": 2,
+              "levels": {
+                "0": "Does not identify the service environment or relevant stakeholders.",
+                "1": "Identifies the service environment and some relevant stakeholders, but with no/limited explanation of their relationship to the problem (OR describes one of the two in detail but not the other one).",
+                "2": "Clearly describes the service environment, identifies key stakeholders, and explains their needs and how they are affected by the problem."
+              }
+            },
+            {
+              "id": "1.2",
+              "name": "Functions, Objectives & Constraints",
+              "max_score": 4,
+              "levels": {
+                "0": "Does not identify any relevant functions, objectives, or constraints.",
+                "1": "Identifies a few functions, objectives, or constraints, with significant inaccuracies or omissions.",
+                "2": "Identifies all three categories, but with some inaccuracies or missing details.",
+                "3": "Correctly identifies mostly relevant functions, objectives, and constraints, with only minor omissions or classification errors.",
+                "4": "Clearly and accurately identifies well-defined functions, objectives, and constraints relevant to the problem. No classification errors made, and all important FOCs are mentioned."
+              }
+            },
+            {
+              "id": "1.3",
+              "name": "Idea Generation Process",
+              "max_score": 3,
+              "levels": {
+                "0": "Does not explain potential solutions and goes straight to the proposed solution.",
+                "1": "Presents a few proposed solutions but provides no explanation of the brainstorming or idea generation process.",
+                "2": "Presents multiple potential solutions and provides a basic explanation of how ideas were generated (i.e. names of the processes).",
+                "3": "Clearly explains the idea generation methods used, including how they were applied to develop multiple distinct potential solutions."
+              }
+            },
+            {
+              "id": "1.4",
+              "name": "Idea Selection Process",
+              "max_score": 1,
+              "levels": {
+                "0": "Does not explain how the final solution was selected.",
+                "1": "Explains a structured selection process and compares alternatives using relevant FOCs."
+              }
+            }
+          ]
+        },
+        {
+          "id": "feasibility",
+          "name": "Feasibility & Functionality",
+          "max_score": 6,
+          "criteria": [
+            {
+              "id": "2.1",
+              "name": "Technical Feasibility",
+              "max_score": 4,
+              "levels": {
+                "0": "The proposed solution is not explained sufficiently to make an assessment.",
+                "1": "The solution contains major technical or practical issues that prevent it from functioning as intended, with no reasonable solutions proposed.",
+                "2": "The solution is generally feasible but contains significant technical or practical challenges that are not adequately considered.",
+                "3": "The solution is technically feasible, with minor limitations that do not significantly affect its functionality, or major challenges with reasonable mitigation strategies proposed.",
+                "4": "The solution is technically feasible, with a clear explanation of how it works and no significant unresolved technical or practical challenges."
+              }
+            },
+            {
+              "id": "2.2",
+              "name": "Implementation & Real-World Impact",
+              "max_score": 2,
+              "levels": {
+                "0": "Does not consider how the solution would be implemented or its potential impacts.",
+                "1": "Provides a basic discussion of implementation considerations and/or real-world impacts (e.g. cost, accessibility, sustainability, or maintenance).",
+                "2": "Clearly explains implementation considerations and evaluates relevant real-world impacts and trade-offs."
+              }
+            }
+          ]
+        },
+        {
+          "id": "creativity",
+          "name": "Creativity & Innovation",
+          "max_score": 3,
+          "criteria": [
+            {
+              "id": "3.1",
+              "name": "Originality of Solution",
+              "max_score": 3,
+              "levels": {
+                "0": "The solution demonstrates no original or creative elements.",
+                "1": "The solution is conventional, with minimal modifications to existing approaches.",
+                "2": "The solution demonstrates creativity through meaningful modifications or combinations of existing approaches.",
+                "3": "The solution demonstrates strong creativity through a unique approach or an innovative application of existing ideas."
+              }
+            }
+          ]
+        },
+        {
+          "id": "presentation",
+          "name": "Presentation & Communication",
+          "max_score": 6,
+          "criteria": [
+            {
+              "id": "4.1",
+              "name": "Presentation Clarity & Organization",
+              "max_score": 2,
+              "levels": {
+                "0": "The presentation is difficult to follow and does not clearly communicate the proposed solution.",
+                "1": "The presentation communicates the main idea but has noticeable issues with organization or clarity.",
+                "2": "The presentation is clear, logically organized, and effectively communicates the proposed solution."
+              }
+            },
+            {
+              "id": "4.2",
+              "name": "Understanding & Q&A",
+              "max_score": 2,
+              "levels": {
+                "0": "The team cannot adequately explain its design or respond to questions about its main features.",
+                "1": "The team answers basic questions but struggles to explain or justify major design decisions.",
+                "2": "The team answers questions accurately, demonstrates strong understanding of its design, and clearly justifies its major design decisions."
+              }
+            },
+            {
+              "id": "4.3",
+              "name": "Visual Aids",
+              "max_score": 2,
+              "levels": {
+                "0": "Does not provide any visual aids representing the proposed solution (e.g. drawings, diagrams, 3D models, or prototypes).",
+                "1": "Provides at least one relevant visual aid, but it lacks sufficient detail or clarity to effectively explain the proposed solution.",
+                "2": "Provides at least one clear and detailed visual aid that effectively illustrates the proposed solution and its key features."
+              }
+            }
+          ]
+        }
+      ],
+      "penalties": [
+        {
+          "id": "plagiarism",
+          "name": "Plagiarism",
+          "deduction": 25
+        },
+        {
+          "id": "school_mention",
+          "name": "Mention School/District During Presentation",
+          "deduction": 10
+        },
+        {
+          "id": "disruptive",
+          "name": "Disruptive Behaviour During Other Presentations",
+          "deduction": 10
+        },
+        {
+          "id": "late_docs",
+          "name": "Documents Received After Deadline",
+          "deduction": 5
+        }
+      ]
+    },
     "judges": [
       {
         "name": "Judge 1",
-        "room": "Room 1",
+        "room": "1",
         "username": "judge1_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 2",
-        "room": "Room 2",
+        "room": "2",
         "username": "judge2_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 3",
-        "room": "Room 3",
+        "room": "3",
         "username": "judge3_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 4",
-        "room": "Room 4",
+        "room": "4",
         "username": "judge4_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 5",
-        "room": "Room 5",
+        "room": "5",
         "username": "judge5_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 6",
-        "room": "Room 6",
+        "room": "6",
         "username": "judge6_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 7",
-        "room": "Room 7",
+        "room": "7",
         "username": "judge7_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 8",
-        "room": "Room 8",
+        "room": "8",
         "username": "judge8_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 9",
-        "room": "Room 9",
+        "room": "9",
         "username": "judge9_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 10",
-        "room": "Room 10",
+        "room": "10",
         "username": "judge10_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 11",
-        "room": "Room 11",
+        "room": "11",
         "username": "judge11_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 12",
-        "room": "Room 12",
+        "room": "12",
         "username": "judge12_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 13",
-        "room": "Room 13",
+        "room": "13",
         "username": "judge13_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 14",
-        "room": "Room 14",
+        "room": "14",
         "username": "judge14_uthsdc_26",
         "password": "password123"
       },
       {
         "name": "Judge 15",
-        "room": "Room 15",
+        "room": "15",
         "username": "judge15_uthsdc_26",
         "password": "password123"
       }
@@ -120,7 +259,7 @@
     "teams": [
       {
         "team_number": 1,
-        "room": "Room 1",
+        "room": "1",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team1_uthsdc_26",
@@ -128,7 +267,7 @@
       },
       {
         "team_number": 2,
-        "room": "Room 1",
+        "room": "1",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team2_uthsdc_26",
@@ -136,7 +275,7 @@
       },
       {
         "team_number": 3,
-        "room": "Room 1",
+        "room": "1",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team3_uthsdc_26",
@@ -144,7 +283,7 @@
       },
       {
         "team_number": 4,
-        "room": "Room 1",
+        "room": "1",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team4_uthsdc_26",
@@ -152,7 +291,7 @@
       },
       {
         "team_number": 5,
-        "room": "Room 1",
+        "room": "1",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team5_uthsdc_26",
@@ -160,7 +299,7 @@
       },
       {
         "team_number": 6,
-        "room": "Room 1",
+        "room": "1",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team6_uthsdc_26",
@@ -168,7 +307,7 @@
       },
       {
         "team_number": 7,
-        "room": "Room 2",
+        "room": "2",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team7_uthsdc_26",
@@ -176,7 +315,7 @@
       },
       {
         "team_number": 8,
-        "room": "Room 2",
+        "room": "2",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team8_uthsdc_26",
@@ -184,7 +323,7 @@
       },
       {
         "team_number": 9,
-        "room": "Room 2",
+        "room": "2",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team9_uthsdc_26",
@@ -192,7 +331,7 @@
       },
       {
         "team_number": 10,
-        "room": "Room 2",
+        "room": "2",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team10_uthsdc_26",
@@ -200,7 +339,7 @@
       },
       {
         "team_number": 11,
-        "room": "Room 2",
+        "room": "2",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team11_uthsdc_26",
@@ -208,7 +347,7 @@
       },
       {
         "team_number": 12,
-        "room": "Room 2",
+        "room": "2",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team12_uthsdc_26",
@@ -216,7 +355,7 @@
       },
       {
         "team_number": 13,
-        "room": "Room 3",
+        "room": "3",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team13_uthsdc_26",
@@ -224,7 +363,7 @@
       },
       {
         "team_number": 14,
-        "room": "Room 3",
+        "room": "3",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team14_uthsdc_26",
@@ -232,7 +371,7 @@
       },
       {
         "team_number": 15,
-        "room": "Room 3",
+        "room": "3",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team15_uthsdc_26",
@@ -240,7 +379,7 @@
       },
       {
         "team_number": 16,
-        "room": "Room 3",
+        "room": "3",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team16_uthsdc_26",
@@ -248,7 +387,7 @@
       },
       {
         "team_number": 17,
-        "room": "Room 3",
+        "room": "3",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team17_uthsdc_26",
@@ -256,7 +395,7 @@
       },
       {
         "team_number": 18,
-        "room": "Room 3",
+        "room": "3",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team18_uthsdc_26",
@@ -264,7 +403,7 @@
       },
       {
         "team_number": 19,
-        "room": "Room 4",
+        "room": "4",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team19_uthsdc_26",
@@ -272,7 +411,7 @@
       },
       {
         "team_number": 20,
-        "room": "Room 4",
+        "room": "4",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team20_uthsdc_26",
@@ -280,7 +419,7 @@
       },
       {
         "team_number": 21,
-        "room": "Room 4",
+        "room": "4",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team21_uthsdc_26",
@@ -288,7 +427,7 @@
       },
       {
         "team_number": 22,
-        "room": "Room 4",
+        "room": "4",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team22_uthsdc_26",
@@ -296,7 +435,7 @@
       },
       {
         "team_number": 23,
-        "room": "Room 4",
+        "room": "4",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team23_uthsdc_26",
@@ -304,7 +443,7 @@
       },
       {
         "team_number": 24,
-        "room": "Room 4",
+        "room": "4",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team24_uthsdc_26",
@@ -312,7 +451,7 @@
       },
       {
         "team_number": 25,
-        "room": "Room 5",
+        "room": "5",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team25_uthsdc_26",
@@ -320,7 +459,7 @@
       },
       {
         "team_number": 26,
-        "room": "Room 5",
+        "room": "5",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team26_uthsdc_26",
@@ -328,7 +467,7 @@
       },
       {
         "team_number": 27,
-        "room": "Room 5",
+        "room": "5",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team27_uthsdc_26",
@@ -336,7 +475,7 @@
       },
       {
         "team_number": 28,
-        "room": "Room 5",
+        "room": "5",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team28_uthsdc_26",
@@ -344,7 +483,7 @@
       },
       {
         "team_number": 29,
-        "room": "Room 5",
+        "room": "5",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team29_uthsdc_26",
@@ -352,7 +491,7 @@
       },
       {
         "team_number": 30,
-        "room": "Room 5",
+        "room": "5",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team30_uthsdc_26",
@@ -360,7 +499,7 @@
       },
       {
         "team_number": 31,
-        "room": "Room 6",
+        "room": "6",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team31_uthsdc_26",
@@ -368,7 +507,7 @@
       },
       {
         "team_number": 32,
-        "room": "Room 6",
+        "room": "6",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team32_uthsdc_26",
@@ -376,7 +515,7 @@
       },
       {
         "team_number": 33,
-        "room": "Room 6",
+        "room": "6",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team33_uthsdc_26",
@@ -384,7 +523,7 @@
       },
       {
         "team_number": 34,
-        "room": "Room 6",
+        "room": "6",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team34_uthsdc_26",
@@ -392,7 +531,7 @@
       },
       {
         "team_number": 35,
-        "room": "Room 6",
+        "room": "6",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team35_uthsdc_26",
@@ -400,7 +539,7 @@
       },
       {
         "team_number": 36,
-        "room": "Room 6",
+        "room": "6",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team36_uthsdc_26",
@@ -408,7 +547,7 @@
       },
       {
         "team_number": 37,
-        "room": "Room 7",
+        "room": "7",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team37_uthsdc_26",
@@ -416,7 +555,7 @@
       },
       {
         "team_number": 38,
-        "room": "Room 7",
+        "room": "7",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team38_uthsdc_26",
@@ -424,7 +563,7 @@
       },
       {
         "team_number": 39,
-        "room": "Room 7",
+        "room": "7",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team39_uthsdc_26",
@@ -432,7 +571,7 @@
       },
       {
         "team_number": 40,
-        "room": "Room 7",
+        "room": "7",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team40_uthsdc_26",
@@ -440,7 +579,7 @@
       },
       {
         "team_number": 41,
-        "room": "Room 7",
+        "room": "7",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team41_uthsdc_26",
@@ -448,7 +587,7 @@
       },
       {
         "team_number": 42,
-        "room": "Room 7",
+        "room": "7",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team42_uthsdc_26",
@@ -456,7 +595,7 @@
       },
       {
         "team_number": 43,
-        "room": "Room 8",
+        "room": "8",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team43_uthsdc_26",
@@ -464,7 +603,7 @@
       },
       {
         "team_number": 44,
-        "room": "Room 8",
+        "room": "8",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team44_uthsdc_26",
@@ -472,7 +611,7 @@
       },
       {
         "team_number": 45,
-        "room": "Room 8",
+        "room": "8",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team45_uthsdc_26",
@@ -480,7 +619,7 @@
       },
       {
         "team_number": 46,
-        "room": "Room 8",
+        "room": "8",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team46_uthsdc_26",
@@ -488,7 +627,7 @@
       },
       {
         "team_number": 47,
-        "room": "Room 8",
+        "room": "8",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team47_uthsdc_26",
@@ -496,7 +635,7 @@
       },
       {
         "team_number": 48,
-        "room": "Room 8",
+        "room": "8",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team48_uthsdc_26",
@@ -504,7 +643,7 @@
       },
       {
         "team_number": 49,
-        "room": "Room 9",
+        "room": "9",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team49_uthsdc_26",
@@ -512,7 +651,7 @@
       },
       {
         "team_number": 50,
-        "room": "Room 9",
+        "room": "9",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team50_uthsdc_26",
@@ -520,7 +659,7 @@
       },
       {
         "team_number": 51,
-        "room": "Room 9",
+        "room": "9",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team51_uthsdc_26",
@@ -528,7 +667,7 @@
       },
       {
         "team_number": 52,
-        "room": "Room 9",
+        "room": "9",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team52_uthsdc_26",
@@ -536,7 +675,7 @@
       },
       {
         "team_number": 53,
-        "room": "Room 9",
+        "room": "9",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team53_uthsdc_26",
@@ -544,7 +683,7 @@
       },
       {
         "team_number": 54,
-        "room": "Room 9",
+        "room": "9",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team54_uthsdc_26",
@@ -552,7 +691,7 @@
       },
       {
         "team_number": 55,
-        "room": "Room 10",
+        "room": "10",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team55_uthsdc_26",
@@ -560,7 +699,7 @@
       },
       {
         "team_number": 56,
-        "room": "Room 10",
+        "room": "10",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team56_uthsdc_26",
@@ -568,7 +707,7 @@
       },
       {
         "team_number": 57,
-        "room": "Room 10",
+        "room": "10",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team57_uthsdc_26",
@@ -576,7 +715,7 @@
       },
       {
         "team_number": 58,
-        "room": "Room 10",
+        "room": "10",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team58_uthsdc_26",
@@ -584,7 +723,7 @@
       },
       {
         "team_number": 59,
-        "room": "Room 10",
+        "room": "10",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team59_uthsdc_26",
@@ -592,7 +731,7 @@
       },
       {
         "team_number": 60,
-        "room": "Room 10",
+        "room": "10",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team60_uthsdc_26",
@@ -600,7 +739,7 @@
       },
       {
         "team_number": 61,
-        "room": "Room 11",
+        "room": "11",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team61_uthsdc_26",
@@ -608,7 +747,7 @@
       },
       {
         "team_number": 62,
-        "room": "Room 11",
+        "room": "11",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team62_uthsdc_26",
@@ -616,7 +755,7 @@
       },
       {
         "team_number": 63,
-        "room": "Room 11",
+        "room": "11",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team63_uthsdc_26",
@@ -624,7 +763,7 @@
       },
       {
         "team_number": 64,
-        "room": "Room 11",
+        "room": "11",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team64_uthsdc_26",
@@ -632,7 +771,7 @@
       },
       {
         "team_number": 65,
-        "room": "Room 11",
+        "room": "11",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team65_uthsdc_26",
@@ -640,7 +779,7 @@
       },
       {
         "team_number": 66,
-        "room": "Room 11",
+        "room": "11",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team66_uthsdc_26",
@@ -648,7 +787,7 @@
       },
       {
         "team_number": 67,
-        "room": "Room 12",
+        "room": "12",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team67_uthsdc_26",
@@ -656,7 +795,7 @@
       },
       {
         "team_number": 68,
-        "room": "Room 12",
+        "room": "12",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team68_uthsdc_26",
@@ -664,7 +803,7 @@
       },
       {
         "team_number": 69,
-        "room": "Room 12",
+        "room": "12",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team69_uthsdc_26",
@@ -672,7 +811,7 @@
       },
       {
         "team_number": 70,
-        "room": "Room 12",
+        "room": "12",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team70_uthsdc_26",
@@ -680,7 +819,7 @@
       },
       {
         "team_number": 71,
-        "room": "Room 12",
+        "room": "12",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team71_uthsdc_26",
@@ -688,7 +827,7 @@
       },
       {
         "team_number": 72,
-        "room": "Room 12",
+        "room": "12",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team72_uthsdc_26",
@@ -696,7 +835,7 @@
       },
       {
         "team_number": 73,
-        "room": "Room 13",
+        "room": "13",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team73_uthsdc_26",
@@ -704,7 +843,7 @@
       },
       {
         "team_number": 74,
-        "room": "Room 13",
+        "room": "13",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team74_uthsdc_26",
@@ -712,7 +851,7 @@
       },
       {
         "team_number": 75,
-        "room": "Room 13",
+        "room": "13",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team75_uthsdc_26",
@@ -720,7 +859,7 @@
       },
       {
         "team_number": 76,
-        "room": "Room 13",
+        "room": "13",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team76_uthsdc_26",
@@ -728,7 +867,7 @@
       },
       {
         "team_number": 77,
-        "room": "Room 13",
+        "room": "13",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team77_uthsdc_26",
@@ -736,7 +875,7 @@
       },
       {
         "team_number": 78,
-        "room": "Room 13",
+        "room": "13",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team78_uthsdc_26",
@@ -744,7 +883,7 @@
       },
       {
         "team_number": 79,
-        "room": "Room 14",
+        "room": "14",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team79_uthsdc_26",
@@ -752,7 +891,7 @@
       },
       {
         "team_number": 80,
-        "room": "Room 14",
+        "room": "14",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team80_uthsdc_26",
@@ -760,7 +899,7 @@
       },
       {
         "team_number": 81,
-        "room": "Room 14",
+        "room": "14",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team81_uthsdc_26",
@@ -768,7 +907,7 @@
       },
       {
         "team_number": 82,
-        "room": "Room 14",
+        "room": "14",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team82_uthsdc_26",
@@ -776,7 +915,7 @@
       },
       {
         "team_number": 83,
-        "room": "Room 14",
+        "room": "14",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team83_uthsdc_26",
@@ -784,7 +923,7 @@
       },
       {
         "team_number": 84,
-        "room": "Room 14",
+        "room": "14",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team84_uthsdc_26",
@@ -792,7 +931,7 @@
       },
       {
         "team_number": 85,
-        "room": "Room 15",
+        "room": "15",
         "start_time": "10:00 AM",
         "end_time": "10:15 AM",
         "username": "team85_uthsdc_26",
@@ -800,7 +939,7 @@
       },
       {
         "team_number": 86,
-        "room": "Room 15",
+        "room": "15",
         "start_time": "10:15 AM",
         "end_time": "10:30 AM",
         "username": "team86_uthsdc_26",
@@ -808,7 +947,7 @@
       },
       {
         "team_number": 87,
-        "room": "Room 15",
+        "room": "15",
         "start_time": "10:30 AM",
         "end_time": "10:45 AM",
         "username": "team87_uthsdc_26",
@@ -816,7 +955,7 @@
       },
       {
         "team_number": 88,
-        "room": "Room 15",
+        "room": "15",
         "start_time": "10:45 AM",
         "end_time": "11:00 AM",
         "username": "team88_uthsdc_26",
@@ -824,7 +963,7 @@
       },
       {
         "team_number": 89,
-        "room": "Room 15",
+        "room": "15",
         "start_time": "11:00 AM",
         "end_time": "11:15 AM",
         "username": "team89_uthsdc_26",
@@ -832,7 +971,7 @@
       },
       {
         "team_number": 90,
-        "room": "Room 15",
+        "room": "15",
         "start_time": "11:15 AM",
         "end_time": "11:30 AM",
         "username": "team90_uthsdc_26",

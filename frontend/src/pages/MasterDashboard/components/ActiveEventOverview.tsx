@@ -30,7 +30,10 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
   const fetchRooms = async () => {
     try {
       const data = await request<any[]>(`/rooms?competitionId=${competition.id}`);
-      setRooms(data);
+      const sorted = [...(data || [])].sort((a, b) =>
+        String(a.room || '').localeCompare(String(b.room || ''), undefined, { numeric: true, sensitivity: 'base' })
+      );
+      setRooms(sorted);
     } catch (err) {
       console.error(err);
     } finally {

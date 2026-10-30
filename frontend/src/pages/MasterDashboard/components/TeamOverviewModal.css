@@ -1,199 +1,114 @@
-.team-overview-modal-content {
-  max-width: 650px;
-  max-height: 85vh;
-  overflow-y: auto;
-}
+/* ==========================================================================
+   Admin Team Overview Modal Styles
+   Matches JudgeView Widescreen Zero-Scroll Layout Exactly
+   ========================================================================== */
 
-.team-modal-subtitle {
-  margin: 4px 0 0 0;
-  font-size: 13px;
-  color: var(--color-on-surface-variant);
-}
-
-.team-modal-body {
-  padding: 8px 0;
-}
-
-.team-modal-loading {
-  color: var(--color-on-surface-variant);
-  font-size: 14px;
-}
-
-.team-modal-empty-text {
-  margin: 16px 0;
-  color: var(--color-on-surface-variant);
-}
-
-.team-modal-scores-list {
+.team-overview-modal-widescreen {
+  width: 96vw;
+  max-width: 1380px;
+  height: auto;
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-.team-modal-score-card {
-  border: 1px solid var(--color-outline);
-  background-color: var(--color-pure-white);
-  padding: 18px;
+  overflow: hidden;
+  padding: 0;
   border-radius: 8px;
-  color: var(--color-deep-navy);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background: var(--color-pure-white);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  border: 2px solid var(--color-deep-navy);
 }
 
-.team-modal-card-header {
+.team-overview-modal-widescreen .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--color-outline-variant);
-  padding-bottom: 10px;
-  margin-bottom: 16px;
-}
-
-.team-modal-judge-name {
-  margin: 0;
-  font-size: 16px;
-  color: var(--color-deep-navy);
-}
-
-.team-modal-judge-name strong {
-  color: var(--color-deep-navy);
-}
-
-.team-modal-total-badge {
+  padding: 0.75rem 1.5rem;
   background-color: var(--color-deep-navy);
-  color: var(--color-electric-gold);
-  font-family: var(--font-family-primary);
-  font-weight: 700;
-  font-size: 13px;
-  padding: 4px 12px;
-  border-radius: 4px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  color: var(--color-pure-white);
+  border-bottom: 2px solid var(--color-electric-gold);
+  flex-shrink: 0;
 }
 
-.team-modal-rubrics-container {
-  margin-bottom: 16px;
-}
-
-.team-modal-field-heading {
-  display: block;
-  font-family: var(--font-family-primary);
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-deep-navy);
-  margin-bottom: 10px;
-}
-
-.team-modal-category-grid {
+.team-overview-modal-widescreen .modal-header-info {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background-color: var(--color-subtle-gray);
-  padding: 14px;
-  border-radius: 6px;
-}
-
-.team-modal-cat-row {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.team-modal-cat-meta {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.team-modal-cat-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--color-deep-navy);
+.team-overview-modal-widescreen .modal-header-info h2 {
+  margin: 0;
+  color: var(--color-pure-white);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
-.team-modal-cat-indicator {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-deep-navy);
-  background-color: rgba(246, 204, 19, 0.25);
-  padding: 2px 8px;
-  border-radius: 4px;
+.team-overview-modal-widescreen .modal-header-meta {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 500;
 }
 
-.team-modal-score-slider {
-  width: 100%;
-  accent-color: var(--color-deep-navy);
-  cursor: pointer;
-}
-
-.team-modal-feedback-edit-box {
-  margin-bottom: 16px;
-}
-
-.team-modal-feedback-textarea {
-  width: 100%;
-  border: 2px solid var(--color-outline);
-  border-radius: 4px;
-  padding: 10px;
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--color-deep-navy);
-  background-color: var(--color-pure-white);
-  box-sizing: border-box;
-  resize: vertical;
-  transition: border-color 0.2s ease;
-}
-
-.team-modal-feedback-textarea:focus {
-  outline: none;
-  border-color: var(--color-electric-gold);
-}
-
-.team-modal-card-actions {
+.team-overview-modal-widescreen .modal-header-right {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  gap: 14px;
-  padding-top: 8px;
-  border-top: 1px solid var(--color-outline-variant);
+  gap: 1.25rem;
 }
 
-.team-modal-status-text {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.team-modal-status-text.success {
-  color: #107c41;
-}
-
-.team-modal-status-text.error {
-  color: #d83b01;
-}
-
-.team-modal-override-save-btn {
-  background-color: var(--color-electric-gold);
+.team-overview-modal-widescreen .live-score-pill {
+  background: var(--color-electric-gold);
   color: var(--color-deep-navy);
   font-family: var(--font-family-primary);
+  font-size: 0.95rem;
   font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 9px 18px;
+  padding: 4px 14px;
   border-radius: 4px;
+  border: 1px solid var(--color-deep-navy);
+}
+
+.team-overview-modal-widescreen .close-btn {
+  background: none;
   border: none;
+  font-size: 2rem;
+  color: var(--color-pure-white);
+  opacity: 0.85;
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.1s ease;
+  line-height: 1;
+  padding: 0;
+  transition: opacity 0.2s;
 }
 
-.team-modal-override-save-btn:hover:not(:disabled) {
-  background-color: #ffd83b;
-  transform: translateY(-1px);
+.team-overview-modal-widescreen .close-btn:hover {
+  opacity: 1;
 }
 
-.team-modal-override-save-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+/* Multi-Judge Tab Switcher */
+.admin-judge-tabs {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.admin-judge-tab {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--color-pure-white);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-judge-tab:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.admin-judge-tab.active {
+  background: var(--color-electric-gold);
+  color: var(--color-deep-navy);
+  border-color: var(--color-electric-gold);
+  box-shadow: 0 0 0 1px var(--color-deep-navy);
 }

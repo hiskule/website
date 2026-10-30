@@ -16,35 +16,15 @@ const timeSlots = [
   { start: "11:15 AM", end: "11:30 AM" }
 ];
 
-const categories = [
-  {
-    name: "Engineering Design Process",
-    description: "Did the team use engineering techniques during their design process?",
-    max_score: 10
-  },
-  {
-    name: "Aesthetics/Realism",
-    description: "Is this a practical solution? Is the solution viable?",
-    max_score: 5
-  },
-  {
-    name: "Coolness/uniqueness",
-    description: "Is the solution creative?",
-    max_score: 5
-  },
-  {
-    name: "Presentation",
-    description: "Did the team articulate clearly? Did they respond well to questions?",
-    max_score: 5
-  }
-];
+const uthsdcTemplate = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'data', 'uthsdc-2026.json'), 'utf-8'));
+const categories = uthsdcTemplate[0].categories;
 
 const judges = [];
 const teams = [];
 let teamCounter = 1;
 
 for (let r = 1; r <= NUM_ROOMS; r++) {
-  const roomName = `Room ${r}`;
+  const roomName = `${r}`;
   
   // 1 Judge per room
   judges.push({

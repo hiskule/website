@@ -450,17 +450,9 @@ app.get("/competitions/:id/export-csv", verifyAdmin, async (req, res) => {
       return res.status(404).json({ error: "Competition not found" });
     }
 
-    let categories = competition.categories;
-    if (typeof categories === 'string') {
-      try { categories = JSON.parse(categories); } catch (e) { categories = []; }
-    }
-    if (!Array.isArray(categories)) categories = [];
-
-    // Calculate total max score across all categories if defined
-    let totalMaxPossible = 0;
-    const hasMaxScores = categories.some(c => typeof c === 'object' && c && c.max_score);
-    if (hasMaxScores) {
-      totalMaxPossible = categories.reduce((sum, c) => sum + (typeof c === 'object' && c.max_score ? Number(c.max_score) : 0), 0);
+    let categoriesRaw = competition.categories;
+    if (typeof categoriesRaw === 'string') {
+      try { categoriesRaw = JSON.parse(categoriesRaw); } catch (e) { categoriesRaw = {}; }
     }
 
     // Helper for RFC 4180 CSV escaping
@@ -473,68 +465,139 @@ app.get("/competitions/:id/export-csv", verifyAdmin, async (req, res) => {
       return str;
     };
 
-    // Build headers
-    const headers = ["Team Number"];
-    for (const cat of categories) {
-      const catName = typeof cat === 'string' ? cat : cat.name;
-      headers.push(catName);
-    }
-    headers.push("Total Score", "Feedback");
-
     const teams = await Team.findAll({
       where: { competitionId: id },
-      include: [
-        { model: Score }
-      ],
+      include: [{ model: Score }],
       order: [['team_number', 'ASC']]
     });
 
-    const csvLines = [headers.map(escapeCsv).join(",")];
+    const isStructured = categoriesRaw && typeof categoriesRaw === 'object' && !Array.isArray(categoriesRaw) && Array.isArray(categoriesRaw.sections);
 
-    for (const team of teams) {
-      const scores = team.Scores || [];
+    let csvLines = [];
 
-      if (scores.length === 0) {
-        const row = [
-          `Team ${team.team_number}`,
-          ...categories.map(() => ""),
-          "", // Total Score
-          ""  // Feedback
-        ];
-        csvLines.push(row.map(escapeCsv).join(","));
-      } else {
-        for (const score of scores) {
-          let scoreMap = score.scores;
-          if (typeof scoreMap === 'string') {
-            try { scoreMap = JSON.parse(scoreMap); } catch (e) { scoreMap = {}; }
-          }
-          if (!scoreMap || typeof scoreMap !== 'object') scoreMap = {};
+    if (isStructured) {
+      // Structured rubric (e.g., UTHSDC 2026 with sections and penalties)
+      const criteriaList = [];
+      categoriesRaw.sections.forEach(sec => {
+        (sec.criteria || []).forEach(crit => {
+          criteriaList.push(crit);
+        });
+      });
+      const penaltiesList = Array.isArray(categoriesRaw.penalties) ? categoriesRaw.penalties : [];
+      const maxScore = Number(categoriesRaw.total_max_score) || 25;
 
-          let totalScore = 0;
-          let hasScores = false;
-          const catValues = categories.map(cat => {
-            const catName = typeof cat === 'string' ? cat : cat.name;
-            const catMax = typeof cat === 'object' && cat && cat.max_score ? cat.max_score : null;
-            const val = scoreMap[catName];
-            if (val !== undefined && val !== null && val !== "" && !isNaN(Number(val))) {
-              totalScore += Number(val);
-              hasScores = true;
-              return catMax ? `${val} / ${catMax}` : `${val}`;
-            }
-            return "";
-          });
+      const headers = ["Team Number"];
+      for (const crit of criteriaList) {
+        headers.push(`${crit.id} ${crit.name} (${crit.max_score})`);
+      }
+      headers.push(`Raw Score (/${maxScore})`, "Penalties Enforced", `Final Score (/${maxScore})`, "Feedback");
+      csvLines.push(headers.map(escapeCsv).join(","));
 
-          const totalFormatted = hasScores
-            ? (hasMaxScores ? `${totalScore} / ${totalMaxPossible}` : `${totalScore}`)
-            : "";
-
-          const row = [
-            `Team ${team.team_number}`,
-            ...catValues,
-            totalFormatted,
-            score.feedback || ""
-          ];
+      for (const team of teams) {
+        const scores = team.Scores || [];
+        if (scores.length === 0) {
+          const row = [`Team ${team.team_number}`, ...criteriaList.map(() => ""), "", "", "", ""];
           csvLines.push(row.map(escapeCsv).join(","));
+        } else {
+          for (const score of scores) {
+            let scoreMap = score.scores;
+            if (typeof scoreMap === 'string') {
+              try { scoreMap = JSON.parse(scoreMap); } catch (e) { scoreMap = {}; }
+            }
+            if (!scoreMap || typeof scoreMap !== 'object') scoreMap = {};
+
+            const criteriaScores = scoreMap.criteria || scoreMap;
+            let raw = 0;
+            const critValues = criteriaList.map(crit => {
+              const val = criteriaScores[crit.id] !== undefined ? criteriaScores[crit.id] : criteriaScores[crit.name];
+              if (val !== undefined && val !== null && val !== "" && !isNaN(Number(val))) {
+                raw += Number(val);
+                return `${val} / ${crit.max_score}`;
+              }
+              return "";
+            });
+
+            let penDeduction = 0;
+            const activePenalties = [];
+            const penIds = Array.isArray(scoreMap.penalties) ? scoreMap.penalties : (Array.isArray(scoreMap.__penalties) ? scoreMap.__penalties : []);
+            penIds.forEach(pId => {
+              const rule = penaltiesList.find(p => p.id === pId || p.name === pId);
+              if (rule) {
+                penDeduction += Number(rule.deduction) || 0;
+                activePenalties.push(`-${rule.deduction} (${rule.name})`);
+              }
+            });
+
+            const finalScore = scoreMap.final_score !== undefined ? Number(scoreMap.final_score) : Math.max(0, raw - penDeduction);
+            const penaltiesText = activePenalties.length > 0 ? activePenalties.join("; ") : "None";
+
+            const row = [
+              `Team ${team.team_number}`,
+              ...critValues,
+              `${raw} / ${maxScore}`,
+              penaltiesText,
+              `${finalScore} / ${maxScore}`,
+              score.feedback || ""
+            ];
+            csvLines.push(row.map(escapeCsv).join(","));
+          }
+        }
+      }
+    } else {
+      // Standard / Flat rubric (e.g. Designapalooza)
+      const categories = Array.isArray(categoriesRaw) ? categoriesRaw : [];
+      let totalMaxPossible = 0;
+      const hasMaxScores = categories.some(c => typeof c === 'object' && c && c.max_score);
+      if (hasMaxScores) {
+        totalMaxPossible = categories.reduce((sum, c) => sum + (typeof c === 'object' && c.max_score ? Number(c.max_score) : 0), 0);
+      }
+
+      const headers = ["Team Number"];
+      for (const cat of categories) {
+        const catName = typeof cat === 'string' ? cat : cat.name;
+        const maxVal = typeof cat === 'object' && cat && cat.max_score ? ` (${cat.max_score})` : "";
+        headers.push(`${catName}${maxVal}`);
+      }
+      headers.push(hasMaxScores ? `Total Score (/${totalMaxPossible})` : "Total Score", "Feedback");
+      csvLines.push(headers.map(escapeCsv).join(","));
+
+      for (const team of teams) {
+        const scores = team.Scores || [];
+        if (scores.length === 0) {
+          const row = [`Team ${team.team_number}`, ...categories.map(() => ""), "", ""];
+          csvLines.push(row.map(escapeCsv).join(","));
+        } else {
+          for (const score of scores) {
+            let scoreMap = score.scores;
+            if (typeof scoreMap === 'string') {
+              try { scoreMap = JSON.parse(scoreMap); } catch (e) { scoreMap = {}; }
+            }
+            if (!scoreMap || typeof scoreMap !== 'object') scoreMap = {};
+
+            let totalScore = 0;
+            let hasScores = false;
+            const catValues = categories.map(cat => {
+              const catName = typeof cat === 'string' ? cat : cat.name;
+              const catMax = typeof cat === 'object' && cat && cat.max_score ? cat.max_score : null;
+              const val = scoreMap[catName];
+              if (val !== undefined && val !== null && val !== "" && !isNaN(Number(val))) {
+                totalScore += Number(val);
+                hasScores = true;
+                return catMax ? `${val} / ${catMax}` : `${val}`;
+              }
+              return "";
+            });
+
+            const totalFormatted = hasScores ? (hasMaxScores ? `${totalScore} / ${totalMaxPossible}` : `${totalScore}`) : "";
+
+            const row = [
+              `Team ${team.team_number}`,
+              ...catValues,
+              totalFormatted,
+              score.feedback || ""
+            ];
+            csvLines.push(row.map(escapeCsv).join(","));
+          }
         }
       }
     }
@@ -857,12 +920,18 @@ app.get("/teams/:teamId/scores", verifyTeam, async (req, res) => {
     if (!competitionId) return res.status(400).json({ error: "competitionId required" });
 
     // Ensure the team is in this competition
-    const team = await Team.findOne({ where: { id: teamId, competitionId } });
+    const team = await Team.findOne({
+      where: { id: teamId, competitionId },
+      include: [{
+        model: Room,
+        include: [{ model: Judge, attributes: ['id', 'name'] }]
+      }]
+    });
     if (!team) return res.status(404).json({ error: "Team not found" });
 
     const scores = await Score.findAll({
       where: { teamId },
-      include: [{ model: Judge, attributes: ['name'] }]
+      include: [{ model: Judge, attributes: ['id', 'name'] }]
     });
 
     const parsedScores = scores.map(s => {
@@ -872,6 +941,34 @@ app.get("/teams/:teamId/scores", verifyTeam, async (req, res) => {
       }
       return json;
     });
+
+    // If caller is admin, allow grading unsubmitted judges assigned to this team
+    if (req.user && req.user.role === 'admin') {
+      const scoredJudgeIds = new Set(scores.map(s => s.judgeId));
+      let availableJudges = team.Room?.Judges || [];
+
+      // Fallback: if team has no room judges, look for any judges in this competition
+      if (availableJudges.length === 0 && scoredJudgeIds.size === 0) {
+        availableJudges = await Judge.findAll({
+          where: { competitionId },
+          attributes: ['id', 'name']
+        });
+      }
+
+      availableJudges.forEach(j => {
+        if (!scoredJudgeIds.has(j.id)) {
+          parsedScores.push({
+            id: `pending-${j.id}`,
+            judgeId: j.id,
+            teamId: Number(teamId),
+            scores: {},
+            feedback: '',
+            isPending: true,
+            Judge: { id: j.id, name: j.name || `Judge ${j.id}` }
+          });
+        }
+      });
+    }
 
     res.json(parsedScores);
   } catch (error) {
@@ -981,6 +1078,11 @@ app.get("/rooms", verifyAdmin, async (req, res) => {
         isGraded: t.Scores && t.Scores.length >= (r.Judges.length > 0 ? r.Judges.length : 1) // Just a rough estimate of graded status
       }))
     }));
+
+    // Natural numeric sorting so Room 1, Room 2, ..., Room 9, Room 10 appear in sequence
+    roomsData.sort((a, b) =>
+      String(a.room).localeCompare(String(b.room), undefined, { numeric: true, sensitivity: 'base' })
+    );
 
     res.status(200).json(roomsData);
   } catch (error) {
@@ -1222,7 +1324,15 @@ app.get("/scores", verifyAdmin, async (req, res) => {
       ]
     });
 
-    res.json(scores);
+    const parsedScores = scores.map(s => {
+      const json = s.toJSON();
+      if (typeof json.scores === 'string') {
+        try { json.scores = JSON.parse(json.scores); } catch (e) { json.scores = {}; }
+      }
+      return json;
+    });
+
+    res.json(parsedScores);
   } catch (error) {
     console.error("Error fetching leaderboard scores:", error);
     res.status(500).json({ error: "Internal server error" });

@@ -246,10 +246,6 @@
   border-left: 4px solid var(--color-deep-navy);
   border-radius: var(--spacing-stack-sm);
   overflow: hidden;
-  transition: all 0.3s ease;
-}
-.feedback-card:hover {
-  transform: translateX(4px);
 }
 
 .feedback-card-header {
