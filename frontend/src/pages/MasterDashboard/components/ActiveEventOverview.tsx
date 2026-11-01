@@ -25,6 +25,13 @@ export const ActiveEventOverview: React.FC<ActiveEventOverviewProps> = ({ compet
 
   useEffect(() => {
     fetchRooms();
+
+    // Auto-poll rooms every 15 seconds so admin sees live grading updates from judges
+    const interval = setInterval(() => {
+      fetchRooms();
+    }, 15000);
+
+    return () => clearInterval(interval);
   }, [competition.id]);
 
   const fetchRooms = async () => {

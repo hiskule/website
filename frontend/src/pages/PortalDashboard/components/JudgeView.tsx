@@ -95,10 +95,47 @@ export default function JudgeView() {
     fetchRubric();
   }, [user]);
 
-  const fetchSchedule = async () => {
+  // Background sync for real-time schedule updates (paused while grading in rubric modal)
+  useEffect(() => {
     if (!user?.id || !user?.competitionId) return;
+
+    const interval = setInterval(() => {
+      if (!activeTeam) {
+        fetchSchedule();
+      }
+    }, 15000);
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && !activeTeam) {
+        fetchSchedule();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [user, activeTeam]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && activeTeam) {
+        setActiveTeam(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeTeam]);
+
+  const fetchSchedule = async () => {
+    const judgeId = user?.id;
+    const compId = user?.competitionId || (user as any)?.Competition?.id;
+    if (!judgeId) return;
     try {
-      const data = await request<any>(`/judges/${user.id}/schedule?competitionId=${user.competitionId}`);
+      const queryParam = compId ? `?competitionId=${compId}` : '';
+      const data = await request<any>(`/judges/${judgeId}/schedule${queryParam}`);
       setSchedule(data.schedule || []);
       setRoomName(data.room || '');
     } catch (err) {
@@ -107,9 +144,15 @@ export default function JudgeView() {
   };
 
   const fetchRubric = async () => {
-    if (!user?.competitionId) return;
+    const compId = user?.competitionId || (user as any)?.Competition?.id;
     try {
-      const data = await request<any>(`/competitions/${user.competitionId}`);
+      let data: any = null;
+      if (compId) {
+        data = await request<any>(`/competitions/${compId}`);
+      } else {
+        const comps = await request<any[]>('/competitions');
+        data = (comps || []).find((c: any) => c.isActive) || comps?.[0];
+      }
       let cats = data?.categories;
       if (typeof cats === 'string') {
         try { cats = JSON.parse(cats); } catch { cats = null; }
@@ -143,6 +186,9 @@ export default function JudgeView() {
   };
 
   const openScoring = (team: TeamSchedule) => {
+    if (sections.length === 0 && flatCategories.length === 0) {
+      fetchRubric();
+    }
     setActiveTeam(team);
     setMessage('');
 
@@ -271,13 +317,9 @@ export default function JudgeView() {
         })
       });
 
-      setMessage('Score successfully saved!');
       fetchSchedule();
-
-      setTimeout(() => {
-        setActiveTeam(null);
-        setMessage('');
-      }, 1200);
+      setActiveTeam(null);
+      setMessage('');
     } catch (err) {
       console.error(err);
       setMessage('Failed to save scores');
@@ -415,6 +457,7 @@ export default function JudgeView() {
               submitButtonText="SAVE EVALUATION"
               statusMessage={message}
               rubricDocUrl={rubricDocUrl}
+              onClose={() => setActiveTeam(null)}
             />
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './RoomCard.css';
 import { TeamOverviewModal } from './TeamOverviewModal';
+import { ManageTeamsModal } from './ManageTeamsModal';
 import { request } from '../../../shared/api/http';
 
 interface Team {
@@ -10,6 +11,9 @@ interface Team {
   end_time: string;
   presentation_link: string | null;
   isGraded: boolean;
+  isFullyGraded?: boolean;
+  gradedCount?: number;
+  totalJudges?: number;
 }
 
 interface Judge {
@@ -34,6 +38,7 @@ interface RoomCardProps {
 
 export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, competitionId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isManageTeamsOpen, setIsManageTeamsOpen] = useState(false);
   const [newJudgeName, setNewJudgeName] = useState('');
   const [newJudgeUsername, setNewJudgeUsername] = useState('');
   const [newJudgePassword, setNewJudgePassword] = useState('');
@@ -122,17 +127,25 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
         <div>
           <h4 className="text-headline-md room-card-title">{formattedRoomName}</h4>
           <p className="text-label-sm room-judges">
-            Judges: {room.judges && room.judges.length > 0 && room.judges[0].name !== "NO JUDGE" 
-              ? room.judges.map(j => j.name).join(', ') 
+            Judges: {room.judges && room.judges.length > 0 && room.judges[0].name !== "NO JUDGE"
+              ? room.judges.map(j => j.name).join(', ')
               : 'None assigned'}
           </p>
         </div>
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="room-manage-judges-btn"
-        >
-          Manage Judges
-        </button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button
+            onClick={() => setIsManageTeamsOpen(true)}
+            className="room-manage-judges-btn"
+          >
+            Manage Teams
+          </button>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="room-manage-judges-btn"
+          >
+            Manage Judges
+          </button>
+        </div>
       </div>
 
       <div className="room-progress-container">
@@ -141,19 +154,19 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
           <span className="text-label-sm room-progress-text">{gradedTeams}/{totalTeams} Teams Graded</span>
         </div>
         <div className="room-progress-track">
-          <div 
-            className="room-progress-fill" 
-            style={{ width: `${progressPercent}%`, backgroundColor: progressColor }} 
+          <div
+            className="room-progress-fill"
+            style={{ width: `${progressPercent}%`, backgroundColor: progressColor }}
           />
         </div>
       </div>
-      
+
       <div className="room-teams-list">
         {room.teams && room.teams.length > 0 ? (
           room.teams.map(team => (
-            <div 
-              key={team.id} 
-              className="room-team-item" 
+            <div
+              key={team.id}
+              className="room-team-item"
               onClick={() => setSelectedTeam(team)}
               style={{ cursor: 'pointer' }}
             >
@@ -162,14 +175,18 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
                 <span className="text-label-sm team-time">{team.start_time} - {team.end_time}</span>
               </div>
               <div className="room-team-status">
-                {team.presentation_link ? (
+                {/* {team.presentation_link ? (
                   <span className="status-badge submitted">File Submitted</span>
                 ) : (
                   <span className="status-badge missing">No File</span>
-                )}
-                
+                )} */}
+
                 {team.isGraded ? (
-                  <span className="status-badge graded">Graded</span>
+                  <span className="status-badge graded">
+                    {team.totalJudges && team.totalJudges > 1
+                      ? `Graded (${team.gradedCount || 1}/${team.totalJudges})`
+                      : 'Graded'}
+                  </span>
                 ) : (
                   <span className="status-badge not-graded">Not Graded</span>
                 )}
@@ -190,7 +207,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
               <h3>Manage Judges - {formattedRoomName}</h3>
               <button onClick={() => setIsModalOpen(false)} className="close-btn">&times;</button>
             </div>
-            
+
             <div className="judge-list-section">
               <h4>Current Judges</h4>
               {room.judges && room.judges.length > 0 && room.judges[0].name !== "NO JUDGE" ? (
@@ -198,11 +215,11 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
                   {room.judges.map(judge => (
                     <li key={judge.id} className="judge-list-item">
                       <div className="judge-info">
-                        <strong>{judge.name}</strong> 
+                        <strong>{judge.name}</strong>
                         <span className="text-label-sm">({judge.username})</span>
                       </div>
                       <div className="judge-actions">
-                        <select 
+                        <select
                           className="room-select"
                           value={room.id}
                           onChange={(e) => handleMoveJudge(judge.id!, parseInt(e.target.value))}
@@ -225,23 +242,23 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
               <h4>Create & Assign New Judge</h4>
               {error && <p className="error-text" style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
               <form onSubmit={handleCreateJudge} className="add-judge-form">
-                <input 
-                  type="text" 
-                  placeholder="Full Name" 
+                <input
+                  type="text"
+                  placeholder="Full Name"
                   value={newJudgeName}
                   onChange={e => setNewJudgeName(e.target.value)}
                   required
                 />
-                <input 
-                  type="text" 
-                  placeholder="Username (e.g. firstname_event_year)" 
+                <input
+                  type="text"
+                  placeholder="Username (e.g. firstname_event_year)"
                   value={newJudgeUsername}
                   onChange={e => setNewJudgeUsername(e.target.value)}
                   required
                 />
-                <input 
-                  type="password" 
-                  placeholder="Password" 
+                <input
+                  type="password"
+                  placeholder="Password"
                   value={newJudgePassword}
                   onChange={e => setNewJudgePassword(e.target.value)}
                   required
@@ -259,10 +276,23 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, allRooms, onUpdate, co
         <TeamOverviewModal
           team={selectedTeam}
           competitionId={competitionId}
-          onClose={() => setSelectedTeam(null)}
-          onUpdate={onUpdate || (() => {})}
+          roomJudges={room.judges}
+          onClose={() => {
+            setSelectedTeam(null);
+            if (onUpdate) onUpdate();
+          }}
+          onUpdate={onUpdate || (() => { })}
         />
       )}
+
+      <ManageTeamsModal
+        isOpen={isManageTeamsOpen}
+        onClose={() => setIsManageTeamsOpen(false)}
+        room={room}
+        allRooms={allRooms || []}
+        competitionId={competitionId}
+        onUpdate={onUpdate || (() => { })}
+      />
     </div>
   );
 };

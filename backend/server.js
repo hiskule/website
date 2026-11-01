@@ -465,6 +465,45 @@ app.get("/competitions/:id/export-csv", verifyAdmin, async (req, res) => {
       return str;
     };
 
+    // Helper to strip markdown ### headers and format into clean text
+    const cleanFeedbackForCsv = (rawFeedback) => {
+      if (!rawFeedback || typeof rawFeedback !== 'string') return "";
+      const text = rawFeedback.trim();
+      if (!text) return "";
+
+      const strengthsMatch = text.match(/(?:###\s*Strengths|Strengths:?)\s*([\s\S]*?)(?=(?:###\s*Areas for Improvement|Areas for Improvement:?|###\s*Additional Comments|Additional Comments:?|$))/i);
+      const improvementsMatch = text.match(/(?:###\s*Areas for Improvement|Areas for Improvement:?)\s*([\s\S]*?)(?=(?:###\s*Additional Comments|Additional Comments:?|$))/i);
+      const commentsMatch = text.match(/(?:###\s*Additional Comments|Additional Comments:?)\s*([\s\S]*?)$/i);
+
+      if (strengthsMatch || improvementsMatch || commentsMatch) {
+        const sections = [];
+        if (strengthsMatch && strengthsMatch[1].trim()) {
+          sections.push(`Strengths:\n${strengthsMatch[1].trim()}`);
+        }
+        if (improvementsMatch && improvementsMatch[1].trim()) {
+          sections.push(`Areas for Improvement:\n${improvementsMatch[1].trim()}`);
+        }
+        if (commentsMatch && commentsMatch[1].trim()) {
+          sections.push(`Additional Comments:\n${commentsMatch[1].trim()}`);
+        }
+        return sections.join("\n\n");
+      }
+
+      // If flat / unstructured text, clean any markdown heading hashes
+      return text.replace(/^###\s+/gm, "").trim();
+    };
+
+    const formatCombinedFeedback = (scores) => {
+      const parts = [];
+      scores.forEach((s, idx) => {
+        const cleaned = cleanFeedbackForCsv(s.feedback);
+        if (cleaned) {
+          parts.push(`[Judge ${idx + 1}]\n${cleaned}`);
+        }
+      });
+      return parts.join("\n\n----------------------------------------\n\n");
+    };
+
     const teams = await Team.findAll({
       where: { competitionId: id },
       include: [{ model: Score }],
@@ -490,16 +529,57 @@ app.get("/competitions/:id/export-csv", verifyAdmin, async (req, res) => {
       for (const crit of criteriaList) {
         headers.push(`${crit.id} ${crit.name} (${crit.max_score})`);
       }
-      headers.push(`Raw Score (/${maxScore})`, "Penalties Enforced", `Final Score (/${maxScore})`, "Feedback");
+      headers.push(
+        `Raw Score (Avg) (/${maxScore})`,
+        "Penalties Enforced",
+        `Final Score (Avg) (/${maxScore})`,
+        "Judges Graded",
+        "Feedback"
+      );
       csvLines.push(headers.map(escapeCsv).join(","));
 
       for (const team of teams) {
-        const scores = team.Scores || [];
+        const scores = (team.Scores || []).sort((a, b) => a.id - b.id);
         if (scores.length === 0) {
-          const row = [`Team ${team.team_number}`, ...criteriaList.map(() => ""), "", "", "", ""];
+          const row = [
+            `Team ${team.team_number}`,
+            ...criteriaList.map(() => ""),
+            "",
+            "None",
+            "",
+            "0",
+            ""
+          ];
           csvLines.push(row.map(escapeCsv).join(","));
         } else {
-          for (const score of scores) {
+          // Average for each criterion across all submitted judge scores for this team
+          const critValues = criteriaList.map(crit => {
+            let sum = 0;
+            let count = 0;
+            scores.forEach(s => {
+              let scoreMap = s.scores;
+              if (typeof scoreMap === 'string') {
+                try { scoreMap = JSON.parse(scoreMap); } catch (e) { scoreMap = {}; }
+              }
+              if (!scoreMap || typeof scoreMap !== 'object') scoreMap = {};
+              const criteriaScores = scoreMap.criteria || scoreMap;
+              const val = criteriaScores[crit.id] !== undefined ? criteriaScores[crit.id] : criteriaScores[crit.name];
+              if (val !== undefined && val !== null && val !== "" && !isNaN(Number(val))) {
+                sum += Number(val);
+                count++;
+              }
+            });
+            if (count === 0) return "";
+            const avg = Number((sum / count).toFixed(2));
+            return `${avg} / ${crit.max_score}`;
+          });
+
+          // Compute raw scores, penalties, and final scores across judges
+          let rawSum = 0;
+          let finalSum = 0;
+          const activePenaltiesSet = new Set();
+
+          scores.forEach(score => {
             let scoreMap = score.scores;
             if (typeof scoreMap === 'string') {
               try { scoreMap = JSON.parse(scoreMap); } catch (e) { scoreMap = {}; }
@@ -508,39 +588,46 @@ app.get("/competitions/:id/export-csv", verifyAdmin, async (req, res) => {
 
             const criteriaScores = scoreMap.criteria || scoreMap;
             let raw = 0;
-            const critValues = criteriaList.map(crit => {
+            criteriaList.forEach(crit => {
               const val = criteriaScores[crit.id] !== undefined ? criteriaScores[crit.id] : criteriaScores[crit.name];
               if (val !== undefined && val !== null && val !== "" && !isNaN(Number(val))) {
                 raw += Number(val);
-                return `${val} / ${crit.max_score}`;
               }
-              return "";
             });
+            rawSum += raw;
 
             let penDeduction = 0;
-            const activePenalties = [];
             const penIds = Array.isArray(scoreMap.penalties) ? scoreMap.penalties : (Array.isArray(scoreMap.__penalties) ? scoreMap.__penalties : []);
             penIds.forEach(pId => {
               const rule = penaltiesList.find(p => p.id === pId || p.name === pId);
               if (rule) {
-                penDeduction += Number(rule.deduction) || 0;
-                activePenalties.push(`-${rule.deduction} (${rule.name})`);
+                const ded = Number(rule.deduction) || 0;
+                penDeduction += ded;
+                activePenaltiesSet.add(`-${ded} (${rule.name})`);
               }
             });
 
-            const finalScore = scoreMap.final_score !== undefined ? Number(scoreMap.final_score) : Math.max(0, raw - penDeduction);
-            const penaltiesText = activePenalties.length > 0 ? activePenalties.join("; ") : "None";
+            const finalScore = scoreMap.final_score !== undefined 
+              ? Number(scoreMap.final_score) 
+              : Math.max(0, raw - penDeduction);
+            finalSum += finalScore;
+          });
 
-            const row = [
-              `Team ${team.team_number}`,
-              ...critValues,
-              `${raw} / ${maxScore}`,
-              penaltiesText,
-              `${finalScore} / ${maxScore}`,
-              score.feedback || ""
-            ];
-            csvLines.push(row.map(escapeCsv).join(","));
-          }
+          const avgRaw = Number((rawSum / scores.length).toFixed(2));
+          const avgFinal = Number((finalSum / scores.length).toFixed(2));
+          const penaltiesText = activePenaltiesSet.size > 0 ? Array.from(activePenaltiesSet).join("; ") : "None";
+          const combinedFeedback = formatCombinedFeedback(scores);
+
+          const row = [
+            `Team ${team.team_number}`,
+            ...critValues,
+            `${avgRaw} / ${maxScore}`,
+            penaltiesText,
+            `${avgFinal} / ${maxScore}`,
+            String(scores.length),
+            combinedFeedback
+          ];
+          csvLines.push(row.map(escapeCsv).join(","));
         }
       }
     } else {
@@ -558,46 +645,72 @@ app.get("/competitions/:id/export-csv", verifyAdmin, async (req, res) => {
         const maxVal = typeof cat === 'object' && cat && cat.max_score ? ` (${cat.max_score})` : "";
         headers.push(`${catName}${maxVal}`);
       }
-      headers.push(hasMaxScores ? `Total Score (/${totalMaxPossible})` : "Total Score", "Feedback");
+      headers.push(
+        hasMaxScores ? `Total Score (Avg) (/${totalMaxPossible})` : "Total Score (Avg)",
+        "Judges Graded",
+        "Feedback"
+      );
       csvLines.push(headers.map(escapeCsv).join(","));
 
       for (const team of teams) {
-        const scores = team.Scores || [];
+        const scores = (team.Scores || []).sort((a, b) => a.id - b.id);
         if (scores.length === 0) {
-          const row = [`Team ${team.team_number}`, ...categories.map(() => ""), "", ""];
+          const row = [`Team ${team.team_number}`, ...categories.map(() => ""), "", "0", ""];
           csvLines.push(row.map(escapeCsv).join(","));
         } else {
-          for (const score of scores) {
+          // Average each category across judges
+          const catValues = categories.map(cat => {
+            const catName = typeof cat === 'string' ? cat : cat.name;
+            const catMax = typeof cat === 'object' && cat && cat.max_score ? cat.max_score : null;
+            let sum = 0;
+            let count = 0;
+            scores.forEach(score => {
+              let scoreMap = score.scores;
+              if (typeof scoreMap === 'string') {
+                try { scoreMap = JSON.parse(scoreMap); } catch (e) { scoreMap = {}; }
+              }
+              if (!scoreMap || typeof scoreMap !== 'object') scoreMap = {};
+              const val = scoreMap[catName];
+              if (val !== undefined && val !== null && val !== "" && !isNaN(Number(val))) {
+                sum += Number(val);
+                count++;
+              }
+            });
+            if (count === 0) return "";
+            const avg = Number((sum / count).toFixed(2));
+            return catMax ? `${avg} / ${catMax}` : `${avg}`;
+          });
+
+          let totalSum = 0;
+          scores.forEach(score => {
             let scoreMap = score.scores;
             if (typeof scoreMap === 'string') {
               try { scoreMap = JSON.parse(scoreMap); } catch (e) { scoreMap = {}; }
             }
             if (!scoreMap || typeof scoreMap !== 'object') scoreMap = {};
-
-            let totalScore = 0;
-            let hasScores = false;
-            const catValues = categories.map(cat => {
+            let teamJudgeTotal = 0;
+            categories.forEach(cat => {
               const catName = typeof cat === 'string' ? cat : cat.name;
-              const catMax = typeof cat === 'object' && cat && cat.max_score ? cat.max_score : null;
               const val = scoreMap[catName];
               if (val !== undefined && val !== null && val !== "" && !isNaN(Number(val))) {
-                totalScore += Number(val);
-                hasScores = true;
-                return catMax ? `${val} / ${catMax}` : `${val}`;
+                teamJudgeTotal += Number(val);
               }
-              return "";
             });
+            totalSum += teamJudgeTotal;
+          });
 
-            const totalFormatted = hasScores ? (hasMaxScores ? `${totalScore} / ${totalMaxPossible}` : `${totalScore}`) : "";
+          const avgTotal = Number((totalSum / scores.length).toFixed(2));
+          const totalFormatted = hasMaxScores ? `${avgTotal} / ${totalMaxPossible}` : `${avgTotal}`;
+          const combinedFeedback = formatCombinedFeedback(scores);
 
-            const row = [
-              `Team ${team.team_number}`,
-              ...catValues,
-              totalFormatted,
-              score.feedback || ""
-            ];
-            csvLines.push(row.map(escapeCsv).join(","));
-          }
+          const row = [
+            `Team ${team.team_number}`,
+            ...catValues,
+            totalFormatted,
+            String(scores.length),
+            combinedFeedback
+          ];
+          csvLines.push(row.map(escapeCsv).join(","));
         }
       }
     }
@@ -1047,6 +1160,118 @@ app.delete("/judges/:id", verifyAdmin, async (req, res) => {
   }
 });
 
+// ============================================================================
+// #################### TEAM MANAGEMENT ENDPOINTS ####################
+// ============================================================================
+
+app.post("/teams", verifyAdmin, async (req, res) => {
+  try {
+    const { team_number, roomId, competitionId, start_time, end_time } = req.body;
+    if (!team_number || !roomId || !competitionId) {
+      return res.status(400).json({ error: "team_number, roomId, and competitionId are required" });
+    }
+
+    const comp = await Competition.findByPk(competitionId);
+    if (!comp) return res.status(404).json({ error: "Competition not found" });
+
+    const room = await Room.findByPk(roomId);
+    if (!room) return res.status(404).json({ error: "Room not found" });
+
+    const parsedNum = parseInt(team_number, 10);
+    if (isNaN(parsedNum)) {
+      return res.status(400).json({ error: "team_number must be a valid integer" });
+    }
+
+    // Auto-generate clean, unique username and password
+    const compSlug = comp.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    let username = `team${parsedNum}_${compSlug}`;
+    const existing = await Team.findOne({ where: { username } });
+    if (existing) {
+      username = `team${parsedNum}_${Date.now().toString().slice(-4)}`;
+    }
+    const password = req.body.password || "password123";
+
+    const team = await Team.create({
+      team_number: parsedNum,
+      roomId,
+      competitionId,
+      start_time: start_time || "10:00 AM",
+      end_time: end_time || "10:15 AM",
+      username,
+      password
+    });
+
+    res.status(201).json(team);
+  } catch (error) {
+    console.error("Error creating team:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.put("/teams/:id/room", verifyAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { roomId, start_time, end_time } = req.body;
+    if (!roomId) return res.status(400).json({ error: "roomId is required" });
+
+    const team = await Team.findByPk(id);
+    if (!team) return res.status(404).json({ error: "Team not found" });
+
+    const room = await Room.findByPk(roomId);
+    if (!room) return res.status(404).json({ error: "Target room not found" });
+
+    const targetRoomId = parseInt(roomId, 10);
+    // If team is moving to a different room, remove old scores so new room's judges grade fresh
+    if (team.roomId !== targetRoomId) {
+      await Score.destroy({ where: { teamId: team.id } });
+    }
+
+    const updates = { roomId: targetRoomId };
+    if (start_time !== undefined) updates.start_time = start_time;
+    if (end_time !== undefined) updates.end_time = end_time;
+
+    await team.update(updates);
+    res.json({ message: "Team room updated and scores reset for new room judges", team });
+  } catch (error) {
+    console.error("Error updating team room:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.put("/teams/:id/time", verifyAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { start_time, end_time } = req.body;
+    if (!start_time || !end_time) {
+      return res.status(400).json({ error: "start_time and end_time are required" });
+    }
+
+    const team = await Team.findByPk(id);
+    if (!team) return res.status(404).json({ error: "Team not found" });
+
+    await team.update({ start_time, end_time });
+    res.json({ message: "Team schedule time updated", team });
+  } catch (error) {
+    console.error("Error updating team time:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.delete("/teams/:id", verifyAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const team = await Team.findByPk(id);
+    if (!team) return res.status(404).json({ error: "Team not found" });
+
+    await team.destroy();
+    res.json({ message: "Team deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting team:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 app.get("/rooms", verifyAdmin, async (req, res) => {
   try {
     const { competitionId } = req.query;
@@ -1059,25 +1284,39 @@ app.get("/rooms", verifyAdmin, async (req, res) => {
         {
           model: Team,
           attributes: ['id', 'team_number', 'start_time', 'end_time', 'presentation_link'],
-          include: [{ model: Score, attributes: ['id'] }]
+          include: [{ model: Score, attributes: ['id', 'judgeId', 'teamId'] }]
         }
       ],
       order: [[Team, 'start_time', 'ASC']]
     });
 
-    const roomsData = rooms.map(r => ({
-      id: r.id,
-      room: r.name,
-      judges: r.Judges.map(j => ({ id: j.id, name: j.name, username: j.username })),
-      teams: r.Teams.map(t => ({
-        id: t.id,
-        team_number: t.team_number,
-        start_time: t.start_time,
-        end_time: t.end_time,
-        presentation_link: t.presentation_link,
-        isGraded: t.Scores && t.Scores.length >= (r.Judges.length > 0 ? r.Judges.length : 1) // Just a rough estimate of graded status
-      }))
-    }));
+    const roomsData = rooms.map(r => {
+      const validJudges = (r.Judges || []).filter(j => j.name && j.name !== "NO JUDGE");
+      const totalJudges = validJudges.length;
+
+      return {
+        id: r.id,
+        room: r.name,
+        judges: r.Judges.map(j => ({ id: j.id, name: j.name, username: j.username })),
+        teams: r.Teams.map(t => {
+          const scoresCount = t.Scores ? t.Scores.length : 0;
+          const isGraded = scoresCount > 0;
+          const isFullyGraded = scoresCount >= (totalJudges > 0 ? totalJudges : 1);
+
+          return {
+            id: t.id,
+            team_number: t.team_number,
+            start_time: t.start_time,
+            end_time: t.end_time,
+            presentation_link: t.presentation_link,
+            isGraded,
+            isFullyGraded,
+            gradedCount: scoresCount,
+            totalJudges
+          };
+        })
+      };
+    });
 
     // Natural numeric sorting so Room 1, Room 2, ..., Room 9, Room 10 appear in sequence
     roomsData.sort((a, b) =>
@@ -1368,10 +1607,12 @@ app.get("/leaderboard/export", verifyAdmin, async (req, res) => {
     const sortedLeaderboard = await getLeaderboardData(competitionId);
     
     // Create CSV String - Pure tabular data without metadata rows for clean parsing
-    let csv = "Rank,Team,Total Score,Judges Graded\n";
+    let csv = "Rank,Team,Score (Avg),Raw Total,Judges Graded,Status\n";
     
     sortedLeaderboard.forEach((team, index) => {
-      csv += `${index + 1},Team ${team.team_number},${team.total_score},${team.judges_counted}\n`;
+      const totalJudges = Math.max(team.total_judges || 0, team.judges_counted || 1);
+      const status = team.is_fully_graded ? "Fully Graded" : `In Progress (${team.judges_counted}/${totalJudges})`;
+      csv += `${index + 1},Team ${team.team_number},${team.total_score},${team.raw_score_sum !== undefined ? team.raw_score_sum : team.total_score},${team.judges_counted}/${totalJudges},${status}\n`;
     });
 
     const safeFileName = competition.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();

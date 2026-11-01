@@ -17,6 +17,23 @@ interface Category {
   max_score: number;
 }
 
+function parseFeedback(raw: string): { strengths: string; improvements: string; comments: string } {
+  if (!raw) return { strengths: '', improvements: '', comments: '' };
+  
+  const strengthsMatch = raw.match(/(?:###\s*Strengths|Strengths:?)\s*([\s\S]*?)(?=(?:###\s*Areas for Improvement|Areas for Improvement:?|###\s*Additional Comments|Additional Comments:?|$))/i);
+  const improvementsMatch = raw.match(/(?:###\s*Areas for Improvement|Areas for Improvement:?)\s*([\s\S]*?)(?=(?:###\s*Additional Comments|Additional Comments:?|$))/i);
+  const commentsMatch = raw.match(/(?:###\s*Additional Comments|Additional Comments:?)\s*([\s\S]*?)$/i);
+
+  if (strengthsMatch || improvementsMatch || commentsMatch) {
+    return {
+      strengths: strengthsMatch ? strengthsMatch[1].trim() : '',
+      improvements: improvementsMatch ? improvementsMatch[1].trim() : '',
+      comments: commentsMatch ? commentsMatch[1].trim() : ''
+    };
+  }
+  return { strengths: '', improvements: '', comments: raw.trim() };
+}
+
 export default function TeamView() {
   const { user } = useAuth();
   const [link, setLink] = useState(user?.presentation_link || '');
@@ -272,14 +289,48 @@ export default function TeamView() {
                           })}
                         </div>
 
-                        {score.feedback && (
-                          <div className="feedback-comments-box">
-                            <label>Constructive Feedback:</label>
-                            <div className="feedback-comments-inner">
-                              <p>"{score.feedback}"</p>
+                        {score.feedback && (() => {
+                          const parsed = parseFeedback(score.feedback);
+                          const isStructured = !!(parsed.strengths || parsed.improvements);
+                          if (isStructured) {
+                            return (
+                              <div className="feedback-comments-box">
+                                {parsed.strengths && (
+                                  <div className="feedback-section-item" style={{ marginBottom: '12px' }}>
+                                    <label>Strengths:</label>
+                                    <div className="feedback-comments-inner">
+                                      <p style={{ fontStyle: 'normal' }}>"{parsed.strengths}"</p>
+                                    </div>
+                                  </div>
+                                )}
+                                {parsed.improvements && (
+                                  <div className="feedback-section-item" style={{ marginBottom: '12px' }}>
+                                    <label>Areas for Improvement:</label>
+                                    <div className="feedback-comments-inner">
+                                      <p style={{ fontStyle: 'normal' }}>"{parsed.improvements}"</p>
+                                    </div>
+                                  </div>
+                                )}
+                                {parsed.comments && (
+                                  <div className="feedback-section-item">
+                                    <label>Additional Comments:</label>
+                                    <div className="feedback-comments-inner">
+                                      <p style={{ fontStyle: 'normal' }}>"{parsed.comments}"</p>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          }
+                          return (
+                            <div className="feedback-comments-box">
+                              <label>Constructive Feedback:</label>
+                              <div className="feedback-comments-inner">
+                                <p>"{score.feedback.replace(/^###\s+/gm, '')}"</p>
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          );
+                        })()}
                       </div>
                     </div>
                   );

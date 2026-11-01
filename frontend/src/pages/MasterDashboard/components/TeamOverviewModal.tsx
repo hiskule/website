@@ -16,11 +16,21 @@ interface Team {
   end_time: string;
   presentation_link: string | null;
   isGraded: boolean;
+  isFullyGraded?: boolean;
+  gradedCount?: number;
+  totalJudges?: number;
+}
+
+interface JudgeInfo {
+  id?: number;
+  name: string;
+  username?: string;
 }
 
 interface TeamOverviewModalProps {
   team: Team;
   competitionId?: number;
+  roomJudges?: JudgeInfo[];
   onClose: () => void;
   onUpdate: () => void;
 }
@@ -58,7 +68,7 @@ function formatFeedback(strengths: string, improvements: string, comments: strin
   return parts.join('\n\n');
 }
 
-export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, competitionId, onClose, onUpdate }) => {
+export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, competitionId, roomJudges = [], onClose, onUpdate }) => {
   const [teamScores, setTeamScores] = useState<any[]>([]);
   const [sections, setSections] = useState<RubricSection[]>([]);
   const [flatCategories, setFlatCategories] = useState<FlatCategory[]>([]);
@@ -122,6 +132,25 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
           }
           return { ...d, scores: parsed || {} };
         });
+
+        // Ensure all assigned room judges have an evaluation tab, even if unsubmitted by judge
+        if (roomJudges && roomJudges.length > 0) {
+          const scoredJudgeIds = new Set(parsedData.map(s => s.judgeId));
+          roomJudges.forEach(j => {
+            if (j.id && !scoredJudgeIds.has(j.id)) {
+              parsedData.push({
+                id: `pending-${j.id}`,
+                judgeId: j.id,
+                teamId: team.id,
+                scores: {},
+                feedback: '',
+                isPending: true,
+                Judge: { id: j.id, name: j.name || `Judge ${j.id}` }
+              });
+            }
+          });
+        }
+
         setTeamScores(parsedData);
 
         const initialEdits: Record<string | number, JudgeEditState> = {};
@@ -181,6 +210,16 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
 
     fetchData();
   }, [team.id, competitionId]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   const handlePillSelect = (scoreId: string | number, id: string, point: number) => {
     setEditStates(prev => {
@@ -324,17 +363,8 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
         })
       });
 
-      setStatusMessages(prev => ({ ...prev, [scoreRecord.id]: 'Score successfully saved to database.' }));
       onUpdate();
-
-      // If it was a pending record, mark it as graded locally too
-      if (scoreRecord.isPending) {
-        scoreRecord.isPending = false;
-      }
-
-      setTimeout(() => {
-        setStatusMessages(prev => ({ ...prev, [scoreRecord.id]: '' }));
-      }, 3500);
+      onClose();
     } catch (err: any) {
       console.error('Failed to override score:', err);
       setStatusMessages(prev => ({ ...prev, [scoreRecord.id]: `Error: ${err.message || 'Failed to save override'}` }));
@@ -364,7 +394,10 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
           <div className="modal-header-info">
             <h2>Evaluating Team {team.team_number}</h2>
             <span className="modal-header-meta">
-              {team.start_time} - {team.end_time} • {activeScore?.Judge?.name || `Judge ${activeScore?.judgeId}`}
+              {team.start_time} - {team.end_time}
+              {activeScore && (
+                <> • {activeScore.Judge?.name || (activeScore.judgeId ? `Judge ${activeScore.judgeId}` : 'Judge')}</>
+              )}
               {activeScore?.isPending ? ' (Not Yet Graded by Judge)' : ''}
             </span>
 
@@ -420,6 +453,7 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
             submitButtonText={activeScore.isPending ? "SAVE EVALUATION" : "SAVE OVERRIDE"}
             statusMessage={statusMessages[activeScore.id]}
             rubricDocUrl={rubricDocUrl}
+            onClose={onClose}
           />
         ) : (
           <div style={{ padding: '3rem', textAlign: 'center', color: '#64748B', fontSize: '0.95rem' }}>

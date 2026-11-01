@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const dotenv = require("dotenv");
 dotenv.config();
 
-let Competition, Judge, Team, Score, sequelize;
+let Competition, Room, Judge, Team, Score, sequelize;
 let dbError = null;
 
 try {
