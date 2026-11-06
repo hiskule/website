@@ -322,6 +322,9 @@ app.post("/login", async (req, res) => {
  *       500:
  *         description: Internal server error
  */
+const UTHSDC_DOC_URL = "https://docs.google.com/document/d/1NvvlEQcS68_0QMBbvz1PevYeMskxVpu9amEB5DqTGss/edit?tab=t.gqfndiinyruj#heading=h.7kffvovz3sxs";
+const UTHSDC_SAMPLE_SOLUTION_URL = "https://docs.google.com/document/d/1U95FXQm0iONuP2qj8sLNmW2cP9kTj5S6VuYio8x3x7E/edit?usp=sharing";
+
 app.get("/competitions", async (req, res) => {
   try {
     const comps = await Competition.findAll({
@@ -331,6 +334,20 @@ app.get("/competitions", async (req, res) => {
       const json = c.toJSON();
       if (typeof json.categories === 'string') {
         try { json.categories = JSON.parse(json.categories); } catch (e) { json.categories = []; }
+      }
+      if (json.name && json.name.includes("UTHSDC") && json.categories && typeof json.categories === 'object' && !Array.isArray(json.categories)) {
+        let changed = false;
+        if (json.categories.document_url !== UTHSDC_DOC_URL) {
+          json.categories.document_url = UTHSDC_DOC_URL;
+          changed = true;
+        }
+        if (json.categories.sample_solution_url !== UTHSDC_SAMPLE_SOLUTION_URL) {
+          json.categories.sample_solution_url = UTHSDC_SAMPLE_SOLUTION_URL;
+          changed = true;
+        }
+        if (changed) {
+          c.update({ categories: json.categories }).catch(() => {});
+        }
       }
       return json;
     });
@@ -368,6 +385,20 @@ app.get("/competitions/:id", async (req, res) => {
     const json = comp.toJSON();
     if (typeof json.categories === 'string') {
       try { json.categories = JSON.parse(json.categories); } catch (e) { json.categories = []; }
+    }
+    if (json.name && json.name.includes("UTHSDC") && json.categories && typeof json.categories === 'object' && !Array.isArray(json.categories)) {
+      let changed = false;
+      if (json.categories.document_url !== UTHSDC_DOC_URL) {
+        json.categories.document_url = UTHSDC_DOC_URL;
+        changed = true;
+      }
+      if (json.categories.sample_solution_url !== UTHSDC_SAMPLE_SOLUTION_URL) {
+        json.categories.sample_solution_url = UTHSDC_SAMPLE_SOLUTION_URL;
+        changed = true;
+      }
+      if (changed) {
+        comp.update({ categories: json.categories }).catch(() => {});
+      }
     }
     res.json(json);
   } catch (error) {

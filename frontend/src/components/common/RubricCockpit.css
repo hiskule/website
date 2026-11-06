@@ -29,6 +29,13 @@
   flex-shrink: 0;
 }
 
+.cockpit-header-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
 .rubric-doc-button {
   display: inline-flex;
   align-items: center;
@@ -48,6 +55,17 @@
 .rubric-doc-button:hover {
   background: #1B1E5C;
   color: var(--color-electric-gold);
+  transform: translateY(-1px);
+}
+
+.rubric-doc-button.sample-solution-button {
+  background: #0F766E;
+  color: #FFFFFF;
+}
+
+.rubric-doc-button.sample-solution-button:hover {
+  background: #115E59;
+  color: #CCFBF1;
   transform: translateY(-1px);
 }
 

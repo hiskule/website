@@ -81,7 +81,10 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
   const [savingId, setSavingId] = useState<string | number | null>(null);
   const [statusMessages, setStatusMessages] = useState<Record<string | number, string>>({});
   const [rubricDocUrl, setRubricDocUrl] = useState<string>(
-    'https://www.google.com/search?q=cool+dog&oq=cool+dog&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIHCAUQABiABDIHCAYQABiABDIHCAcQABiABDIKCAgQABiABBi0BzIHCAkQABiABNIBCDMxOThqMGo3qAIAsAIA&sourceid=chrome&source=chrome.ob&ie=UTF-8'
+    'https://docs.google.com/document/d/1NvvlEQcS68_0QMBbvz1PevYeMskxVpu9amEB5DqTGss/edit?tab=t.gqfndiinyruj#heading=h.7kffvovz3sxs'
+  );
+  const [sampleSolutionUrl, setSampleSolutionUrl] = useState<string>(
+    'https://docs.google.com/document/d/1U95FXQm0iONuP2qj8sLNmW2cP9kTj5S6VuYio8x3x7E/edit?usp=sharing'
   );
 
   useEffect(() => {
@@ -102,6 +105,9 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
             if (cats && typeof cats === 'object' && !Array.isArray(cats)) {
               if (cats.document_url || cats.rubric_url) {
                 setRubricDocUrl(cats.document_url || cats.rubric_url);
+              }
+              if (cats.sample_solution_url) {
+                setSampleSolutionUrl(cats.sample_solution_url);
               }
             }
             if (cats && typeof cats === 'object' && !Array.isArray(cats) && Array.isArray(cats.sections)) {
@@ -453,6 +459,7 @@ export const TeamOverviewModal: React.FC<TeamOverviewModalProps> = ({ team, comp
             submitButtonText={activeScore.isPending ? "SAVE EVALUATION" : "SAVE OVERRIDE"}
             statusMessage={statusMessages[activeScore.id]}
             rubricDocUrl={rubricDocUrl}
+            sampleSolutionUrl={sampleSolutionUrl}
             onClose={onClose}
           />
         ) : (

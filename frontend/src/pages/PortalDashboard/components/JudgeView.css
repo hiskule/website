@@ -139,6 +139,19 @@
   transform: translateY(-1px);
 }
 
+.judge-doc-btn.judge-sample-btn {
+  background-color: #F0FDFA;
+  color: #0F766E;
+  border-color: #0F766E;
+}
+
+.judge-doc-btn.judge-sample-btn:hover {
+  background-color: #0F766E;
+  color: #FFFFFF;
+  border-color: #0F766E;
+  transform: translateY(-1px);
+}
+
 .judge-room-badge {
   background-color: #eeeeee;
   padding: 4px 16px;

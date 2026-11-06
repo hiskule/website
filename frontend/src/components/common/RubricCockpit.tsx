@@ -48,10 +48,12 @@ export interface RubricCockpitProps {
   submitButtonText?: string;
   statusMessage?: string;
   rubricDocUrl?: string;
+  sampleSolutionUrl?: string;
   onClose?: () => void;
 }
 
-const DEFAULT_RUBRIC_DOC_URL = 'https://www.google.com/search?q=cool+dog&oq=cool+dog&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIHCAUQABiABDIHCAYQABiABDIHCAcQABiABDIKCAgQABiABBi0BzIHCAkQABiABNIBCDMxOThqMGo3qAIAsAIA&sourceid=chrome&source=chrome.ob&ie=UTF-8';
+const DEFAULT_RUBRIC_DOC_URL = 'https://docs.google.com/document/d/1NvvlEQcS68_0QMBbvz1PevYeMskxVpu9amEB5DqTGss/edit?tab=t.gqfndiinyruj#heading=h.7kffvovz3sxs';
+const DEFAULT_SAMPLE_SOLUTION_URL = 'https://docs.google.com/document/d/1U95FXQm0iONuP2qj8sLNmW2cP9kTj5S6VuYio8x3x7E/edit?usp=sharing';
 
 export const RubricCockpit: React.FC<RubricCockpitProps> = ({
   sections,
@@ -74,6 +76,7 @@ export const RubricCockpit: React.FC<RubricCockpitProps> = ({
   submitButtonText = 'SAVE EVALUATION',
   statusMessage,
   rubricDocUrl = DEFAULT_RUBRIC_DOC_URL,
+  sampleSolutionUrl = DEFAULT_SAMPLE_SOLUTION_URL,
   onClose
 }) => {
   const onSubmitRef = React.useRef(onSubmit);
@@ -148,19 +151,38 @@ export const RubricCockpit: React.FC<RubricCockpitProps> = ({
           </svg>
           <span className="doc-notice-text">Looking for full criteria definitions and level descriptors?</span>
         </div>
-        <a
-          href={rubricDocUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rubric-doc-button"
-        >
-          <span>Detailed Rubric Document</span>
-          <svg className="doc-ext-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
-        </a>
+        <div className="cockpit-header-links">
+          {rubricDocUrl && (
+            <a
+              href={rubricDocUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rubric-doc-button"
+            >
+              <span>Detailed Rubric Guide</span>
+              <svg className="doc-ext-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          )}
+          {sampleSolutionUrl && (
+            <a
+              href={sampleSolutionUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rubric-doc-button sample-solution-button"
+            >
+              <span>Sample Solution</span>
+              <svg className="doc-ext-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          )}
+        </div>
       </div>
 
       <div className="cockpit-grid">
