@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { request } from '../../../shared/api/http';
 import { RubricCockpit } from '../../../components/common/RubricCockpit';
+import { JudgeHelpModal } from './JudgeHelpModal';
 import './JudgeView.css';
 
 interface TeamSchedule {
@@ -93,12 +94,70 @@ export default function JudgeView() {
     'https://docs.google.com/document/d/1U95FXQm0iONuP2qj8sLNmW2cP9kTj5S6VuYio8x3x7E/edit?usp=sharing'
   );
 
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
+  const [activeHelpRequest, setActiveHelpRequest] = useState<any | null>(null);
+  const [helpSubmitting, setHelpSubmitting] = useState(false);
+
+  const fetchActiveHelpRequest = async () => {
+    const judgeId = user?.id;
+    const compId = user?.competitionId || (user as any)?.Competition?.id;
+    if (!judgeId) return;
+    try {
+      const q = compId ? `?competitionId=${compId}` : '';
+      const res = await request<{ activeRequest: any | null }>(`/help-requests/my-active${q}`);
+      setActiveHelpRequest(res?.activeRequest || null);
+    } catch (err) {
+      console.warn('Failed to fetch active help request:', err);
+    }
+  };
+
+  const handleSendHelp = async (messageText: string) => {
+    const compId = user?.competitionId || (user as any)?.Competition?.id;
+    setHelpSubmitting(true);
+    try {
+      const res = await request<{ success: boolean; helpRequest: any }>('/help-requests', {
+        method: 'POST',
+        body: JSON.stringify({
+          competitionId: compId,
+          roomName: roomName || (user as any)?.room || (user as any)?.Room?.name || '',
+          message: messageText
+        })
+      });
+      if (res?.helpRequest) {
+        setActiveHelpRequest(res.helpRequest);
+      }
+      setHelpModalOpen(false);
+    } catch (err) {
+      console.error('Error sending help alert:', err);
+      alert('Failed to send help alert. Please notify staff directly.');
+    } finally {
+      setHelpSubmitting(false);
+    }
+  };
+
+  const handleCancelHelp = async () => {
+    if (!activeHelpRequest?.id) return;
+    setHelpSubmitting(true);
+    try {
+      await request(`/help-requests/${activeHelpRequest.id}/cancel`, {
+        method: 'PUT'
+      });
+      setActiveHelpRequest(null);
+      setHelpModalOpen(false);
+    } catch (err) {
+      console.error('Error cancelling help request:', err);
+    } finally {
+      setHelpSubmitting(false);
+    }
+  };
+
   useEffect(() => {
     fetchSchedule();
     fetchRubric();
+    fetchActiveHelpRequest();
   }, [user]);
 
-  // Background sync for real-time schedule updates (paused while grading in rubric modal)
+  // Background sync for real-time schedule & help updates
   useEffect(() => {
     if (!user?.id || !user?.competitionId) return;
 
@@ -106,11 +165,13 @@ export default function JudgeView() {
       if (!activeTeam) {
         fetchSchedule();
       }
-    }, 15000);
+      fetchActiveHelpRequest();
+    }, 8000);
 
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible' && !activeTeam) {
-        fetchSchedule();
+      if (document.visibilityState === 'visible') {
+        if (!activeTeam) fetchSchedule();
+        fetchActiveHelpRequest();
       }
     };
 
@@ -400,12 +461,44 @@ export default function JudgeView() {
                 <div className="judge-room-badge">
                   <span className="text-label-bold">{roomName ? (roomName.startsWith('Room ') ? roomName : `Room: ${roomName}`) : 'Room: Unassigned'}</span>
                 </div>
+                <button
+                  type="button"
+                  className={`judge-help-btn ${activeHelpRequest ? 'active' : ''}`}
+                  onClick={() => setHelpModalOpen(true)}
+                  title={activeHelpRequest ? "Help alert active. Click to view or cancel." : "Request administrator help for this room"}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <span>{activeHelpRequest ? 'HELP REQUESTED' : 'HELP'}</span>
+                </button>
               </div>
             </div>
             <p className="judge-schedule-subtitle">
               Select a team below to submit and record your rubric evaluation.
             </p>
           </div>
+
+          {activeHelpRequest && (
+            <div className="judge-active-help-ribbon">
+              <div className="judge-active-help-left">
+                <span className="judge-active-help-pulse"></span>
+                <span>
+                  <strong>Admin Help Alert Active:</strong> Support has been requested for <strong>{roomName || 'your room'}</strong>. An admin will assist you shortly.
+                </span>
+              </div>
+              <button
+                type="button"
+                className="judge-active-help-cancel"
+                onClick={handleCancelHelp}
+                disabled={helpSubmitting}
+              >
+                {helpSubmitting ? 'Cancelling...' : 'Cancel Request'}
+              </button>
+            </div>
+          )}
 
           <div className="team-schedule-grid">
             {schedule.length === 0 ? (
@@ -486,11 +579,24 @@ export default function JudgeView() {
               statusMessage={message}
               rubricDocUrl={rubricDocUrl}
               sampleSolutionUrl={sampleSolutionUrl}
+              onHelpClick={() => setHelpModalOpen(true)}
+              hasActiveHelpRequest={!!activeHelpRequest}
               onClose={() => setActiveTeam(null)}
             />
           </div>
         </div>
       )}
+
+      <JudgeHelpModal
+        isOpen={helpModalOpen}
+        onClose={() => setHelpModalOpen(false)}
+        roomName={roomName}
+        judgeName={user?.name || (user?.username ? `Judge (${user.username})` : 'Judge')}
+        activeRequest={activeHelpRequest}
+        onSubmit={handleSendHelp}
+        onCancelRequest={handleCancelHelp}
+        submitting={helpSubmitting}
+      />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { ROUTES } from '../../shared/config/routes';
 import { ActiveEventOverview } from './components/ActiveEventOverview';
 import { InactiveEventsSlider } from './components/InactiveEventsSlider';
+import { AdminHelpAlertBanner } from './components/AdminHelpAlertBanner';
 import { request } from '../../shared/api/http';
 import './MasterDashboard.css';
 
@@ -55,6 +56,9 @@ export default function MasterDashboard() {
 
   return (
     <div className="master-dashboard-container">
+      {/* Top Urgent Alert Bar: Always at the absolute top of the page */}
+      <AdminHelpAlertBanner />
+
       <div className="hero-header">
         <header className="hero-header-content">
           <div className="hero-header-text">

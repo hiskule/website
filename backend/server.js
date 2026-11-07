@@ -1,16 +1,14 @@
 // ============================================================================
 // #################### CONFIGURATION & SETUP ####################
 // ============================================================================
-const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
+const express = require("express");
 const cors = require("cors");
-const { sequelize, Competition, Team, Judge, Room, Score, dbError } = require("./models/index.js");
+const { sequelize, Competition, Team, Judge, Room, Score, HelpRequest, dbError } = require("./models/index.js");
 const { getLeaderboardData } = require("./utils/leaderboardLogic.js");
 const { verifyAdmin, verifyJudge, verifyTeam, verifySystemToken, JWT_SECRET } = require("./middleware/auth.js");
 const jwt = require('jsonwebtoken');
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -134,6 +132,11 @@ app.post("/seed-db", verifySystemToken, async (req, res) => {
 
         if (teamIds.length > 0) await Score.destroy({ where: { teamId: teamIds } });
         if (judgeIds.length > 0) await Score.destroy({ where: { judgeId: judgeIds } });
+        if (HelpRequest) {
+          try {
+            await HelpRequest.destroy({ where: { competitionId: existingComp.id } });
+          } catch (e) { /* ignore if table not created yet */ }
+        }
 
         await Team.destroy({ where: { competitionId: existingComp.id } });
         await Judge.destroy({ where: { competitionId: existingComp.id } });
@@ -1654,6 +1657,340 @@ app.get("/leaderboard/export", verifyAdmin, async (req, res) => {
   } catch (error) {
     console.error("Error exporting leaderboard:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// ============================================================================
+// #################### JUDGE HELP REQUEST ENDPOINTS ####################
+// ============================================================================
+
+// In-memory fallback in case of temporary database table sync delay
+let inMemoryHelpRequests = [];
+let nextHelpId = 1;
+
+/**
+ * @swagger
+ * /help-requests:
+ *   post:
+ *     summary: Submit a help request from a judge
+ *     tags: [Help]
+ */
+app.post("/help-requests", verifyJudge, async (req, res) => {
+  try {
+    const { competitionId, roomId, roomName, message } = req.body;
+    const judgeId = req.user?.id;
+    let judgeName = req.user?.username || (judgeId ? `Judge ${judgeId}` : "Judge");
+    let resolvedRoomName = roomName;
+    let resolvedRoomId = roomId;
+    let resolvedCompId = competitionId;
+
+    // Lookup real judge and room details if possible
+    if (judgeId && Judge) {
+      try {
+        const judgeRecord = await Judge.findByPk(judgeId, {
+          include: [{ model: Room }]
+        });
+        if (judgeRecord) {
+          judgeName = judgeRecord.name || judgeName;
+          if (!resolvedCompId && judgeRecord.competitionId) {
+            resolvedCompId = judgeRecord.competitionId;
+          }
+          const isRoomEmpty = !resolvedRoomName || resolvedRoomName === 'Unassigned' || resolvedRoomName === 'Unassigned Room' || resolvedRoomName.trim() === '';
+          if (isRoomEmpty && judgeRecord.Room) {
+            resolvedRoomName = judgeRecord.Room.name || judgeRecord.Room.room || `Room ${judgeRecord.Room.id}`;
+            resolvedRoomId = judgeRecord.Room.id;
+          }
+        }
+      } catch (err) {
+        console.warn("Could not fetch extra judge details for help request:", err.message);
+      }
+    }
+
+    if (!resolvedCompId && Competition) {
+      try {
+        const activeComp = await Competition.findOne({ where: { isActive: true } });
+        if (activeComp) resolvedCompId = activeComp.id;
+      } catch (e) {}
+    }
+
+    if (!resolvedRoomName) {
+      resolvedRoomName = "Unassigned Room";
+    }
+
+    // Try DB first if HelpRequest model exists
+    if (HelpRequest) {
+      try {
+        // Check if there is already a pending help request for this judge
+        const existing = await HelpRequest.findOne({
+          where: {
+            judgeId: judgeId || null,
+            status: 'pending',
+            ...(resolvedCompId ? { competitionId: resolvedCompId } : {})
+          }
+        });
+
+        if (existing) {
+          await existing.update({
+            message: message || existing.message,
+            roomName: resolvedRoomName || existing.roomName,
+            roomId: resolvedRoomId || existing.roomId,
+            updatedAt: new Date()
+          });
+          return res.status(200).json({ success: true, helpRequest: existing });
+        }
+
+        const newRequest = await HelpRequest.create({
+          competitionId: resolvedCompId || null,
+          judgeId: judgeId || null,
+          judgeName,
+          roomId: resolvedRoomId || null,
+          roomName: resolvedRoomName,
+          status: 'pending',
+          message: message || "Judge requested assistance in room."
+        });
+
+        // Mirror in-memory
+        inMemoryHelpRequests.unshift(newRequest.toJSON());
+        return res.status(201).json({ success: true, helpRequest: newRequest });
+      } catch (dbErr) {
+        console.warn("HelpRequest DB write failed, falling back to memory:", dbErr.message);
+      }
+    }
+
+    // Fallback: in-memory store
+    const existingMem = inMemoryHelpRequests.find(r => r.judgeId === judgeId && r.status === 'pending');
+    if (existingMem) {
+      existingMem.message = message || existingMem.message;
+      existingMem.roomName = resolvedRoomName || existingMem.roomName;
+      existingMem.updatedAt = new Date().toISOString();
+      return res.status(200).json({ success: true, helpRequest: existingMem });
+    }
+
+    const memItem = {
+      id: nextHelpId++,
+      competitionId: resolvedCompId || null,
+      judgeId: judgeId || null,
+      judgeName,
+      roomId: resolvedRoomId || null,
+      roomName: resolvedRoomName,
+      status: 'pending',
+      message: message || "Judge requested assistance in room.",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    inMemoryHelpRequests.unshift(memItem);
+    return res.status(201).json({ success: true, helpRequest: memItem });
+  } catch (error) {
+    console.error("Error creating help request:", error);
+    res.status(500).json({ error: "Failed to submit help request" });
+  }
+});
+
+/**
+ * @swagger
+ * /help-requests:
+ *   get:
+ *     summary: Get all help requests (Admin only)
+ *     tags: [Help]
+ */
+app.get("/help-requests", verifyAdmin, async (req, res) => {
+  try {
+    const { competitionId, status } = req.query;
+    const filterStatus = status || 'pending';
+
+    if (HelpRequest) {
+      try {
+        const { Op } = require('sequelize');
+        const whereClause = {};
+        if (filterStatus !== 'all') {
+          whereClause.status = filterStatus;
+        }
+        if (competitionId) {
+          whereClause[Op.or] = [
+            { competitionId: Number(competitionId) },
+            { competitionId: null }
+          ];
+        }
+
+        const requests = await HelpRequest.findAll({
+          where: whereClause,
+          order: [['createdAt', 'DESC']]
+        });
+
+        // Enrich any requests with missing or unassigned room details
+        for (const req of requests) {
+          const isRoomEmpty = !req.roomName || req.roomName === 'Unassigned' || req.roomName === 'Unassigned Room';
+          if (isRoomEmpty && req.judgeId && Judge) {
+            try {
+              const jRecord = await Judge.findByPk(req.judgeId, { include: [{ model: Room }] });
+              if (jRecord?.Room) {
+                const actualRoom = jRecord.Room.name || jRecord.Room.room || `Room ${jRecord.Room.id}`;
+                req.roomName = actualRoom;
+                req.roomId = jRecord.Room.id;
+                await req.update({ roomName: actualRoom, roomId: jRecord.Room.id }).catch(() => {});
+              }
+              if (jRecord?.name && (!req.judgeName || req.judgeName.startsWith('judge'))) {
+                req.judgeName = jRecord.name;
+                await req.update({ judgeName: jRecord.name }).catch(() => {});
+              }
+            } catch (e) {}
+          }
+        }
+
+        return res.json({ requests });
+      } catch (dbErr) {
+        console.warn("HelpRequest DB query failed, falling back to memory:", dbErr.message);
+      }
+    }
+
+    // In-memory fallback
+    let filtered = inMemoryHelpRequests;
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(r => r.status === filterStatus);
+    }
+    if (competitionId) {
+      filtered = filtered.filter(r => !r.competitionId || String(r.competitionId) === String(competitionId));
+    }
+    res.json({ requests: filtered });
+  } catch (error) {
+    console.error("Error fetching help requests:", error);
+    res.status(500).json({ error: "Failed to fetch help requests" });
+  }
+});
+
+/**
+ * @swagger
+ * /help-requests/my-active:
+ *   get:
+ *     summary: Get active help request for the logged-in judge
+ *     tags: [Help]
+ */
+app.get("/help-requests/my-active", verifyJudge, async (req, res) => {
+  try {
+    const judgeId = req.user?.id;
+    const { competitionId } = req.query;
+
+    if (HelpRequest) {
+      try {
+        const active = await HelpRequest.findOne({
+          where: {
+            judgeId: judgeId || null,
+            status: 'pending',
+            ...(competitionId ? { competitionId } : {})
+          },
+          order: [['createdAt', 'DESC']]
+        });
+        return res.json({ activeRequest: active || null });
+      } catch (dbErr) {
+        console.warn("HelpRequest DB query failed, using in-memory:", dbErr.message);
+      }
+    }
+
+    const activeMem = inMemoryHelpRequests.find(
+      r => r.judgeId === judgeId && r.status === 'pending' && (!competitionId || String(r.competitionId) === String(competitionId))
+    );
+    res.json({ activeRequest: activeMem || null });
+  } catch (error) {
+    console.error("Error fetching judge active help request:", error);
+    res.status(500).json({ error: "Failed to fetch active help request" });
+  }
+});
+
+/**
+ * @swagger
+ * /help-requests/:id/resolve:
+ *   put:
+ *     summary: Resolve a help request
+ *     tags: [Help]
+ */
+app.put("/help-requests/:id/resolve", verifyAdmin, async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    const adminName = req.user?.username || req.user?.name || "Admin";
+
+    // Update in-memory
+    const memItem = inMemoryHelpRequests.find(r => String(r.id) === String(requestId));
+    if (memItem) {
+      memItem.status = 'resolved';
+      memItem.resolvedAt = new Date().toISOString();
+      memItem.resolvedBy = adminName;
+    }
+
+    if (HelpRequest) {
+      try {
+        const request = await HelpRequest.findByPk(requestId);
+        if (request) {
+          await request.update({
+            status: 'resolved',
+            resolvedAt: new Date(),
+            resolvedBy: adminName
+          });
+          return res.json({ success: true, helpRequest: request });
+        }
+      } catch (dbErr) {
+        console.warn("HelpRequest DB resolve failed:", dbErr.message);
+      }
+    }
+
+    if (memItem) {
+      return res.json({ success: true, helpRequest: memItem });
+    }
+
+    res.status(404).json({ error: "Help request not found" });
+  } catch (error) {
+    console.error("Error resolving help request:", error);
+    res.status(500).json({ error: "Failed to resolve help request" });
+  }
+});
+
+/**
+ * @swagger
+ * /help-requests/:id/cancel:
+ *   put:
+ *     summary: Cancel a help request by judge
+ *     tags: [Help]
+ */
+app.put("/help-requests/:id/cancel", verifyJudge, async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    const judgeId = req.user?.id;
+    const isAdmin = req.user?.role === 'admin';
+
+    // Update in-memory
+    const memItem = inMemoryHelpRequests.find(r => String(r.id) === String(requestId));
+    if (memItem && (isAdmin || memItem.judgeId === judgeId)) {
+      memItem.status = 'cancelled';
+      memItem.resolvedAt = new Date().toISOString();
+      memItem.resolvedBy = 'Judge (Cancelled)';
+    }
+
+    if (HelpRequest) {
+      try {
+        const request = await HelpRequest.findByPk(requestId);
+        if (request) {
+          if (!isAdmin && request.judgeId !== judgeId) {
+            return res.status(403).json({ error: "You can only cancel your own help requests" });
+          }
+          await request.update({
+            status: 'cancelled',
+            resolvedAt: new Date(),
+            resolvedBy: 'Judge (Cancelled)'
+          });
+          return res.json({ success: true, helpRequest: request });
+        }
+      } catch (dbErr) {
+        console.warn("HelpRequest DB cancel failed:", dbErr.message);
+      }
+    }
+
+    if (memItem) {
+      return res.json({ success: true, helpRequest: memItem });
+    }
+
+    res.status(404).json({ error: "Help request not found" });
+  } catch (error) {
+    console.error("Error cancelling help request:", error);
+    res.status(500).json({ error: "Failed to cancel help request" });
   }
 });
 

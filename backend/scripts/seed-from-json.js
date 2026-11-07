@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { sequelize, Competition, Room, Judge, Team } = require('../models/index.js');
+const { sequelize, Competition, Room, Judge, Team, HelpRequest } = require('../models/index.js');
 const { Op } = require('sequelize');
 
 async function seedData() {

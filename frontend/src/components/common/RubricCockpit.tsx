@@ -49,6 +49,8 @@ export interface RubricCockpitProps {
   statusMessage?: string;
   rubricDocUrl?: string;
   sampleSolutionUrl?: string;
+  onHelpClick?: () => void;
+  hasActiveHelpRequest?: boolean;
   onClose?: () => void;
 }
 
@@ -77,6 +79,8 @@ export const RubricCockpit: React.FC<RubricCockpitProps> = ({
   statusMessage,
   rubricDocUrl = DEFAULT_RUBRIC_DOC_URL,
   sampleSolutionUrl = DEFAULT_SAMPLE_SOLUTION_URL,
+  onHelpClick,
+  hasActiveHelpRequest = false,
   onClose
 }) => {
   const onSubmitRef = React.useRef(onSubmit);
@@ -181,6 +185,21 @@ export const RubricCockpit: React.FC<RubricCockpitProps> = ({
                 <line x1="10" y1="14" x2="21" y2="3"></line>
               </svg>
             </a>
+          )}
+          {onHelpClick && (
+            <button
+              type="button"
+              className={`rubric-doc-button rubric-help-button ${hasActiveHelpRequest ? 'active' : ''}`}
+              onClick={onHelpClick}
+              title={hasActiveHelpRequest ? 'Help request is active for your room' : 'Request administrator help for this room'}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>{hasActiveHelpRequest ? 'HELP SENT' : 'HELP'}</span>
+            </button>
           )}
         </div>
       </div>

@@ -1,0 +1,311 @@
+/* ==========================================================================
+   Judge Help Modal Styles
+   ========================================================================== */
+
+.judge-help-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(11, 11, 59, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.judge-help-modal {
+  background: #FFFFFF;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid #E2E8F0;
+  animation: modalScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.judge-help-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.25rem;
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  color: #FFFFFF;
+  border-bottom: 2px solid #EF4444;
+}
+
+.judge-help-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.judge-help-header-title h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.judge-help-sos-icon {
+  color: #EF4444;
+}
+
+.judge-help-close-btn {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.judge-help-close-btn:hover {
+  color: #FFFFFF;
+}
+
+.judge-help-form,
+.judge-help-active-body {
+  padding: 1.25rem;
+}
+
+.judge-help-context-bar {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.85rem;
+  color: #475569;
+  margin-bottom: 1.1rem;
+}
+
+.judge-help-context-bar strong {
+  color: #0F172A;
+}
+
+.judge-help-field {
+  margin-bottom: 1.1rem;
+}
+
+.judge-help-field-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.judge-help-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.judge-help-chip {
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.7rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.judge-help-chip:hover {
+  background: #E2E8F0;
+  border-color: #94A3B8;
+}
+
+.judge-help-chip.selected {
+  background: #FEF2F2;
+  border-color: #EF4444;
+  color: #991B1B;
+  font-weight: 700;
+}
+
+.judge-help-textarea {
+  width: 100%;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 6px;
+  padding: 0.65rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: #0F172A;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+
+.judge-help-textarea:focus {
+  outline: none;
+  border-color: #EF4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.judge-help-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #E2E8F0;
+}
+
+.judge-help-submit-btn {
+  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  padding: 0.6rem 1.1rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.3);
+}
+
+.judge-help-submit-btn:hover {
+  background: linear-gradient(135deg, #B91C1C 0%, #991B1B 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 10px -1px rgba(220, 38, 38, 0.4);
+}
+
+.judge-help-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.judge-help-dismiss-btn {
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  color: #475569;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.judge-help-dismiss-btn:hover {
+  background: #E2E8F0;
+  color: #1E293B;
+}
+
+.judge-help-active-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #FEF2F2;
+  border: 1.5px solid #F87171;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  color: #991B1B;
+  margin-bottom: 1.1rem;
+}
+
+.judge-help-pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #EF4444;
+  margin-top: 5px;
+  flex-shrink: 0;
+  animation: pulseBeacon 1.2s infinite;
+}
+
+@keyframes pulseBeacon {
+  0% { transform: scale(0.9); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.4; }
+  100% { transform: scale(0.9); opacity: 1; }
+}
+
+.judge-help-active-alert strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.judge-help-active-alert p {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #7F1D1D;
+}
+
+.judge-help-request-details {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.84rem;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #64748B;
+}
+
+.detail-val {
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.detail-val.status-pending {
+  color: #DC2626;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.judge-help-cancel-req-btn {
+  background: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FCA5A5;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.judge-help-cancel-req-btn:hover {
+  background: #FECACA;
+  color: #7F1D1D;
+}

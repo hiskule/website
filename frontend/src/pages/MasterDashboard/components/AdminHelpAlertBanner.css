@@ -1,0 +1,305 @@
+/* ==========================================================================
+   Admin Help Alert Banner
+   Real-time urgent notification banner for judge help requests
+   Styled according to Academic Kinetic design system & UI guidelines
+   ========================================================================== */
+
+.admin-help-top-strip {
+  position: fixed;
+  top: 74px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #BA1A1A;
+  border-bottom: 2px solid #93000A;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  padding: 0.75rem var(--spacing-margin-mobile);
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .admin-help-top-strip {
+    padding-left: var(--spacing-margin-desktop);
+    padding-right: var(--spacing-margin-desktop);
+  }
+}
+
+.admin-help-spacer {
+  width: 100%;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.admin-help-top-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.admin-help-banner {
+  background: rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  color: #FFFFFF;
+  padding: 0.75rem 1rem;
+  animation: alertSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes alertSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.admin-help-banner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-help-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  position: relative;
+}
+
+.admin-help-pulse-ring {
+  position: absolute;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  animation: alertBeacon 1.4s ease-out infinite;
+}
+
+.admin-help-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 6px #FFFFFF;
+}
+
+@keyframes alertBeacon {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.admin-help-icon {
+  color: var(--color-electric-gold, #F6CC13);
+  flex-shrink: 0;
+}
+
+.admin-help-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  font-family: var(--font-family-primary);
+}
+
+.admin-help-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.admin-help-items-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-help-items-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.admin-help-items-list::-webkit-scrollbar-thumb {
+  background: rgba(254, 202, 202, 0.35);
+  border-radius: 4px;
+}
+
+.admin-help-items-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(254, 202, 202, 0.6);
+}
+
+.admin-help-item-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--color-pure-white, #FFFFFF);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  padding: 0.65rem 0.95rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.admin-help-item-card:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.admin-help-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.admin-help-room-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #BA1A1A;
+  color: #FFFFFF;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  min-width: 105px;
+  text-align: center;
+}
+
+.admin-help-room-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #FFDAD6;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.admin-help-room-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.admin-help-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.admin-help-judge-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.admin-help-judge-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--color-deep-navy, #0B0B3B);
+}
+
+.admin-help-location-text {
+  font-size: 0.8rem;
+  color: var(--color-on-surface-variant, #47464F);
+}
+
+.admin-help-location-text strong {
+  color: #BA1A1A;
+  font-weight: 700;
+}
+
+.admin-help-time {
+  font-size: 0.72rem;
+  color: var(--color-on-surface-variant, #47464F);
+  background: var(--color-subtle-gray, #F4F4F9);
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.admin-help-message {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-ink-black, #05051A);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-help-item-actions {
+  flex-shrink: 0;
+}
+
+.admin-help-resolve-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: #15803D;
+  color: #FFFFFF;
+  border: 1px solid #166534;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.admin-help-resolve-btn:hover {
+  background-color: #166534;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.admin-help-resolve-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .admin-help-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .admin-help-item-actions {
+    width: 100%;
+    margin-top: 0.4rem;
+  }
+  .admin-help-resolve-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

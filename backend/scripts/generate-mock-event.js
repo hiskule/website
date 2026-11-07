@@ -1,67 +1,27 @@
 // scripts/generate-mock-event.js
-// Generates a mock competition dataset with configurable judges and teams per room.
+// Generates test run dataset matching the official UTHSDC 2026 schedule and judges.
 const fs = require('fs');
 const path = require('path');
 
-const NUM_ROOMS = 15;
-const TEAMS_PER_ROOM = 6;
-const EVENT_NAME = "UTHSDC 2026 (Test Run)"; // Creates a separate event alongside the official one
-
-const timeSlots = [
-  { start: "10:00 AM", end: "10:15 AM" },
-  { start: "10:15 AM", end: "10:30 AM" },
-  { start: "10:30 AM", end: "10:45 AM" },
-  { start: "10:45 AM", end: "11:00 AM" },
-  { start: "11:00 AM", end: "11:15 AM" },
-  { start: "11:15 AM", end: "11:30 AM" }
-];
+const EVENT_NAME = "UTHSDC 2026 (Test Run)";
 
 const uthsdcTemplate = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'data', 'uthsdc-2026.json'), 'utf-8'));
-const categories = uthsdcTemplate[0].categories;
-
-const judges = [];
-const teams = [];
-let teamCounter = 1;
-
-for (let r = 1; r <= NUM_ROOMS; r++) {
-  const roomName = `${r}`;
-  
-  // 1 Judge per room
-  judges.push({
-    name: `Judge ${r}`,
-    room: roomName,
-    username: `judge${r}_uthsdc_26`,
-    password: "password123"
-  });
-
-  // 6 Teams per room
-  for (let s = 0; s < TEAMS_PER_ROOM; s++) {
-    const slot = timeSlots[s % timeSlots.length];
-    teams.push({
-      team_number: teamCounter,
-      room: roomName,
-      start_time: slot.start,
-      end_time: slot.end,
-      username: `team${teamCounter}_uthsdc_26`,
-      password: "password123"
-    });
-    teamCounter++;
-  }
-}
+const comp = uthsdcTemplate[0];
 
 const mockCompetition = [
   {
     name: EVENT_NAME,
     isActive: true,
-    date: "2026-11-07",
-    categories,
-    judges,
-    teams
+    date: comp.date || "2026-11-07",
+    categories: comp.categories,
+    judges: comp.judges,
+    teams: comp.teams
   }
 ];
 
 const outputPath = path.resolve(__dirname, '..', 'data', 'uthsdc-test-15j.json');
 fs.writeFileSync(outputPath, JSON.stringify(mockCompetition, null, 2), 'utf-8');
 
-console.log(`Generated mock event: ${outputPath}`);
-console.log(`Rooms: ${NUM_ROOMS}, Judges: ${judges.length}, Teams: ${teams.length}`);
+console.log(`Generated test event: ${outputPath}`);
+console.log(`Judges: ${comp.judges.length}, Teams: ${comp.teams.length}`);
+

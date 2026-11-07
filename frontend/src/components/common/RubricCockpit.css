@@ -69,6 +69,25 @@
   transform: translateY(-1px);
 }
 
+.rubric-doc-button.rubric-help-button {
+  background: #DC2626;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.rubric-doc-button.rubric-help-button:hover {
+  background: #B91C1C;
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.rubric-doc-button.rubric-help-button.active {
+  background: #991B1B;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.4);
+}
+
 .cockpit-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(350px, 38vw, 460px);
