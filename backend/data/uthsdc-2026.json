@@ -167,79 +167,79 @@
     },
     "judges": [
       {
-        "name": "Judge 1",
+        "name": "Felicia Liu",
         "room": "Medsci Lobby Group 1",
         "username": "judge1_uthsdc_26",
         "password": "apple26"
       },
       {
-        "name": "Judge 2",
+        "name": "Kalana Abeywardena",
         "room": "Medsci Lobby Group 1",
         "username": "judge2_uthsdc_26",
         "password": "bread26"
       },
       {
-        "name": "Judge 3",
+        "name": "Osarugue Ize-Iyamu",
         "room": "Medsci Lobby Group 2",
         "username": "judge3_uthsdc_26",
         "password": "chair26"
       },
       {
-        "name": "Judge 4",
+        "name": "Coplen Rose",
         "room": "Medsci Lobby Group 2",
         "username": "judge4_uthsdc_26",
         "password": "dance26"
       },
       {
-        "name": "Judge 5",
+        "name": "Edith Fang",
         "room": "MS4171",
         "username": "judge5_uthsdc_26",
         "password": "eagle26"
       },
       {
-        "name": "Judge 6",
+        "name": "Michela Trozzo",
         "room": "MS4171",
         "username": "judge6_uthsdc_26",
         "password": "flame26"
       },
       {
-        "name": "Judge 7",
+        "name": "Kenneth Sulimro",
         "room": "MS2135",
         "username": "judge7_uthsdc_26",
         "password": "grape26"
       },
       {
-        "name": "Judge 8",
+        "name": "Sarry Al-Turk",
         "room": "MS2135",
         "username": "judge8_uthsdc_26",
         "password": "house26"
       },
       {
-        "name": "Judge 9",
+        "name": "Gabe Raposo",
         "room": "MS2173",
         "username": "judge9_uthsdc_26",
         "password": "juice26"
       },
       {
-        "name": "Judge 10",
+        "name": "Firdaus Ansari",
         "room": "MS2173",
         "username": "judge10_uthsdc_26",
         "password": "kite26"
       },
       {
-        "name": "Judge 11",
+        "name": "Madeline Kalda",
         "room": "MS2172",
         "username": "judge11_uthsdc_26",
         "password": "lemon26"
       },
       {
-        "name": "Judge 12",
+        "name": "Jannis Mei",
         "room": "MS2172",
         "username": "judge12_uthsdc_26",
         "password": "mouse26"
       },
       {
-        "name": "Judge 13",
+        "name": "Youssef Rachad",
         "room": "MS2170",
         "username": "judge13_uthsdc_26",
         "password": "night26"
@@ -251,25 +251,25 @@
         "password": "ocean26"
       },
       {
-        "name": "Judge 15",
+        "name": "Michael Atkinson",
         "room": "SF Library Group 1",
         "username": "judge15_uthsdc_26",
         "password": "peach26"
       },
       {
-        "name": "Judge 16",
+        "name": "Min Tanaka",
         "room": "SF Library Group 1",
         "username": "judge16_uthsdc_26",
         "password": "quilt26"
       },
       {
-        "name": "Judge 17",
+        "name": "Aakash Kanagala",
         "room": "SF Library Group 2",
         "username": "judge17_uthsdc_26",
         "password": "river26"
       },
       {
-        "name": "Judge 18",
+        "name": "Paul Juralowicz",
         "room": "SF Library Group 2",
         "username": "judge18_uthsdc_26",
         "password": "snake26"
@@ -281,19 +281,19 @@
         "password": "train26"
       },
       {
-        "name": "Judge 20",
+        "name": "Kaiser Tam",
         "room": "SF Library Group 3",
         "username": "judge20_uthsdc_26",
         "password": "uncle26"
       },
       {
-        "name": "Judge 21",
+        "name": "Aakash Kanagala",
         "room": "SF Library Group 4",
         "username": "judge21_uthsdc_26",
         "password": "voice26"
       },
       {
-        "name": "Judge 22",
+        "name": "Benjamin Rubinoff",
         "room": "SF Library Group 4",
         "username": "judge22_uthsdc_26",
         "password": "water26"
@@ -526,41 +526,41 @@
       },
       {
         "team_number": 29,
-        "room": "MS2135",
-        "start_time": "3:40 PM",
-        "end_time": "3:50 PM",
+        "room": "MS2172",
+        "start_time": "3:10 PM",
+        "end_time": "3:20 PM",
         "username": "team29_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 30,
-        "room": "MS2173",
-        "start_time": "3:40 PM",
-        "end_time": "3:50 PM",
+        "room": "SF Library Group 1",
+        "start_time": "3:10 PM",
+        "end_time": "3:20 PM",
         "username": "team30_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 31,
-        "room": "MS2172",
-        "start_time": "3:40 PM",
-        "end_time": "3:50 PM",
+        "room": "SF Library Group 2",
+        "start_time": "3:10 PM",
+        "end_time": "3:20 PM",
         "username": "team31_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 32,
-        "room": "MS2170",
-        "start_time": "3:40 PM",
-        "end_time": "3:50 PM",
+        "room": "SF Library Group 3",
+        "start_time": "3:10 PM",
+        "end_time": "3:20 PM",
         "username": "team32_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 33,
-        "room": "SF Library Group 1",
-        "start_time": "3:40 PM",
-        "end_time": "3:50 PM",
+        "room": "SF Library Group 4",
+        "start_time": "3:10 PM",
+        "end_time": "3:20 PM",
         "username": "team33_uthsdc_26",
         "password": "password123"
       },
@@ -1222,41 +1222,41 @@
       },
       {
         "team_number": 116,
-        "room": "Medsci Lobby Group 1",
-        "start_time": "4:50 PM",
-        "end_time": "5:00 PM",
+        "room": "SF Library Group 1",
+        "start_time": "3:40 PM",
+        "end_time": "3:50 PM",
         "username": "team116_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 117,
-        "room": "Medsci Lobby Group 1",
-        "start_time": "5:00 PM",
-        "end_time": "5:10 PM",
+        "room": "MS2170",
+        "start_time": "3:40 PM",
+        "end_time": "3:50 PM",
         "username": "team117_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 118,
-        "room": "Medsci Lobby Group 2",
-        "start_time": "5:00 PM",
-        "end_time": "5:10 PM",
+        "room": "MS2172",
+        "start_time": "3:40 PM",
+        "end_time": "3:50 PM",
         "username": "team118_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 119,
-        "room": "MS4171",
-        "start_time": "5:00 PM",
-        "end_time": "5:10 PM",
+        "room": "MS2173",
+        "start_time": "3:40 PM",
+        "end_time": "3:50 PM",
         "username": "team119_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 120,
         "room": "MS2135",
-        "start_time": "5:00 PM",
-        "end_time": "5:10 PM",
+        "start_time": "3:40 PM",
+        "end_time": "3:50 PM",
         "username": "team120_uthsdc_26",
         "password": "password123"
       }
