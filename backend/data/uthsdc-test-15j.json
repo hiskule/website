@@ -749,75 +749,11 @@
         "password": "password123"
       },
       {
-        "team_number": 57,
-        "room": "MS2135",
-        "start_time": "3:10 PM",
-        "end_time": "3:20 PM",
-        "username": "team57_uthsdc_26",
-        "password": "password123"
-      },
-      {
         "team_number": 58,
         "room": "SF Library Group 3",
         "start_time": "4:00 PM",
         "end_time": "4:10 PM",
         "username": "team58_uthsdc_26",
-        "password": "password123"
-      },
-      {
-        "team_number": 59,
-        "room": "SF Library Group 4",
-        "start_time": "4:00 PM",
-        "end_time": "4:10 PM",
-        "username": "team59_uthsdc_26",
-        "password": "password123"
-      },
-      {
-        "team_number": 60,
-        "room": "SF Library Group 4",
-        "start_time": "4:10 PM",
-        "end_time": "4:20 PM",
-        "username": "team60_uthsdc_26",
-        "password": "password123"
-      },
-      {
-        "team_number": 61,
-        "room": "SF Library Group 3",
-        "start_time": "4:10 PM",
-        "end_time": "4:20 PM",
-        "username": "team61_uthsdc_26",
-        "password": "password123"
-      },
-      {
-        "team_number": 62,
-        "room": "SF Library Group 2",
-        "start_time": "4:10 PM",
-        "end_time": "4:20 PM",
-        "username": "team62_uthsdc_26",
-        "password": "password123"
-      },
-      {
-        "team_number": 63,
-        "room": "SF Library Group 1",
-        "start_time": "4:10 PM",
-        "end_time": "4:20 PM",
-        "username": "team63_uthsdc_26",
-        "password": "password123"
-      },
-      {
-        "team_number": 64,
-        "room": "MS2170",
-        "start_time": "4:10 PM",
-        "end_time": "4:20 PM",
-        "username": "team64_uthsdc_26",
-        "password": "password123"
-      },
-      {
-        "team_number": 65,
-        "room": "MS2172",
-        "start_time": "4:10 PM",
-        "end_time": "4:20 PM",
-        "username": "team65_uthsdc_26",
         "password": "password123"
       },
       {
@@ -1143,48 +1079,48 @@
       {
         "team_number": 106,
         "room": "SF Library Group 4",
-        "start_time": "4:50 PM",
-        "end_time": "5:00 PM",
+        "start_time": "4:10 PM",
+        "end_time": "4:20 PM",
         "username": "team106_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 107,
         "room": "SF Library Group 3",
-        "start_time": "4:50 PM",
-        "end_time": "5:00 PM",
+        "start_time": "4:10 PM",
+        "end_time": "4:20 PM",
         "username": "team107_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 108,
         "room": "SF Library Group 2",
-        "start_time": "4:50 PM",
-        "end_time": "5:00 PM",
+        "start_time": "4:10 PM",
+        "end_time": "4:20 PM",
         "username": "team108_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 109,
         "room": "SF Library Group 1",
-        "start_time": "4:50 PM",
-        "end_time": "5:00 PM",
+        "start_time": "4:10 PM",
+        "end_time": "4:20 PM",
         "username": "team109_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 110,
         "room": "MS2170",
-        "start_time": "4:50 PM",
-        "end_time": "5:00 PM",
+        "start_time": "4:10 PM",
+        "end_time": "4:20 PM",
         "username": "team110_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 111,
         "room": "MS2172",
-        "start_time": "4:50 PM",
-        "end_time": "5:00 PM",
+        "start_time": "4:10 PM",
+        "end_time": "4:20 PM",
         "username": "team111_uthsdc_26",
         "password": "password123"
       },
@@ -1199,16 +1135,16 @@
       {
         "team_number": 113,
         "room": "MS2135",
-        "start_time": "4:50 PM",
-        "end_time": "5:00 PM",
+        "start_time": "3:10 PM",
+        "end_time": "3:20 PM",
         "username": "team113_uthsdc_26",
         "password": "password123"
       },
       {
         "team_number": 114,
-        "room": "MS4171",
-        "start_time": "4:50 PM",
-        "end_time": "5:00 PM",
+        "room": "SF Library Group 4",
+        "start_time": "4:00 PM",
+        "end_time": "4:10 PM",
         "username": "team114_uthsdc_26",
         "password": "password123"
       },
