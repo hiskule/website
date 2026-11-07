@@ -20,9 +20,38 @@ async function seedData() {
 
     console.log("Connecting to Database...");
     await sequelize.authenticate();
-    await sequelize.sync({ force: true }); // Wipe db clean before seeding
+    await sequelize.sync(); // Ensure tables exist without dropping other competitions
+
+    const { Score } = require('../models/index.js');
 
     for (const compData of competitionsData) {
+      console.log(`Checking existing competition: ${compData.name}...`);
+      const existingComp = await Competition.findOne({ where: { name: compData.name } });
+      if (existingComp) {
+        console.log(`Cleaning up old data for ${compData.name}...`);
+        const oldTeams = await Team.findAll({ where: { competitionId: existingComp.id } });
+        const oldJudges = await Judge.findAll({ where: { competitionId: existingComp.id } });
+        const teamIds = oldTeams.map(t => t.id);
+        const judgeIds = oldJudges.map(j => j.id);
+
+        if (teamIds.length > 0 && Score) await Score.destroy({ where: { teamId: teamIds } });
+        if (judgeIds.length > 0 && Score) await Score.destroy({ where: { judgeId: judgeIds } });
+        if (HelpRequest) {
+          try {
+            await HelpRequest.destroy({ where: { competitionId: existingComp.id } });
+          } catch (e) {}
+        }
+
+        await Team.destroy({ where: { competitionId: existingComp.id } });
+        await Judge.destroy({ where: { competitionId: existingComp.id } });
+        await Room.destroy({ where: { competitionId: existingComp.id } });
+        await existingComp.destroy();
+      }
+
+      if (compData.isActive) {
+        await Competition.update({ isActive: false }, { where: {} });
+      }
+
       console.log(`Creating Competition: ${compData.name}...`);
       const comp = await Competition.create({
         name: compData.name,

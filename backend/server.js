@@ -144,11 +144,9 @@ app.post("/seed-db", verifySystemToken, async (req, res) => {
         await existingComp.destroy();
       }
 
-      // Clean up any lingering judges/teams with matching usernames from this dataset
-      const judgeUsernames = (compData.judges || []).map(j => j.username).filter(Boolean);
-      const teamUsernames = (compData.teams || []).map(t => t.username).filter(Boolean);
-      if (judgeUsernames.length > 0) await Judge.destroy({ where: { username: judgeUsernames } });
-      if (teamUsernames.length > 0) await Team.destroy({ where: { username: teamUsernames } });
+      if (compData.isActive) {
+        await Competition.update({ isActive: false }, { where: {} });
+      }
 
       const comp = await Competition.create({
         name: compData.name,
