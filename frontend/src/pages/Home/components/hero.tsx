@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../shared/config/routes";
-import { eventsData, type EventData } from "../../../data/events";
+import { eventsData, STUDENT_PARENT_MAILING_LIST_URL, type EventData } from "../../../data/events";
 import MiniEventCard from "../../../components/mini_event_card/MiniEventCard";
 import EventPopupModal from "../../../components/event_popup/EventPopupModal";
 import "./hero.css";
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
-  const upcomingEvent = eventsData.find(e => e.isUpcoming) || eventsData[0];
+  const upcomingEvent = eventsData.find(e => e.isUpcoming);
   const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
 
   return (
     <section className="hero-section">
-      <div className="hero-inner">
+      <div className={`hero-inner ${!upcomingEvent ? "hero-inner-no-event" : ""}`}>
         {/* Left Column: Text & CTAs */}
         <div className="hero-content">
           <div className="hero-badge">
@@ -43,21 +43,31 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Right Column: Visual Frame */}
-        <div className="hero-visual">
-          <MiniEventCard 
-            event={upcomingEvent} 
-            className="hero-animated-card"
-            onLearnMore={() => setSelectedEvent(upcomingEvent)}
-            onButtonClick={() => upcomingEvent.link && window.open(upcomingEvent.link, '_blank')}
-          />
-        </div>
+        {upcomingEvent && (
+          <div className="hero-visual">
+            <MiniEventCard 
+              event={upcomingEvent} 
+              className="hero-animated-card"
+              onLearnMore={() => setSelectedEvent(upcomingEvent)}
+              onButtonClick={() => {
+                if (upcomingEvent.link) {
+                  window.open(upcomingEvent.link, '_blank');
+                } else {
+                  window.open(STUDENT_PARENT_MAILING_LIST_URL, '_blank');
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
 
-      <EventPopupModal 
-        isOpen={selectedEvent !== null} 
-        onClose={() => setSelectedEvent(null)} 
-        event={selectedEvent} 
-      />
+      {upcomingEvent && (
+        <EventPopupModal 
+          isOpen={selectedEvent !== null} 
+          onClose={() => setSelectedEvent(null)} 
+          event={selectedEvent} 
+        />
+      )}
     </section>
   );
 };

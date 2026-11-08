@@ -1,5 +1,6 @@
 import React from "react";
 import "./MiniEventCard.css";
+import { STUDENT_PARENT_MAILING_LIST_URL } from "../../data/events";
 
 interface EventData {
   title: string;
@@ -23,6 +24,18 @@ const MiniEventCard: React.FC<MiniEventCardProps> = ({
   onLearnMore,
   className = "" 
 }) => {
+  const handlePrimaryClick = () => {
+    if (event.link) {
+      if (onButtonClick) {
+        onButtonClick();
+      } else {
+        window.open(event.link, "_blank");
+      }
+    } else {
+      window.open(STUDENT_PARENT_MAILING_LIST_URL, "_blank");
+    }
+  };
+
   return (
     <div className={`mini-event-card ${className}`}>
       <div className="mini-event-image-wrapper">
@@ -31,11 +44,17 @@ const MiniEventCard: React.FC<MiniEventCardProps> = ({
           src={event.images[0]}
           alt={event.title}
         />
-        {event.isUpcoming && <div className="mini-event-badge">NEXT EVENT</div>}
       </div>
       <div className="mini-event-content">
         <div className="mini-event-time">📅 {event.time}</div>
-        <h3 className="mini-event-title">{event.title}</h3>
+        <h3 className="mini-event-title">
+          <span>{event.title}</span>
+          {event.isUpcoming && (
+            <span className="mini-event-title-badge">
+              {event.link ? "NEXT EVENT" : "COMING SOON"}
+            </span>
+          )}
+        </h3>
         <p 
           className="mini-event-desc" 
           dangerouslySetInnerHTML={{ __html: event.description }} 
@@ -50,16 +69,12 @@ const MiniEventCard: React.FC<MiniEventCardProps> = ({
                 Learn More
               </button>
             )}
-            {onButtonClick && (
-              <button 
-                className="btn-primary-gold mini-event-btn"
-                onClick={event.link ? onButtonClick : undefined}
-                disabled={!event.link}
-                style={!event.link ? { cursor: "not-allowed", opacity: 0.5, filter: "grayscale(100%)" } : {}}
-              >
-                {event.link ? "Register Now" : "Coming Soon"}
-              </button>
-            )}
+            <button 
+              className="btn-primary-gold mini-event-btn"
+              onClick={handlePrimaryClick}
+            >
+              {event.link ? "Register Now" : "Stay Updated →"}
+            </button>
           </div>
         )}
       </div>

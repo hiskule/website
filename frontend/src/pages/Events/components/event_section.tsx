@@ -1,6 +1,8 @@
 import React from "react";
 import Carousel from "../../../components/carousel/carousel";
 
+import { STUDENT_PARENT_MAILING_LIST_URL } from "../../../data/events";
+
 interface Props {
   title: string;
   time: string;
@@ -18,7 +20,14 @@ const EventsSection: React.FC<Props> = ({ title, time, description, images, link
         <div className="event-time-badge">
           <span>📅 {time}</span>
         </div>
-        <h3 className="event-title">{title}</h3>
+        <h3 className="event-title">
+          <span>{title}</span>
+          {isUpcoming && (
+            <span className="mini-event-title-badge">
+              {link ? "NEXT EVENT" : "COMING SOON"}
+            </span>
+          )}
+        </h3>
         <div className="event-desc" dangerouslySetInnerHTML={{ __html: description }} />
 
         {isUpcoming && (
@@ -31,12 +40,19 @@ const EventsSection: React.FC<Props> = ({ title, time, description, images, link
                 Learn More
               </button>
             )}
-            {link && (
+            {link ? (
               <button
                 className="btn-primary-gold"
                 onClick={() => window.open(link, "_blank")}
               >
                 REGISTER NOW →
+              </button>
+            ) : (
+              <button
+                className="btn-primary-gold"
+                onClick={() => window.open(STUDENT_PARENT_MAILING_LIST_URL, "_blank")}
+              >
+                STAY UPDATED →
               </button>
             )}
           </div>

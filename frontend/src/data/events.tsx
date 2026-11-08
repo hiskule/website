@@ -2,7 +2,13 @@ import * as coffee from '../assets/coffeehouse';
 import * as DC from '../assets/UTHSDC';
 import * as design from '../assets/designapalooza';
 import * as prefrosh from '../assets/prefrosh';
-import { ACTIVE_EVENT_ID } from './activeEvent';
+import { isEventActive } from './activeEvent';
+
+/**
+ * Public Google Form link for high school students and parents to receive announcements and registration updates.
+ */
+export const STUDENT_PARENT_MAILING_LIST_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdcp83iKRKb_EbquG2jFUCqa7LU8E5ttgsr1O3qPTzED7eEow/viewform?usp=header";
 
 export type EventDetails = {
   location?: { building: string; address: string; mapUrl: string; };
@@ -45,7 +51,7 @@ export const eventsData: EventData[] = [
       ...coffee.coffeehouseImages.mentors.slice(1),
     ],
     link: '/mentorship-coffeehouse',
-    isUpcoming: ACTIVE_EVENT_ID === "COFFEEHOUSE",
+    isUpcoming: isEventActive("COFFEEHOUSE"),
     details: {
       location: { building: "Galbraith Building Room 202", address: "35 St George St, Toronto", mapUrl: 'https://www.google.com/maps/place/43°39\'35.6"N+79°23\'46.9"W/@43.6597922,-79.3963609,19z/data=!4m4!3m3!8m2!3d43.6598889!4d-79.3963611?entry=ttu&g_ep=EgoyMDI2MDgxMC4wIKXMDSoASAFQAw%3D%3D' },
       date: "Saturday, September 19th",
@@ -83,7 +89,7 @@ export const eventsData: EventData[] = [
       ...DC.uthsdcImages.students.slice(1)
     ],
     link: '/uthsdc',
-    isUpcoming: ACTIVE_EVENT_ID === "UTHSDC",
+    isUpcoming: isEventActive("UTHSDC"),
     details: {
       location: { building: "Medical Sciences Building", address: "1 King's College Circle, Toronto", mapUrl: "https://maps.app.goo.gl/7sAQnnvuTTBrawKg8" },
       date: "Saturday, November 7th",
@@ -125,18 +131,18 @@ export const eventsData: EventData[] = [
       ...design.designapaloozaImages.students.slice(1)
     ],
     link: '',
-    isUpcoming: ACTIVE_EVENT_ID === "DESIGNAPALOOZA",
+    isUpcoming: isEventActive("DESIGNAPALOOZA"),
     details: {
-      location: { building: "Bahen Centre for Information Technology", address: "40 St George St, Toronto", mapUrl: "https://goo.gl/maps/sample" },
-      date: "TBD",
+      location: { building: "TBD", address: "TBD", mapUrl: "" },
+      date: "JAN/FEB (TBD)",
       timeframe: "TBD",
       requirements: [
         "<strong>Who is it for?</strong> High School Students (Grades 9-12)",
         "<strong>Prerequisites:</strong> No prior experience required",
         "<strong>Team Size:</strong> Sign up solo or with friends"
       ],
-      highlights: ["Hands-on engineering workshops", "Learn Arduino and CAD", "Build mechanical prototypes"],
-      registrationDeadline: "February 14th at 11:59 PM",
+      highlights: ["Hands-on engineering workshops", "Build mechanical prototypes", "Meet UofT Engineering Students"],
+      registrationDeadline: "TBD",
       itinerary: [
         { time: "10:00 AM", activity: "Registration & Team Groupings" },
         { time: "10:30 AM", activity: "Workshop Session 1" },
@@ -154,7 +160,7 @@ export const eventsData: EventData[] = [
       "HEY FUTURE ENGINEERS! 🎉💜 GET READY FOR PRE FROSH! An afternoon packed with games, activities, and nonstop Skule spirit is waiting for you. Meet new friends, dive into the hype, and experience all the excitement that <strong>Hi-Skule™</strong> has to offer. You won’t want to miss the energy, the fun, and the chance to kick off your engineering journey with a bang! 💜🚀",
     images: [prefrosh.first, prefrosh.second, prefrosh.third, prefrosh.forth, prefrosh.fifth, prefrosh.sixth, prefrosh.seventh, prefrosh.eighth, prefrosh.ninth],
     link: '',
-    isUpcoming: ACTIVE_EVENT_ID === "PREFROSH",
+    isUpcoming: isEventActive("PREFROSH"),
     details: {
       location: { building: "Front Campus (King's College Circle)", address: "King's College Cir, Toronto", mapUrl: "https://goo.gl/maps/sample3" },
       date: "TBD",

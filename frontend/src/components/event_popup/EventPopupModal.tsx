@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import './EventPopupModal.css';
-import type { EventData } from '../../data/events';
+import { STUDENT_PARENT_MAILING_LIST_URL, type EventData } from '../../data/events';
 
 interface EventPopupModalProps {
   event: EventData | null;
@@ -163,7 +163,7 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
         </div>
 
         {/* Transactional Footer */}
-        {event.isUpcoming && (details?.registrationDeadline || event.link) && (
+        {event.isUpcoming && (
           <div className="event-popup-footer-new">
             <div className="footer-left">
               {details?.registrationDeadline && (
@@ -176,9 +176,13 @@ const EventPopupModal: React.FC<EventPopupModalProps> = ({ event, onClose, isOpe
                 </div>
               )}
             </div>
-            {event.link && (
+            {event.link ? (
               <a href={event.link} target="_blank" rel="noopener noreferrer" className="event-popup-signup-btn-new">
                 Sign Up Now
+              </a>
+            ) : (
+              <a href={STUDENT_PARENT_MAILING_LIST_URL} target="_blank" rel="noopener noreferrer" className="event-popup-signup-btn-new">
+                Stay Updated →
               </a>
             )}
           </div>

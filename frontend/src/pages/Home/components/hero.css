@@ -118,3 +118,34 @@
 .hero-animated-card:hover {
   transform: rotate(0deg);
 }
+
+/* Layout when there is no active upcoming event */
+.hero-inner-no-event {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .hero-inner.hero-inner-no-event {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero-inner-no-event .hero-content {
+  align-items: center;
+}
+
+.hero-inner-no-event .hero-desc {
+  border-left: none;
+  padding-left: 0;
+  max-width: 720px;
+}
+
+.hero-inner-no-event .hero-buttons {
+  justify-content: center;
+}
+

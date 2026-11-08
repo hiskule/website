@@ -24,8 +24,10 @@ const permanentSections: MentorSection[] = [
   }
 ];
 
-// Automatically filter out any events that are marked as inactive
-const activeEvents = mentorEvents.filter(event => event.isActive);
+// Automatically filter out any events that are marked as inactive or don't have form links ready
+const activeEvents = mentorEvents.filter(
+  event => event.isActive && event.buttons.some(b => b.link && b.link.trim() !== '')
+);
 
 // Merge the active events to appear at the top, followed by the permanent cards
 const mentorSections: MentorSection[] = [...activeEvents, ...permanentSections];
